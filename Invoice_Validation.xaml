@@ -1,0 +1,959 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Invoice_Validation" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ue="clr-namespace:UiPath.Excel;assembly=UiPath.Excel.Activities" xmlns:ueab="clr-namespace:UiPath.Excel.Activities.Business;assembly=UiPath.Excel.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="In_InvoiceFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="In_TrackerFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="In_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="Out_InvValidationStatus" Type="OutArgument(x:Boolean)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1349,10802</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Invoice_Validation_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>UiPath.Excel.Activities.Business</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Excel.Model</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
+      <x:String>UiPath.Excel.Activities.Business.Filter</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.Platform.SyncObjects</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices.RuntimeInformation</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Data.Entity</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Initializes invoice validation process by loading required configurations, identifying sheets to be processed, and preparing tracker updates for invoice validation." DisplayName="Invoice_Validation" sap:VirtualizedContainerService.HintSize="1359,10737" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="s:String[]" Name="ArrInputCountry" />
+      <Variable x:TypeArguments="x:Int32" Name="HeaderRow" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_InvoiceCountry" />
+      <Variable x:TypeArguments="x:String" Name="FirstRowValue" />
+      <Variable x:TypeArguments="x:String" Name="SecondRowValue" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="InvoiceActualSheets" />
+      <Variable x:TypeArguments="x:Int32" Name="FirstWorkingRow" />
+      <Variable x:TypeArguments="x:Int32" Name="LastworkingRow" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_InputCountry" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_InvoiceValidation" />
+      <Variable x:TypeArguments="x:Double" Name="USDTotal" />
+      <Variable x:TypeArguments="x:Double" Name="HomeCurrencyTotal" />
+      <Variable x:TypeArguments="x:Double" Name="CurrDifference" />
+      <Variable x:TypeArguments="x:String" Name="TestColumn" />
+      <Variable x:TypeArguments="s:String[]" Name="InvRequiredcolumns" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_InvoiceTracker" />
+      <Variable x:TypeArguments="sd:DataRow" Name="InvTrackerRow" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_ProcessedData" />
+      <Variable x:TypeArguments="x:Int32" Name="excelRowIndex" />
+      <Variable x:TypeArguments="x:Int32" Name="excelRow" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="1297,62" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[DateTime.Now.ToString(&quot;dd-MM-yyyy HH:mm:ss&quot;)]" />
+    <Assign sap:VirtualizedContainerService.HintSize="1297,81" sap2010:WorkflowViewState.IdRef="Assign_34">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[In_TrackerFilePath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">C:\Users\aws-svc-rpa52d\Documents\UiPath\3043_LATAM_DataLoad\Data\Input\LatamTracker_2026_04\3043_Latam_DataLoad_Tracker.xlsx</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign sap:VirtualizedContainerService.HintSize="1297,81" sap2010:WorkflowViewState.IdRef="Assign_35">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[In_InvoiceFilePath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">C:\Users\aws-svc-rpa52d\Documents\UiPath\3043_LATAM_DataLoad\Data\Input\Invoice_2026_04\2605 LATAM Invoice Data.xlsx</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Invoice Validation Module - Start" sap:VirtualizedContainerService.HintSize="1297,92" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Starting Invoice Validation Module&quot;]" />
+    <ui:LogMessage DisplayName="Fetch Invoie Columns" sap:VirtualizedContainerService.HintSize="1297,92" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Reading required invoice validation columns from configuration&quot;]" />
+    <Assign DisplayName="Invoice Column - Config" sap:VirtualizedContainerService.HintSize="1297,82" sap2010:WorkflowViewState.IdRef="Assign_13">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[TestColumn]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">CUSTOMER,INVOICE_.,FISHER_JOB,PROTOCOL,yr,period,PRODUCT,SUB-PRODUCT,DocValue,DOC_CURRENCY,USD Value,FISHER_LOC,PO.,doccode,el4_name,Home Currency,docdate,ref1,el2,el2_name,el3,Units</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Split the columns data" sap:VirtualizedContainerService.HintSize="1297,82" sap2010:WorkflowViewState.IdRef="Assign_14">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[]">[InvRequiredcolumns]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[]">[TestColumn.Split(","c).Select(Function(x) x.Trim).ToArray()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Fetch Invoice Sheet Name" sap:VirtualizedContainerService.HintSize="1297,92" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;Fetching invoice sheet names to be processed&quot;]" />
+    <Assign DisplayName="Input Country" sap:VirtualizedContainerService.HintSize="1297,82" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:String[]">[ArrInputCountry]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:String[]">[{"Mexico","Bra","Arg","Chi","Col","Per"}]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Read Input invoice tracker" sap:VirtualizedContainerService.HintSize="1297,92" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;Reading input invoice tracker file for validation&quot;]" />
+    <ui:ReadRange AddHeaders="True" DataTable="[dt_InvoiceTracker]" DisplayName="Read Range - Revenue Tracker" sap:VirtualizedContainerService.HintSize="1297,88" sap2010:WorkflowViewState.IdRef="ReadRange_1" Range="A2:K8" SheetName="Invoice_Tracker" WorkbookPath="[In_TrackerFilePath]" />
+    <ui:BuildDataTable DataTable="[dt_ProcessedData]" DisplayName="Build Data Table - Processed Data" sap:VirtualizedContainerService.HintSize="1297,60" sap2010:WorkflowViewState.IdRef="BuildDataTable_3" TableInfo="&lt;NewDataSet&gt;&#xD;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xD;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xD;&#xA;      &lt;xs:complexType&gt;&#xD;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xD;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xD;&#xA;            &lt;xs:complexType&gt;&#xD;&#xA;              &lt;xs:sequence&gt;&#xD;&#xA;                &lt;xs:element name=&quot;CUSTOMER&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;INVOICE_.&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;FISHER_JOB&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;PROTOCOL&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;yr&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;period&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;PRODUCT&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;SUB-PRODUCT&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;DocValue&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;DOC_CURRENCY&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;USD_x0020_Value&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;FISHER_LOC&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;PO.&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;doccode&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el4_name&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Home_x0020_Currency&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;docdate&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;ref1&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el2&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el2_name&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el3&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Units&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Loca_x0020__x002F__x0020_TP&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;              &lt;/xs:sequence&gt;&#xD;&#xA;            &lt;/xs:complexType&gt;&#xD;&#xA;          &lt;/xs:element&gt;&#xD;&#xA;        &lt;/xs:choice&gt;&#xD;&#xA;      &lt;/xs:complexType&gt;&#xD;&#xA;    &lt;/xs:element&gt;&#xD;&#xA;  &lt;/xs:schema&gt;&#xD;&#xA;  &lt;TableName /&gt;&#xD;&#xA;&lt;/NewDataSet&gt;" />
+    <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Excel Process Scope - Excel Validation" sap:VirtualizedContainerService.HintSize="1297,8925" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_1">
+      <ueab:ExcelProcessScopeX.Body>
+        <ActivityAction x:TypeArguments="ui:IExcelProcess">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:IExcelProcess" Name="ExcelProcessScopeTag" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Invoice validation" sap:VirtualizedContainerService.HintSize="1263,8838" sap2010:WorkflowViewState.IdRef="Sequence_15">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Sequence DisplayName="Proceed with Following steps" sap:VirtualizedContainerService.HintSize="1201,8727" sap2010:WorkflowViewState.IdRef="Sequence_3">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Input Excel Invoice file" sap:VirtualizedContainerService.HintSize="1139,8616" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" UseTemplate="True" WorkbookPath="[In_InvoiceFilePath]">
+                <ueab:ExcelApplicationCard.Body>
+                  <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="ue:IWorkbookQuickHandle" Name="Excel" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Validations steps:" sap:VirtualizedContainerService.HintSize="1105,8326" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="scg:List(x:String)" Name="InvoiceProcessSheets" />
+                        <Variable x:TypeArguments="sd:DataTable" Name="DT_FilteredValues" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Retrive Input Sheets" sap:VirtualizedContainerService.HintSize="1043,92" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Retrieving sheets from Input invoice workbook&quot;]" />
+                      <ui:ExcelGetWorkbookSheets DisplayName="Invoice - Get Workbook Sheets" sap:VirtualizedContainerService.HintSize="1043,25" sap2010:WorkflowViewState.IdRef="ExcelGetWorkbookSheets_1" Sheets="[InvoiceActualSheets]" />
+                      <Assign DisplayName="Invoice Process Sheets" sap:VirtualizedContainerService.HintSize="1043,83" sap2010:WorkflowViewState.IdRef="Assign_12">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="scg:List(x:String)">[InvoiceProcessSheets]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="scg:List(x:String)" xml:space="preserve">[ArrInputCountry.
+Select(Function(c) If(
+    c.Trim.ToLower = "bra tp",
+    InvoiceActualSheets.FirstOrDefault(Function(act) act.Trim.ToLower = "bra tp"),
+    InvoiceActualSheets.FirstOrDefault(Function(act) act.Trim.ToLower.StartsWith(c.Trim.ToLower.Substring(0,3)))
+)).
+Where(Function(x) Not String.IsNullOrWhiteSpace(x)).
+Distinct().
+ToList()]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <ui:LogMessage DisplayName="Process Invoice Sheets" sap:VirtualizedContainerService.HintSize="1043,92" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Proceed with for each validation for the input country - &quot; + String.Join(&quot;,&quot;, InvoiceProcessSheets)]" />
+                      <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Country in the invoice Input" sap:VirtualizedContainerService.HintSize="1043,7635" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[InvoiceProcessSheets]">
+                        <ui:ForEach.Body>
+                          <ActivityAction x:TypeArguments="x:String">
+                            <ActivityAction.Argument>
+                              <DelegateInArgument x:TypeArguments="x:String" Name="currentItem" />
+                            </ActivityAction.Argument>
+                            <Sequence DisplayName="Perform below action" sap:VirtualizedContainerService.HintSize="1007,7511" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="sd:DataTable" Name="dt_SelectableData" />
+                                <Variable x:TypeArguments="x:String" Name="UnitsValidationStatus" />
+                                <Variable x:TypeArguments="x:String" Name="DateValidationStatus" />
+                                <Variable x:TypeArguments="x:String" Name="ProductValidationStatus" />
+                                <Variable x:TypeArguments="x:String" Name="NullCheckValidationStatus" />
+                                <Variable x:TypeArguments="x:Boolean" Name="IsDifferencevalid" />
+                                <Variable x:TypeArguments="x:String" Name="ExceptionText" />
+                                <Variable x:TypeArguments="x:Int32" Name="TrackerUpdateRow" />
+                                <Variable x:TypeArguments="sd:DataTable" Name="dt_TrackerUpdate" />
+                              </Sequence.Variables>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <ui:LogMessage DisplayName="Update Prevalidation status" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Identify the tracker row and update invoice prevalidation status in tracker&quot;]" />
+                              <Assign DisplayName="Invoice Tracker Row" sap:VirtualizedContainerService.HintSize="945,81" sap2010:WorkflowViewState.IdRef="Assign_18">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sd:DataRow">[InvTrackerRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sd:DataRow">[dt_InvoiceTracker.AsEnumerable().FirstOrDefault(Function(r) r("Country").ToString.Trim.ToLower.StartsWith(CurrentItem.Trim.ToLower.Substring(0,3)))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Update Tracker Invoice Pre Valid Status" sap:VirtualizedContainerService.HintSize="945,81" sap2010:WorkflowViewState.IdRef="Assign_19">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Pre-validation Status")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">["Pass"]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:LogMessage DisplayName="Read Invoice Input" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Info" Message="[&quot; Read Current input and Identify invoice data range for processing&quot;]" />
+                              <ui:ExcelReadRange AddHeaders="False" DataTable="[dt_InvoiceCountry]" DisplayName="Read Country Data" sap:VirtualizedContainerService.HintSize="945,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" SheetName="[currentItem]">
+                                <ui:ExcelReadRange.Range>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <Literal x:TypeArguments="x:String" Value="" />
+                                  </InArgument>
+                                </ui:ExcelReadRange.Range>
+                              </ui:ExcelReadRange>
+                              <Assign DisplayName="Fetch Second Row" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_39">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[FirstRowValue]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[dt_InvoiceCountry.Rows(0)(0).ToString]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Fetch Second Row" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_3">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[SecondRowValue]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[dt_InvoiceCountry.Rows(1)(0).ToString]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:IfElseIf DisplayName="Identify the Header row" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="IfElseIf_1">
+                                <ui:IfElseIf.ConditionBlocks>
+                                  <sc:BindingList x:TypeArguments="ui:IfElseIfBlock" AllowEdit="True" AllowNew="True" AllowRemove="True" RaiseListChangedEvents="True">
+                                    <ui:IfElseIfBlock BlockType="If" Condition="[FirstRowValue.ToUpper =&quot;CUSTOMER&quot;]" DisplayName="Not required" sap:VirtualizedContainerService.HintSize="200,25" sap2010:WorkflowViewState.IdRef="IfElseIfBlock_1">
+                                      <ui:IfElseIfBlock.Then>
+                                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <Assign DisplayName="Header row Default" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_4">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Int32">[HeaderRow]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                        </Sequence>
+                                      </ui:IfElseIfBlock.Then>
+                                    </ui:IfElseIfBlock>
+                                    <ui:IfElseIfBlock BlockType="ElseIf" Condition="[SecondRowValue.ToUpper =&quot;CUSTOMER&quot;]" DisplayName="If else if block" sap2010:WorkflowViewState.IdRef="IfElseIfBlock_2">
+                                      <ui:IfElseIfBlock.Then>
+                                        <Sequence DisplayName="Header Value" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <Assign DisplayName="Header row 1" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_5">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Int32">[HeaderRow]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Int32">1</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                        </Sequence>
+                                      </ui:IfElseIfBlock.Then>
+                                    </ui:IfElseIfBlock>
+                                  </sc:BindingList>
+                                </ui:IfElseIf.ConditionBlocks>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:IfElseIf>
+                              <Assign DisplayName="Actual Working Column - First Row" sap:VirtualizedContainerService.HintSize="945,83" sap2010:WorkflowViewState.IdRef="Assign_6">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[FirstWorkingRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32" xml:space="preserve">[dt_InvoiceCountry.AsEnumerable().ToList().
+FindIndex(Function(r) Not String.IsNullOrWhiteSpace(r(HeaderRow).ToString)) +
+If(HeaderRow = 1, 3, 2)]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Actual Working Column  - Second Row" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[LastworkingRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[dt_InvoiceCountry.AsEnumerable().ToList().FindLastIndex(Function(r) Not String.IsNullOrEmpty(r(HeaderRow).ToString)) + 2]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:LogMessage DisplayName="Actual Working Row" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Info" Message="[&quot;Identified actual working First and Last Row, Proceeding to read the input from the identified range.&quot;]" />
+                              <If Condition="[currentItem.ToLower.StartsWith(&quot;bra&quot;)]" sap:VirtualizedContainerService.HintSize="945,329" sap2010:WorkflowViewState.IdRef="If_7">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="450,171" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:ExcelReadRange AddHeaders="True" DataTable="[dt_InvoiceCountry]" DisplayName="Read Country Data " sap:VirtualizedContainerService.HintSize="388,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_3" Range="[&quot;A&quot; + ( FirstWorkingRow -1 ).ToString + &quot;:W&quot; +(LastworkingRow - 1).ToString]" SheetName="[currentItem]" />
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="450,171" sap2010:WorkflowViewState.IdRef="Sequence_33">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:ExcelReadRange AddHeaders="True" DataTable="[dt_InvoiceCountry]" DisplayName="Read Country Data " sap:VirtualizedContainerService.HintSize="388,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_5" Range="[&quot;A&quot; + ( FirstWorkingRow -1 ).ToString + &quot;:V&quot; +(LastworkingRow - 1).ToString]" SheetName="[currentItem]" />
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                              <ui:LogMessage DisplayName="Build Temp DataTable" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;Build Temp Invoice Datatable to store data.&quot;]" />
+                              <ui:BuildDataTable DataTable="[dt_InputCountry]" DisplayName="Build Data Table - Country Data" sap:VirtualizedContainerService.HintSize="945,60" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xD;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xD;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xD;&#xA;      &lt;xs:complexType&gt;&#xD;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xD;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xD;&#xA;            &lt;xs:complexType&gt;&#xD;&#xA;              &lt;xs:sequence&gt;&#xD;&#xA;                &lt;xs:element name=&quot;CUSTOMER&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;INVOICE_.&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;FISHER_JOB&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;PROTOCOL&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;yr&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;period&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;PRODUCT&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;SUB-PRODUCT&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;DocValue&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;DOC_CURRENCY&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;USD_x0020_Value&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;FISHER_LOC&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;PO.&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;doccode&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el4_name&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Home_x0020_Currency&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;docdate&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;ref1&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el2&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el2_name&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;el3&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Units&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Loca_x0020__x002F__x0020_TP&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;              &lt;/xs:sequence&gt;&#xD;&#xA;            &lt;/xs:complexType&gt;&#xD;&#xA;          &lt;/xs:element&gt;&#xD;&#xA;        &lt;/xs:choice&gt;&#xD;&#xA;      &lt;/xs:complexType&gt;&#xD;&#xA;    &lt;/xs:element&gt;&#xD;&#xA;  &lt;/xs:schema&gt;&#xD;&#xA;  &lt;TableName /&gt;&#xD;&#xA;&lt;/NewDataSet&gt;" />
+                              <ui:LogMessage DisplayName="Exception Tracker" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Initializing invoice exception tracker&quot;]" />
+                              <ui:BuildDataTable DataTable="[dt_InvoiceValidation]" DisplayName="Build Data Table - Invoice Validation DT" sap:VirtualizedContainerService.HintSize="945,60" sap2010:WorkflowViewState.IdRef="BuildDataTable_2" TableInfo="&lt;NewDataSet&gt;&#xD;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xD;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xD;&#xA;      &lt;xs:complexType&gt;&#xD;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xD;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xD;&#xA;            &lt;xs:complexType&gt;&#xD;&#xA;              &lt;xs:sequence&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Country&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Row_x0020_Number&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Column_x0020_Name&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Invalid_x0020_Value&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;Exception_x0020_Details&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;              &lt;/xs:sequence&gt;&#xD;&#xA;            &lt;/xs:complexType&gt;&#xD;&#xA;          &lt;/xs:element&gt;&#xD;&#xA;        &lt;/xs:choice&gt;&#xD;&#xA;      &lt;/xs:complexType&gt;&#xD;&#xA;    &lt;/xs:element&gt;&#xD;&#xA;  &lt;/xs:schema&gt;&#xD;&#xA;  &lt;TableName /&gt;&#xD;&#xA;&lt;/NewDataSet&gt;" />
+                              <Assign DisplayName="Copy Input Data from Range given" sap:VirtualizedContainerService.HintSize="945,83" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="sd:DataTable">[dt_InputCountry]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="sd:DataTable" xml:space="preserve">[dt_InvoiceCountry.AsEnumerable().
+Skip(FirstWorkingRow - 2).
+Take(LastworkingRow - FirstWorkingRow + 1).
+CopyToDataTable().
+DefaultView.
+ToTable(False, InvRequiredcolumns)]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <TryCatch sap2010:Annotation.AnnotationText="Units Validation Module: Handles exceptions during units validation execution and captures validation errors without stopping the complete invoice validation process." DisplayName="Try Catch - Units Validation" sap:VirtualizedContainerService.HintSize="945,154" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <TryCatch.Try>
+                                  <Sequence DisplayName="Units Validation Module" sap:VirtualizedContainerService.HintSize="496,586" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Units Validation" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Starting units validation for invoice records&quot;]" />
+                                    <ui:InvokeCode ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Invokes units validation workflow to validate invoice unit values against configured subproduct mappings and identify invalid unit combinations." Code="Try&#xA;&#xA;    Dim isUnitsValid As Boolean = True&#xA;&#xA;    For Each row As DataRow In Input_CountryDT.Rows&#xA;&#xA;        Dim rowNum As Integer = Input_CountryDT.Rows.IndexOf(row) + 2&#xA;&#xA;        Dim subProduct As String = If(IsDBNull(row(&quot;SUB-PRODUCT&quot;)), &quot;&quot;, row(&quot;SUB-PRODUCT&quot;).ToString.Trim)&#xA;        Dim unitsText As String = If(IsDBNull(row(&quot;Units&quot;)), &quot;&quot;, row(&quot;Units&quot;).ToString.Trim)&#xA;&#xA;&#xA;        '==============================&#xA;        ' Blank / NULL / N/A Validation&#xA;        '==============================&#xA;&#xA;        If String.IsNullOrWhiteSpace(unitsText) OrElse unitsText.Equals(&quot;N/A&quot;, StringComparison.OrdinalIgnoreCase) Then&#xA;&#xA;            isUnitsValid = False&#xA;&#xA;            dtValidationErrors.Rows.Add(&#xA;                CurrentItem,&#xA;                rowNum,&#xA;                &quot;Units&quot;,&#xA;                unitsText,&#xA;                &quot;Units value is blank or N/A&quot;&#xA;            )&#xA;&#xA;            Continue For&#xA;&#xA;        End If&#xA;&#xA;&#xA;        Dim unitValue As Decimal&#xA;&#xA;        If Not Decimal.TryParse(unitsText, unitValue) Then&#xA;&#xA;            isUnitsValid = False&#xA;&#xA;            dtValidationErrors.Rows.Add(&#xA;                CurrentItem,&#xA;                rowNum,&#xA;                &quot;Units&quot;,&#xA;                unitsText,&#xA;                &quot;Units value is not numeric&quot;&#xA;            )&#xA;&#xA;            Continue For&#xA;&#xA;        End If&#xA;&#xA;&#xA;        '==============================&#xA;        ' Zero Validation&#xA;        '==============================&#xA;&#xA;        If unitValue = 0 Then&#xA;&#xA;            isUnitsValid = False&#xA;&#xA;            dtValidationErrors.Rows.Add(&#xA;                CurrentItem,&#xA;                rowNum,&#xA;                &quot;Units&quot;,&#xA;                unitsText,&#xA;                &quot;Units value cannot be zero&quot;&#xA;            )&#xA;&#xA;            Continue For&#xA;&#xA;        End If&#xA;&#xA;&#xA;        '==============================&#xA;        ' Freight Validation&#xA;        ' Decimal values only&#xA;        '==============================&#xA;&#xA;        If FreightSubProducts.Contains(subProduct) Then&#xA;&#xA;            If Math.Floor(unitValue) = unitValue Then&#xA;&#xA;                isUnitsValid = False&#xA;&#xA;                dtValidationErrors.Rows.Add(&#xA;                    CurrentItem,&#xA;                    rowNum,&#xA;                    &quot;Units&quot;,&#xA;                    unitsText,&#xA;                    &quot;Units should be a decimal value for Freight sub-products&quot;&#xA;                )&#xA;&#xA;            End If&#xA;&#xA;&#xA;        '==============================&#xA;        ' Labeling Validation&#xA;        ' Whole numbers only&#xA;        '==============================&#xA;&#xA;        ElseIf LabelingSubProducts.Contains(subProduct) Then&#xA;&#xA;            If Math.Floor(unitValue) &lt;&gt; unitValue Then&#xA;&#xA;                isUnitsValid = False&#xA;&#xA;                dtValidationErrors.Rows.Add(&#xA;                    CurrentItem,&#xA;                    rowNum,&#xA;                    &quot;Units&quot;,&#xA;                    unitsText,&#xA;                    &quot;Units should be a whole number for Labeling sub-products&quot;&#xA;                )&#xA;&#xA;            End If&#xA;&#xA;&#xA;        '==============================&#xA;        ' Default Sub-products&#xA;        ' Whole numbers only&#xA;        '==============================&#xA;&#xA;        Else&#xA;&#xA;            If Math.Floor(unitValue) &lt;&gt; unitValue Then&#xA;&#xA;                isUnitsValid = False&#xA;&#xA;                dtValidationErrors.Rows.Add(&#xA;                    CurrentItem,&#xA;                    rowNum,&#xA;                    &quot;Units&quot;,&#xA;                    unitsText,&#xA;                    &quot;Units should be a whole number&quot;&#xA;                )&#xA;&#xA;            End If&#xA;&#xA;        End If&#xA;&#xA;&#xA;    Next&#xA;&#xA;&#xA;    UnitsValidationStatus = If(isUnitsValid, &quot;Pass&quot;, &quot;Fail&quot;)&#xA;&#xA;&#xA;Catch ex As Exception&#xA;&#xA;    UnitsValidationStatus = &quot;Fail&quot;&#xA;&#xA;    Throw New Exception(&quot;Units validation failed for country: &quot; &amp; CurrentItem &amp; &quot;. Error: &quot; &amp; ex.Message, ex)&#xA;&#xA;End Try" DisplayName="Code - To Validate Units Column" sap:VirtualizedContainerService.HintSize="434,222" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+                                      <ui:InvokeCode.Arguments>
+                                        <InArgument x:TypeArguments="sd:DataTable" x:Key="Input_CountryDT">[dt_InputCountry]</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="CurrentItem">[currentItem]</InArgument>
+                                        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="FreightSubProducts">[("PassThrough - Freight,Freight - Shipments,Freight - Returns,PTC Duties").ToString.Split(","c).Select(Function(x) x.Trim).ToList()]</InArgument>
+                                        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="LabelingSubProducts">[("Labeling / Relabeling (per Kit),Labeling / Relabeling (per Label)").ToString.Split(","c).Select(Function(x) x.Trim).ToList()]</InArgument>
+                                        <InArgument x:TypeArguments="sd:DataTable" x:Key="dtValidationErrors">[dt_InvoiceValidation]</InArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="UnitsValidationStatus">[UnitsValidationStatus]</OutArgument>
+                                      </ui:InvokeCode.Arguments>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:InvokeCode>
+                                    <Assign DisplayName="Update Tracker - Units Validation" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_20">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Units Validation")]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Object">[UnitsValidationStatus]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </TryCatch.Try>
+                                <TryCatch.Catches>
+                                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="500,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ActivityAction x:TypeArguments="s:Exception">
+                                      <ActivityAction.Argument>
+                                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                      </ActivityAction.Argument>
+                                      <Sequence DisplayName="Units Vadation - Exception" sap:VirtualizedContainerService.HintSize="496,81" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:LogMessage DisplayName="Exception while validating Units Data" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Warn" Message="[&quot;Exception occurred during units validation&quot;]" />
+                                        <Assign DisplayName="Update tracker Exception - Units Validation" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_21">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Units Validation")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">["Fail"]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </Sequence>
+                                    </ActivityAction>
+                                  </Catch>
+                                </TryCatch.Catches>
+                              </TryCatch>
+                              <ui:ExcelReadRange AddHeaders="False" DataTable="[dt_SelectableData]" DisplayName="Read Selectable Sheet Data" sap:VirtualizedContainerService.HintSize="945,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_2" SheetName="Selectable Table">
+                                <ui:ExcelReadRange.Range>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <Literal x:TypeArguments="x:String" Value="" />
+                                  </InArgument>
+                                </ui:ExcelReadRange.Range>
+                              </ui:ExcelReadRange>
+                              <If Condition="[dt_SelectableData.Rows(0)(0).ToString.ToLower.Trim = &quot;categoria&quot;]" DisplayName="Validate Category Column" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="If_4">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <Sequence DisplayName="Update Column" sap:VirtualizedContainerService.HintSize="450,455" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:ExcelWriteCell Cell="C1" DisplayName="Update - Categoria " sap:VirtualizedContainerService.HintSize="388,88" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_1" SheetName="Selectable Table" Text="Categoria2" />
+                                    <ui:ExcelWriteCell Cell="O1" DisplayName="Modify Sponsor Column" sap:VirtualizedContainerService.HintSize="388,88" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_2" SheetName="Selectable Table" Text="Sponsor2" />
+                                    <ui:ExcelWriteCell Cell="Q1" DisplayName="Update Vendor Column" sap:VirtualizedContainerService.HintSize="388,88" sap2010:WorkflowViewState.IdRef="ExcelWriteCell_3" SheetName="Selectable Table" Text="Vendor" />
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence DisplayName="Column Names Are distinct" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="No Update " sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Info" Message="[&quot;Selecteable Data Columns names are distinct&quot;]" />
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                              <ui:ExcelReadRange AddHeaders="True" DataTable="[dt_SelectableData]" DisplayName="Read Sheet  - Selectable table Updated" sap:VirtualizedContainerService.HintSize="945,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_4" SheetName="Selectable Table">
+                                <ui:ExcelReadRange.Range>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <Literal x:TypeArguments="x:String" Value="" />
+                                  </InArgument>
+                                </ui:ExcelReadRange.Range>
+                              </ui:ExcelReadRange>
+                              <TryCatch sap2010:Annotation.AnnotationText="Validaions:&#xA;1.Derives and populates period and year values required for invoice validation and reporting.&#xA;2.Validates document dates to ensure invoices belong to the current processing month and identifies invalid date records.&#xA;3.Checks product and subproduct values against configured validation rules to ensure correct mappings.&#xA;4.Checks mandatory invoice columns for missing or null values and records validation failures in the exception tracker." DisplayName="Try Catch - To Populate and Validate fields" sap:VirtualizedContainerService.HintSize="945,1461" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <TryCatch.Try>
+                                  <Sequence DisplayName="Modules To Populate and Validate Columns" sap:VirtualizedContainerService.HintSize="496,1101" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Populate and Validate Column" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_14" Message="[&quot;Populating invoice period and year details &amp; Validating invoice document dates against current period  &amp; Validating invoice product and subproduct information.&quot;]" />
+                                    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Try&#xD;&#xA;&#xD;&#xA;    Dim isProductValid As Boolean = True&#xD;&#xA;&#xD;&#xA;    '==============================&#xD;&#xA;    ' Build Valid Product Lookup&#xD;&#xA;    '==============================&#xD;&#xA;&#xD;&#xA;    Dim validProducts As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)&#xD;&#xA;&#xD;&#xA;    For Each sr As DataRow In SelectableDT.Rows&#xD;&#xA;&#xD;&#xA;        Dim productNames As New List(Of String) From {&#xD;&#xA;            If(IsDBNull(sr(&quot;Custom 2 / PRODUCT&quot;)), &quot;&quot;, sr(&quot;Custom 2 / PRODUCT&quot;).ToString.Trim),&#xD;&#xA;            If(IsDBNull(sr(&quot;Categoria&quot;)), &quot;&quot;, sr(&quot;Categoria&quot;).ToString.Trim),&#xD;&#xA;            If(IsDBNull(sr(&quot;PRODUCT&quot;)), &quot;&quot;, sr(&quot;PRODUCT&quot;).ToString.Trim)&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        For Each productName As String In productNames&#xD;&#xA;&#xD;&#xA;            If Not String.IsNullOrWhiteSpace(productName) Then&#xD;&#xA;                validProducts.Add(productName)&#xD;&#xA;            End If&#xD;&#xA;&#xD;&#xA;        Next&#xD;&#xA;&#xD;&#xA;    Next&#xD;&#xA;&#xD;&#xA;    '==============================&#xD;&#xA;    ' Product Validation&#xD;&#xA;    '==============================&#xD;&#xA;&#xD;&#xA;    For Each r As DataRow In Input_CountryDT.Rows&#xD;&#xA;&#xD;&#xA;        Dim rowNumber As Integer = Input_CountryDT.Rows.IndexOf(r) + 2&#xD;&#xA;&#xD;&#xA;        Dim productValue As String =&#xD;&#xA;            If(IsDBNull(r(&quot;PRODUCT&quot;)), &quot;&quot;, r(&quot;PRODUCT&quot;).ToString.Trim)&#xD;&#xA;&#xD;&#xA;        Dim subProductValue As String =&#xD;&#xA;            If(IsDBNull(r(&quot;SUB-PRODUCT&quot;)), &quot;&quot;, r(&quot;SUB-PRODUCT&quot;).ToString.Trim)&#xD;&#xA;&#xD;&#xA;        '=========================================&#xD;&#xA;        ' Scenario 1 - Product Available&#xD;&#xA;        '=========================================&#xD;&#xA;&#xD;&#xA;        If Not String.IsNullOrWhiteSpace(productValue) Then&#xD;&#xA;&#xD;&#xA;            If Not validProducts.Contains(productValue) Then&#xD;&#xA;&#xD;&#xA;                isProductValid = False&#xD;&#xA;&#xD;&#xA;                dtValidationErrors.Rows.Add(&#xD;&#xA;                    CurrentItem,&#xD;&#xA;                    rowNumber,&#xD;&#xA;                    &quot;PRODUCT&quot;,&#xD;&#xA;                    productValue,&#xD;&#xA;                    &quot;Product not found in Selectable Table&quot;&#xD;&#xA;                )&#xD;&#xA;&#xD;&#xA;            End If&#xD;&#xA;&#xD;&#xA;        '=========================================&#xD;&#xA;        ' Scenario 2 - Product Blank&#xD;&#xA;        ' Derive Product using Sub-Product&#xD;&#xA;        '=========================================&#xD;&#xA;&#xD;&#xA;        ElseIf Not String.IsNullOrWhiteSpace(subProductValue) Then&#xD;&#xA;&#xD;&#xA;            Dim matchRow = SelectableDT.AsEnumerable().FirstOrDefault(Function(sr) If(IsDBNull(sr(&quot;Line description / SUB-PRODUCT&quot;)), &quot;&quot;, sr(&quot;Line description / SUB-PRODUCT&quot;).ToString.Trim).Equals(subProductValue, StringComparison.OrdinalIgnoreCase))&#xD;&#xA;&#xD;&#xA;            If matchRow IsNot Nothing Then&#xD;&#xA;&#xD;&#xA;                Dim derivedProduct As String = &quot;&quot;&#xD;&#xA;&#xD;&#xA;                'Priority:&#xD;&#xA;                '1. Custom 2 / PRODUCT&#xD;&#xA;                '2. Categoria&#xD;&#xA;                '3. PRODUCT&#xD;&#xA;&#xD;&#xA;                If Not IsDBNull(matchRow(&quot;Custom 2 / PRODUCT&quot;)) AndAlso&#xD;&#xA;                   Not String.IsNullOrWhiteSpace(matchRow(&quot;Custom 2 / PRODUCT&quot;).ToString.Trim) Then&#xD;&#xA;&#xD;&#xA;                    derivedProduct = matchRow(&quot;Custom 2 / PRODUCT&quot;).ToString.Trim&#xD;&#xA;&#xD;&#xA;                ElseIf Not IsDBNull(matchRow(&quot;Categoria&quot;)) AndAlso&#xD;&#xA;                       Not String.IsNullOrWhiteSpace(matchRow(&quot;Categoria&quot;).ToString.Trim) Then&#xD;&#xA;&#xD;&#xA;                    derivedProduct = matchRow(&quot;Categoria&quot;).ToString.Trim&#xD;&#xA;&#xD;&#xA;                ElseIf Not IsDBNull(matchRow(&quot;PRODUCT&quot;)) AndAlso&#xD;&#xA;                       Not String.IsNullOrWhiteSpace(matchRow(&quot;PRODUCT&quot;).ToString.Trim) Then&#xD;&#xA;&#xD;&#xA;                    derivedProduct = matchRow(&quot;PRODUCT&quot;).ToString.Trim&#xD;&#xA;&#xD;&#xA;                End If&#xD;&#xA;&#xD;&#xA;                If Not String.IsNullOrWhiteSpace(derivedProduct) Then&#xD;&#xA;&#xD;&#xA;                    r(&quot;PRODUCT&quot;) = derivedProduct&#xD;&#xA;&#xD;&#xA;                Else&#xD;&#xA;&#xD;&#xA;                    isProductValid = False&#xD;&#xA;&#xD;&#xA;                    dtValidationErrors.Rows.Add(&#xD;&#xA;                        CurrentItem,&#xD;&#xA;                        rowNumber,&#xD;&#xA;                        &quot;PRODUCT&quot;,&#xD;&#xA;                        &quot;&quot;,&#xD;&#xA;                        &quot;Product could not be derived from Sub-product&quot;&#xD;&#xA;                    )&#xD;&#xA;&#xD;&#xA;                End If&#xD;&#xA;&#xD;&#xA;            Else&#xD;&#xA;&#xD;&#xA;                isProductValid = False&#xD;&#xA;&#xD;&#xA;                dtValidationErrors.Rows.Add(&#xD;&#xA;                    CurrentItem,&#xD;&#xA;                    rowNumber,&#xD;&#xA;                    &quot;PRODUCT&quot;,&#xD;&#xA;                    &quot;&quot;,&#xD;&#xA;                    &quot;Sub-product not found in Selectable Table to derive Product&quot;&#xD;&#xA;                )&#xD;&#xA;&#xD;&#xA;            End If&#xD;&#xA;&#xD;&#xA;        '=========================================&#xD;&#xA;        ' Scenario 3 - Product and Sub-product blank&#xD;&#xA;        '=========================================&#xD;&#xA;&#xD;&#xA;        Else&#xD;&#xA;&#xD;&#xA;            isProductValid = False&#xD;&#xA;&#xD;&#xA;            dtValidationErrors.Rows.Add(&#xD;&#xA;                CurrentItem,&#xD;&#xA;                rowNumber,&#xD;&#xA;                &quot;PRODUCT&quot;,&#xD;&#xA;                &quot;&quot;,&#xD;&#xA;                &quot;Product and Sub-product are blank&quot;&#xD;&#xA;            )&#xD;&#xA;&#xD;&#xA;        End If&#xD;&#xA;&#xD;&#xA;    Next&#xD;&#xA;&#xD;&#xA;    '==============================&#xD;&#xA;    ' Final Status&#xD;&#xA;    '==============================&#xD;&#xA;&#xD;&#xA;    ProductValidationStatus = If(isProductValid, &quot;Pass&quot;, &quot;Fail&quot;)&#xD;&#xA;&#xD;&#xA;Catch ex As Exception&#xD;&#xA;&#xD;&#xA;    ProductValidationStatus = &quot;Fail&quot;&#xD;&#xA;&#xD;&#xA;    Throw New Exception(&#xD;&#xA;        &quot;Product validation failed for country: &quot; &amp;&#xD;&#xA;        CurrentItem &amp;&#xD;&#xA;        vbCrLf &amp;&#xD;&#xA;        ex.ToString,&#xD;&#xA;        ex)&#xD;&#xA;&#xD;&#xA;End Try" DisplayName="Code - Validate Product and Sub Product" sap:VirtualizedContainerService.HintSize="434,165" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
+                                      <ui:InvokeCode.Arguments>
+                                        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="Input_CountryDT">[dt_InputCountry]</InOutArgument>
+                                        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="dtValidationErrors">[dt_InvoiceValidation]</InOutArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="CurrentItem">[currentItem]</InArgument>
+                                        <InArgument x:TypeArguments="sd:DataTable" x:Key="SelectableDT">[dt_SelectableData]</InArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="DateValidationStatus">[DateValidationStatus]</OutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="ProductValidationStatus">[ProductValidationStatus]</OutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="NullCheckValidationStatus">[NullCheckValidationStatus]</OutArgument>
+                                      </ui:InvokeCode.Arguments>
+                                    </ui:InvokeCode>
+                                    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Try&#xA;&#xA;    Dim isDateValid As Boolean = True&#xA;    Dim isNullCheckValid As Boolean = True&#xA;&#xA;&#xA;    '==============================&#xA;    ' Expected Validation Month&#xA;    ' Testing with May Data&#xA;    ' Change back to AddMonths(-2) after testing&#xA;    '==============================&#xA;&#xA;    Dim expectedDate As DateTime = New DateTime(DateTime.Now.Year, 5, 1)&#xA;    'Production:&#xA;    'Dim expectedDate As DateTime = DateTime.Now.AddMonths(-2)&#xA;&#xA;&#xA;&#xA;    '==============================&#xA;    ' Country Data Validation&#xA;    '==============================&#xA;&#xA;    For Each r As DataRow In Input_CountryDT.Rows&#xA;&#xA;&#xA;        Dim rowNumber As Integer = Input_CountryDT.Rows.IndexOf(r) + 2&#xA;&#xA;&#xA;&#xA;        '==============================&#xA;        ' Populate Year and Period&#xA;        '==============================&#xA;&#xA;        r(&quot;yr&quot;) = expectedDate.ToString(&quot;yyyy&quot;)&#xA;        r(&quot;period&quot;) = expectedDate.ToString(&quot;MM&quot;)&#xA;&#xA;&#xA;&#xA;        '==============================&#xA;        ' Validation 1 - docdate&#xA;        '==============================&#xA;&#xA;        Dim docDateValue As String =&#xA;            If(IsDBNull(r(&quot;docdate&quot;)), &quot;&quot;, r(&quot;docdate&quot;).ToString.Trim)&#xA;&#xA;&#xA;        Dim docDate As DateTime&#xA;&#xA;&#xA;&#xA;        If String.IsNullOrWhiteSpace(docDateValue) Then&#xA;&#xA;            isDateValid = False&#xA;&#xA;            dtValidationErrors.Rows.Add(&#xA;                CurrentItem,&#xA;                rowNumber,&#xA;                &quot;docdate&quot;,&#xA;                &quot;&quot;,&#xA;                &quot;Document date is blank&quot;&#xA;            )&#xA;&#xA;&#xA;        ElseIf Not DateTime.TryParse(docDateValue, docDate) Then&#xA;&#xA;            isDateValid = False&#xA;&#xA;            dtValidationErrors.Rows.Add(&#xA;                CurrentItem,&#xA;                rowNumber,&#xA;                &quot;docdate&quot;,&#xA;                docDateValue,&#xA;                &quot;Invalid document date format&quot;&#xA;            )&#xA;&#xA;&#xA;        ElseIf docDate.Month &lt;&gt; expectedDate.Month OrElse&#xA;               docDate.Year &lt;&gt; expectedDate.Year Then&#xA;&#xA;            isDateValid = False&#xA;&#xA;            dtValidationErrors.Rows.Add(&#xA;                CurrentItem,&#xA;                rowNumber,&#xA;                &quot;docdate&quot;,&#xA;                docDateValue,&#xA;                &quot;Document date is not within expected month and year&quot;&#xA;            )&#xA;&#xA;        End If&#xA;&#xA;&#xA;&#xA;&#xA;        '==============================&#xA;        ' Validation 2 - NULL Check&#xA;        '==============================&#xA;&#xA;        Dim excludedColumns As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase) From {&#xA;            &quot;doccode&quot;,&#xA;            &quot;ref1&quot;,&#xA;            &quot;el3&quot;,&#xA;&#x9;&#x9;&#x9;&quot;Loca / TP&quot;&#xA;        }&#xA;&#xA;&#xA;        For Each c As DataColumn In Input_CountryDT.Columns&#xA;&#xA;&#xA;            If excludedColumns.Contains(c.ColumnName) Then&#xA;                Continue For&#xA;            End If&#xA;&#xA;&#xA;            Dim cellValue As String =&#xA;                If(IsDBNull(r(c.ColumnName)),&#xA;                   &quot;&quot;,&#xA;                   r(c.ColumnName).ToString.Trim)&#xA;&#xA;&#xA;&#xA;            If String.IsNullOrWhiteSpace(cellValue) OrElse&#xA;               cellValue.Equals(&quot;N/A&quot;, StringComparison.OrdinalIgnoreCase) Then&#xA;&#xA;&#xA;                isNullCheckValid = False&#xA;&#xA;&#xA;                dtValidationErrors.Rows.Add(&#xA;                    CurrentItem,&#xA;                    rowNumber,&#xA;                    c.ColumnName,&#xA;                    cellValue,&#xA;                    &quot;Column value is blank or N/A&quot;&#xA;                )&#xA;&#xA;            End If&#xA;&#xA;&#xA;        Next&#xA;&#xA;&#xA;    Next&#xA;&#xA;&#xA;&#xA;    '==============================&#xA;    ' Final Tracker Status&#xA;    '==============================&#xA;&#xA;    DateValidationStatus = If(isDateValid, &quot;Pass&quot;, &quot;Fail&quot;)&#xA;&#xA;    NullCheckValidationStatus = If(isNullCheckValid, &quot;Pass&quot;, &quot;Fail&quot;)&#xA;&#xA;&#xA;&#xA;Catch ex As Exception&#xA;&#xA;&#xA;    DateValidationStatus = &quot;Fail&quot;&#xA;    NullCheckValidationStatus = &quot;Fail&quot;&#xA;&#xA;&#xA;    Throw New Exception(&#xA;        &quot;Validation execution failed for country: &quot; &amp;&#xA;        CurrentItem &amp;&#xA;        &quot;. Error: &quot; &amp;&#xA;        ex.Message,&#xA;        ex)&#xA;&#xA;End Try" DisplayName="Code - Populate and Validate Mandate column" sap:VirtualizedContainerService.HintSize="434,165" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+                                      <ui:InvokeCode.Arguments>
+                                        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="Input_CountryDT">[dt_InputCountry]</InOutArgument>
+                                        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="dtValidationErrors">[dt_InvoiceValidation]</InOutArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="CurrentItem">[currentItem]</InArgument>
+                                        <InArgument x:TypeArguments="sd:DataTable" x:Key="SelectableDT">[dt_SelectableData]</InArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="DateValidationStatus">[DateValidationStatus]</OutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="ProductValidationStatus">[ProductValidationStatus]</OutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="NullCheckValidationStatus">[NullCheckValidationStatus]</OutArgument>
+                                      </ui:InvokeCode.Arguments>
+                                    </ui:InvokeCode>
+                                    <Assign DisplayName="Tracker Update - Populate Column" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_22">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Populate Year &amp; Period")]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Object">["Pass"]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="Tacker Update - Validate Docdate" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_23">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Validate docdate")]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Object">[DateValidationStatus]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="Tracker Update - Validate Product and Sub-Product" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_24">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Validate Product and Subproduct")]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Object">[ProductValidationStatus]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="Traker Update - Column Validation" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_25">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Validation of NULL Data")]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[NullCheckValidationStatus]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </TryCatch.Try>
+                                <TryCatch.Catches>
+                                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="500,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ActivityAction x:TypeArguments="s:Exception">
+                                      <ActivityAction.Argument>
+                                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                      </ActivityAction.Argument>
+                                      <Sequence DisplayName="Exception  Validation Module" sap:VirtualizedContainerService.HintSize="496,557" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <Assign DisplayName="Update Tracker Failure - Populate Column" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_30">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Populate Year and Period")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">["Fail"]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <Assign DisplayName="Update Tracker Failure - Validate Doc Date" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_31">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Validate docdate")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">["Fail"]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <Assign DisplayName="Update Tracker Failure - Validate Product &amp; Sub Product" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_32">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Validate Product and Subproduct")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">["Fail"]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <Assign DisplayName="Update Tracker Failure - Validate Mandate column" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_33">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Validation of NULL Data")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">["Fail"]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </Sequence>
+                                    </ActivityAction>
+                                  </Catch>
+                                </TryCatch.Catches>
+                              </TryCatch>
+                              <ui:LogMessage DisplayName="Fetch Currency Values" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;Proceeding to Extract USD and Home Currency Values.&quot;]" />
+                              <Assign DisplayName="Invoice - USD Total" sap:VirtualizedContainerService.HintSize="945,83" sap2010:WorkflowViewState.IdRef="Assign_9">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Double">[USDTotal]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Double" xml:space="preserve">[dt_InputCountry.AsEnumerable().
+Take(LastworkingRow - 1).
+Sum(Function(r) If(Double.TryParse(If(IsDBNull(r("USD Value")), "", r("USD Value").ToString).Replace(",", ""), New Double),
+                   CDbl(r("USD Value").ToString.Replace(",", "")),
+                   0))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Invoice - HomeCurrency Total" sap:VirtualizedContainerService.HintSize="945,83" sap2010:WorkflowViewState.IdRef="Assign_10">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Double">[HomeCurrencyTotal]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Double" xml:space="preserve">[dt_InputCountry.AsEnumerable().
+Take(LastworkingRow - 1).
+Sum(Function(r) If(Double.TryParse(If(IsDBNull(r("Home Currency")), "", r("Home Currency").ToString).Replace(",", ""), New Double),
+                   CDbl(r("Home Currency").ToString.Replace(",", "")),
+                   0))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Invoice  - Total Difference" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_11">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Double">[CurrDifference]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Double">[Math.Abs(USDTotal - HomeCurrencyTotal)]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:LogMessage DisplayName="Validate Currency" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Info" Message="[&quot;Validating USD currency values and Home Currency&quot;]" />
+                              <Assign DisplayName="Validate USD and Home Currency" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_15">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[IsDifferencevalid]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">[USDTotal &lt;&gt; Nothing AndAlso HomeCurrencyTotal &lt;&gt; Nothing AndAlso Math.Abs(USDTotal - HomeCurrencyTotal) &lt;= 1]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <If Condition="[IsDifferencevalid]" DisplayName="Checking currency differences for invoice records" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="If_3">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <Sequence DisplayName="Currency validation - Pass" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <Assign DisplayName="Tracker Update - Currency validtion" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_16">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Home Currency &amp; USD Validation")]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Object">["Pass"]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence DisplayName="Currency Validation - Fail" sap:VirtualizedContainerService.HintSize="496,551" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Currency Validation Failure" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Error" Message="[&quot;Invoice Currency validation Failure&quot;]" />
+                                    <Assign DisplayName="Update Tracker Failure - Currency Validaton" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_26">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Home Currency and USD Validation")]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Object">["Fail"]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{CurrentItem, &quot;&quot;, &quot;Currency Difference&quot;, Math.Abs(USDTotal - HomeCurrencyTotal).ToString, &quot;USD Total and Home Currency Total difference is greater than $1 or values are missing&quot;}]" DataTable="[dt_InvoiceValidation]" DisplayName="Add Exception Details for currency validatio" sap:VirtualizedContainerService.HintSize="434,186" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                              <ui:LogMessage DisplayName="Write validated invoice information" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Info" Message="[&quot;Writing validated invoice data to output sheet for the Country -&quot;  + currentItem]" />
+                              <If Condition="[dt_ProcessedData.RowCount = 1]" sap:VirtualizedContainerService.HintSize="945,379" sap2010:WorkflowViewState.IdRef="If_6">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="496,192" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <Assign sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_38">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="sd:DataTable">[dt_ProcessedData]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="sd:DataTable">[dt_InputCountry.Clone()]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_29">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                              <If Condition="[currentItem.ToLower.StartsWith(&quot;bra&quot;)]" sap:VirtualizedContainerService.HintSize="945,459" sap2010:WorkflowViewState.IdRef="If_8">
+                                <If.Then>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="450,272" sap2010:WorkflowViewState.IdRef="Sequence_37">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:FilterDataTable DataTable="[dt_InputCountry]" DisplayName="Filter Data Table" FilterRowsMode="Remove" sap:VirtualizedContainerService.HintSize="388,161" sap2010:WorkflowViewState.IdRef="FilterDataTable_2" OutputDataTable="[dt_InputCountry]" SelectColumnsMode="Remove">
+                                      <ui:FilterDataTable.Filters>
+                                        <scg:List x:TypeArguments="ui:FilterOperationArgument" Capacity="4">
+                                          <ui:FilterOperationArgument BooleanOperator="And" Operator="EQ">
+                                            <ui:FilterOperationArgument.Column>
+                                              <InArgument x:TypeArguments="x:String">["Loca / TP"]</InArgument>
+                                            </ui:FilterOperationArgument.Column>
+                                            <ui:FilterOperationArgument.Operand>
+                                              <InArgument x:TypeArguments="x:String">["TP"]</InArgument>
+                                            </ui:FilterOperationArgument.Operand>
+                                          </ui:FilterOperationArgument>
+                                        </scg:List>
+                                      </ui:FilterDataTable.Filters>
+                                      <ui:FilterDataTable.SelectColumns>
+                                        <scg:List x:TypeArguments="InArgument" Capacity="4">
+                                          <x:Null />
+                                        </scg:List>
+                                      </ui:FilterDataTable.SelectColumns>
+                                    </ui:FilterDataTable>
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence sap:VirtualizedContainerService.HintSize="450,103" sap2010:WorkflowViewState.IdRef="Sequence_38">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                              <ui:MergeDataTable Destination="[dt_ProcessedData]" DisplayName="Merge Processed Data" sap:VirtualizedContainerService.HintSize="945,133" sap2010:WorkflowViewState.IdRef="MergeDataTable_1" MissingSchemaAction="Add" Source="[dt_InputCountry]" />
+                              <ui:ExcelWriteRange AddHeaders="False" DataTable="[dt_InputCountry]" DisplayName="Write Validate -  Invoice Infomation" sap:VirtualizedContainerService.HintSize="945,88" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_1" SheetName="[currentItem]" StartingCell="[&quot;A&quot; + ( FirstWorkingRow ).ToString]" />
+                              <Assign DisplayName="Exception Dt to Text" sap:VirtualizedContainerService.HintSize="945,83" sap2010:WorkflowViewState.IdRef="Assign_17">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[ExceptionText]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String" xml:space="preserve">["Row Number | Country | Column Name | Invalid Value | Exception Details" &amp; Environment.NewLine &amp;
+String.Join(Environment.NewLine,
+dt_InvoiceValidation.AsEnumerable().
+Select(Function(r) r("Country").ToString + " | " +
+r("Row Number").ToString + " | " +
+r("Column Name").ToString + " | " +
+r("Invalid Value").ToString + " | " +
+r("Exception Details").ToString))]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Update Tracker - Comments" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_27">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[InvTrackerRow("Comments")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">[ExceptionText]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="Tracker Row - Exception Dt" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_28">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[TrackerUpdateRow]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">[dt_InvoiceTracker.Rows.IndexOf(InvTrackerRow) +2]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="945,62" sap2010:WorkflowViewState.IdRef="WriteLine_4" Text="[dt_InvoiceValidation.ToString]" />
+                              <ui:WriteRange AddHeaders="False" DataTable="[dt_InvoiceTracker]" DisplayName="Write Range Workbook" sap:VirtualizedContainerService.HintSize="945,116" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Invoice_Tracker" StartingCell="[&quot;A&quot;+TrackerUpdateRow.ToString]" WorkbookPath="[In_TrackerFilePath]" />
+                              <ui:LogMessage DisplayName="Write Exception tracker data" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_19" Message="[&quot;Writing invoice validation exceptions Data for the Country - &quot; + currentItem]" />
+                              <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[dt_InvoiceValidation]" DisplayName="For Each Row in Exception Datatable" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                                <ui:ForEachRow.Body>
+                                  <ActivityAction x:TypeArguments="sd:DataRow">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="sd:DataRow" Name="CurrentRow" />
+                                    </ActivityAction.Argument>
+                                    <Sequence DisplayName="Perform" sap:VirtualizedContainerService.HintSize="594,837" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If Condition="[Not String.IsNullOrWhiteSpace(CurrentRow(&quot;Row Number&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="532,726" sap2010:WorkflowViewState.IdRef="If_5">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <If.Then>
+                                          <Sequence sap:VirtualizedContainerService.HintSize="496,539" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <Assign sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_36">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:Int32">[excelRowIndex]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:Int32">[CInt(CurrentRow("Row Number"))]</InArgument>
+                                              </Assign.Value>
+                                            </Assign>
+                                            <Assign sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_37">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:Int32">[excelRow]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:Int32">[excelRowIndex + If(HeaderRow = 1, 1, 2)]</InArgument>
+                                              </Assign.Value>
+                                            </Assign>
+                                            <ui:ExcelSetRangeColor Color="[System.Drawing.Color.Yellow]" DisplayName="Set Range Color" sap:VirtualizedContainerService.HintSize="434,186" sap2010:WorkflowViewState.IdRef="ExcelSetRangeColor_2" Range="[&quot;A&quot; + excelRow.ToString + &quot;:K&quot; + excelRow.ToString]" SheetName="[currentItem]" />
+                                          </Sequence>
+                                        </If.Then>
+                                        <If.Else>
+                                          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_27">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                          </Sequence>
+                                        </If.Else>
+                                      </If>
+                                    </Sequence>
+                                  </ActivityAction>
+                                </ui:ForEachRow.Body>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:ForEachRow>
+                              <ui:LogMessage DisplayName="Invoice Validation Module  - Completed" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Info" Message="[&quot;Invoice Validation Module completed successfully&quot;]" />
+                            </Sequence>
+                          </ActivityAction>
+                        </ui:ForEach.Body>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:ForEach>
+                      <ui:ExcelWriteRange AddHeaders="True" DataTable="[dt_ProcessedData]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="1043,88" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_3" SheetName="InvoiceLatam(Bot)" StartingCell="A1" />
+                    </Sequence>
+                  </ActivityAction>
+                </ueab:ExcelApplicationCard.Body>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ueab:ExcelApplicationCard>
+            </Sequence>
+          </Sequence>
+        </ActivityAction>
+      </ueab:ExcelProcessScopeX.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ueab:ExcelProcessScopeX>
+    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="1297,62" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="[DateTime.Now.ToString(&quot;dd-MM-yyyy HH:mm:ss&quot;)]" />
+    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="1297,62" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[DateTime.Now.ToString(&quot;dd-MM-yyyy HH:mm:ss&quot;)]" />
+  </Sequence>
+</Activity>

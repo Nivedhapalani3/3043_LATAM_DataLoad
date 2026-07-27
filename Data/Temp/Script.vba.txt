@@ -1,0 +1,12 @@
+Sub HighlightRows(rowNumbers As Variant)
+
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+
+    Dim i As Variant
+
+    For Each i In rowNumbers
+        ws.Rows(i).Interior.Color = RGB(255, 255, 0)
+    Next i
+
+End Sub
