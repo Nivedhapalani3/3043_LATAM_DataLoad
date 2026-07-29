@@ -1,12 +1,10 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="PreValidation_Sequence" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mg="clr-namespace:Microsoft.Graph;assembly=Microsoft.Graph" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uma="clr-namespace:UiPath.MicrosoftOffice365.Activities;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umaf="clr-namespace:UiPath.MicrosoftOffice365.Activities.Files;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
-    <x:Property Name="In_RevenueFilePath" Type="InArgument(x:String)" />
-    <x:Property Name="In_InvoiceFilePath" Type="InArgument(x:String)" />
-    <x:Property Name="Out_RevenueLink" Type="OutArgument(x:String)" />
-    <x:Property Name="Out_InvoiceLink" Type="OutArgument(x:String)" />
+    <x:Property Name="in_InputFilePath" Type="InArgument(x:String)" />
+    <x:Property Name="out_SPLink" Type="OutArgument(x:String)" />
   </x:Members>
-  <sap:VirtualizedContainerService.HintSize>648,1696</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>648,1338</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -93,79 +91,62 @@
       <AssemblyReference>UiPath.MicrosoftOffice365</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="654,1631" sap2010:WorkflowViewState.IdRef="Sequence_35">
+  <Sequence DisplayName="Sequence - To Upload Results To the Sharepoint" sap:VirtualizedContainerService.HintSize="592,1273" sap2010:WorkflowViewState.IdRef="Sequence_35">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="CurrYr" />
+      <Variable x:TypeArguments="x:String" Name="YrMm" />
+      <Variable x:TypeArguments="mg:DriveItem" Name="RFile" />
+      <Variable x:TypeArguments="mg:DriveItem[]" Name="RevenueFiles" />
+      <Variable x:TypeArguments="mg:DriveItem" Name="OutputFile" />
+      <Variable x:TypeArguments="mg:DriveItem" Name="RevenueFileLink" />
+      <Variable x:TypeArguments="mg:DriveItem" Name="InvoiceLink" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <uma:Office365ApplicationScope ApplicationSecret="{x:Null}" ContinueOnError="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="[in_Config(&quot;3043_ApplicationID&quot;).ToString]" AuthenticationType="InteractiveToken" DisplayName="Microsoft Office 365 Scope" sap:VirtualizedContainerService.HintSize="592,1520" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuthApplication="UiPath" Services="Files, Mail, Shared" Tenant="[in_Config(&quot;3043_TenentID&quot;).ToString]">
+    <uma:Office365ApplicationScope ApplicationSecret="{x:Null}" ContinueOnError="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="[in_Config(&quot;3043_ApplicationID&quot;).ToString]" AuthenticationType="InteractiveToken" DisplayName="Microsoft Office 365  - Secure Connection" sap:VirtualizedContainerService.HintSize="530,1162" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuthApplication="UiPath" Services="Files, Mail, Shared" Tenant="[in_Config(&quot;3043_TenentID&quot;).ToString]">
       <uma:Office365ApplicationScope.Body>
         <ActivityAction x:TypeArguments="mg:GraphServiceClient">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="mg:GraphServiceClient" Name="ParentScope" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="558,1433" sap2010:WorkflowViewState.IdRef="Sequence_34">
+          <Sequence DisplayName="Perform:" sap:VirtualizedContainerService.HintSize="496,1075" sap2010:WorkflowViewState.IdRef="Sequence_34">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <Sequence sap:VirtualizedContainerService.HintSize="496,1322" sap2010:WorkflowViewState.IdRef="Sequence_33">
-              <Sequence.Variables>
-                <Variable x:TypeArguments="x:String" Name="CurrYr" />
-                <Variable x:TypeArguments="x:String" Name="YrMm" />
-                <Variable x:TypeArguments="mg:DriveItem" Name="RFile" />
-                <Variable x:TypeArguments="mg:DriveItem[]" Name="RevenueFiles" />
-                <Variable x:TypeArguments="mg:DriveItem" Name="OutputFile" />
-                <Variable x:TypeArguments="mg:DriveItem" Name="RevenueFileLink" />
-                <Variable x:TypeArguments="mg:DriveItem" Name="InvoiceLink" />
-              </Sequence.Variables>
-              <sap:WorkflowViewStateService.ViewState>
-                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                </scg:Dictionary>
-              </sap:WorkflowViewStateService.ViewState>
-              <Assign DisplayName="Set Curent Year" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_1">
-                <Assign.To>
-                  <OutArgument x:TypeArguments="x:String">[CurrYr]</OutArgument>
-                </Assign.To>
-                <Assign.Value>
-                  <InArgument x:TypeArguments="x:String">[Now.Year.ToString]</InArgument>
-                </Assign.Value>
-              </Assign>
-              <Assign DisplayName="Set Current Month" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_2">
-                <Assign.To>
-                  <OutArgument x:TypeArguments="x:String">[YrMm]</OutArgument>
-                </Assign.To>
-                <Assign.Value>
-                  <InArgument x:TypeArguments="x:String">[Now.AddMonths(-2).ToString("yyyy_MM")]</InArgument>
-                </Assign.Value>
-              </Assign>
-              <umaf:FindFilesAndFolders DisplayName="Find Files that contains LATAM" DriveName="[in_Config(&quot;SP_DriveName&quot;).ToString]" First="[RFile]" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="FindFilesAndFolders_2" Query=" LATAM" Results="[RevenueFiles]" SiteUrl="[in_Config(&quot;Sharepoint_URL&quot;).ToString]" Subfolder="[in_Config(&quot;SP_SubFolder&quot;).ToString.Replace(&quot;{Yr}_{Mm}&quot;, YrMm).Replace(&quot;{Yr}&quot;, CurrYr)]" />
-              <ui:LogMessage DisplayName="Locate the Input File from Sharepoint." sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Locating the LATAM input folder in SharePoint.&quot;]" />
-              <umaf:GetItem DisplayName="Get Latam report Folder Reference Id" DriveName="[in_Config(&quot;SP_DriveName&quot;).ToString]" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="GetItem_1" Item="[OutputFile]" ItemId="[RFile.ParentReference.Id]" SiteUrl="[in_Config(&quot;Sharepoint_URL&quot;).ToString]" />
-              <ui:LogMessage DisplayName="Fetch Revenue Details " sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Fetching Sharepoint details for Revenue.&quot;]" />
-              <umaf:UploadFile CloudFileName="{x:Null}" Destination="[OutputFile]" DisplayName="Upload File - Invoice Processed" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="UploadFile_1" LocalFilePath="[In_InvoiceFilePath]" Result="[InvoiceLink]" />
-              <Assign sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_3">
-                <Assign.To>
-                  <OutArgument x:TypeArguments="x:String">[Out_InvoiceLink]</OutArgument>
-                </Assign.To>
-                <Assign.Value>
-                  <InArgument x:TypeArguments="x:String">[InvoiceLink.WebUrl]</InArgument>
-                </Assign.Value>
-              </Assign>
-              <umaf:UploadFile CloudFileName="{x:Null}" Destination="[OutputFile]" DisplayName="Upload File - Revenue Processed" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="UploadFile_2" LocalFilePath="[In_RevenueFilePath]" Result="[RevenueFileLink]" />
-              <Assign sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_4">
-                <Assign.To>
-                  <OutArgument x:TypeArguments="x:String">[Out_RevenueLink]</OutArgument>
-                </Assign.To>
-                <Assign.Value>
-                  <InArgument x:TypeArguments="x:String">[RevenueFileLink.WebUrl]</InArgument>
-                </Assign.Value>
-              </Assign>
-            </Sequence>
+            <Assign DisplayName="Set Curent Year" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_1">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[CurrYr]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[Now.Year.ToString]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign DisplayName="Set Current Month" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[YrMm]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[Now.AddMonths(-2).ToString("yyyy_MM")]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <umaf:FindFilesAndFolders DisplayName="Find Files that contains LATAM" DriveName="[in_Config(&quot;SP_DriveName&quot;).ToString]" First="[RFile]" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="FindFilesAndFolders_2" Query=" LATAM" Results="[RevenueFiles]" SiteUrl="[in_Config(&quot;Sharepoint_URL&quot;).ToString]" Subfolder="[in_Config(&quot;SP_SubFolder&quot;).ToString.Replace(&quot;{Yr}_{Mm}&quot;, YrMm).Replace(&quot;{Yr}&quot;, CurrYr)]" />
+            <ui:LogMessage DisplayName="Locate the Input File from Sharepoint." sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Locating the LATAM input folder in SharePoint.&quot;]" />
+            <umaf:GetItem DisplayName="Get Latam report Folder Reference Id" DriveName="[in_Config(&quot;SP_DriveName&quot;).ToString]" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="GetItem_1" Item="[OutputFile]" ItemId="[RFile.ParentReference.Id]" SiteUrl="[in_Config(&quot;Sharepoint_URL&quot;).ToString]" />
+            <ui:LogMessage DisplayName="Fetch Revenue Details " sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Fetching Sharepoint details for Revenue.&quot;]" />
+            <umaf:UploadFile CloudFileName="{x:Null}" Destination="[OutputFile]" DisplayName="Upload File - Invoice Processed" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="UploadFile_1" LocalFilePath="[in_InputFilePath]" Result="[InvoiceLink]" />
+            <Assign DisplayName="Fetch Invoice Link" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_3">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_SPLink]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[InvoiceLink.WebUrl]</InArgument>
+              </Assign.Value>
+            </Assign>
           </Sequence>
         </ActivityAction>
       </uma:Office365ApplicationScope.Body>

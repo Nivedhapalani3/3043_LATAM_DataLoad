@@ -6,7 +6,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>796,2047</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1596,2089</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="50">
@@ -78,7 +78,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="806,1982" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="1606,2024" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Boolean" Name="RevenueFileStatus" />
       <Variable x:TypeArguments="x:Boolean" Name="InvoiceFileStatus" />
@@ -94,8 +94,8 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="744,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
-    <Flowchart sap:VirtualizedContainerService.HintSize="744,1667" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="1544,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
+    <Flowchart sap2010:Annotation.AnnotationText="Validates Revenue and Invoice files independently. If validation succeeds, the corresponding pivot is generated. If validation fails, a Business Exception is raised and the process continues as applicable. Once all available files are successfully validated and processed, the generated documents are uploaded to SharePoint." DisplayName="Flowchart- To Validate revenue &amp; Invoice" sap:VirtualizedContainerService.HintSize="1544,1709" sap2010:WorkflowViewState.IdRef="Flowchart_1">
       <Flowchart.Variables>
         <Variable x:TypeArguments="x:Boolean" Name="InvValidationStatus" />
         <Variable x:TypeArguments="x:Boolean" Name="RevValidationStatus" />
@@ -108,31 +108,32 @@
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-          <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+          <av:Point x:Key="ShapeLocation">560,2.5</av:Point>
           <av:Size x:Key="ShapeSize">60,75</av:Size>
-          <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,129.5</av:PointCollection>
+          <av:PointCollection x:Key="ConnectorLocation">590,77.5 590,107.5 610,107.5 610,138.5</av:PointCollection>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
           <x:Double x:Key="Height">1630</x:Double>
-          <x:Double x:Key="Width">710</x:Double>
+          <x:Double x:Key="Width">1510</x:Double>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <Flowchart.StartNode>
-        <x:Reference>__ReferenceID14</x:Reference>
+        <x:Reference>__ReferenceID25</x:Reference>
       </Flowchart.StartNode>
       <FlowStep x:Name="__ReferenceID2">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">40,464</av:Point>
             <av:Size x:Key="ShapeSize">200,52</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">240,490 270,490 270,406.5 450.5,406.5 450.5,436.5</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">140,517 140,547 120,547 120,556.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
         <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Revenue Workflow" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Revenue_Validation.xaml">
           <ui:InvokeWorkflowFile.Arguments>
-            <InArgument x:TypeArguments="x:String" x:Key="In_RevenueFilePath">[RevenueLocalPath]</InArgument>
-            <InArgument x:TypeArguments="x:String" x:Key="In_TrackerFilePath">[LatamTracker]</InArgument>
-            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="In_Config">[in_Config]</InArgument>
-            <OutArgument x:TypeArguments="x:Boolean" x:Key="Out_RevValidationStatus">[RevValidationStatus]</OutArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_RevenueFilePath">[RevenueLocalPath]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFilePath">[LatamTracker]</InArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+            <OutArgument x:TypeArguments="x:Boolean" x:Key="out_RevValidationStatus">[RevValidationStatus]</OutArgument>
           </ui:InvokeWorkflowFile.Arguments>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -141,31 +142,30 @@
           </sap:WorkflowViewStateService.ViewState>
         </ui:InvokeWorkflowFile>
         <FlowStep.Next>
-          <FlowDecision x:Name="__ReferenceID3" Condition="[InvoiceFileStatus]" DisplayName="Invoice File Validation" sap:VirtualizedContainerService.HintSize="120,87" sap2010:WorkflowViewState.IdRef="FlowDecision_2">
+          <FlowDecision x:Name="__ReferenceID14" Condition="[IsInvPivot Andalso IsRevPivot]" DisplayName="Pivot Validation" sap:VirtualizedContainerService.HintSize="88,87" sap2010:WorkflowViewState.IdRef="FlowDecision_5">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                <av:Point x:Key="ShapeLocation">420.5,436.5</av:Point>
-                <av:Size x:Key="ShapeSize">120,87</av:Size>
-                <av:PointCollection x:Key="TrueConnector">420.5,480 320,480 320,574</av:PointCollection>
-                <av:PointCollection x:Key="FalseConnector">540.5,480 610,480 610,564</av:PointCollection>
+                <av:Point x:Key="ShapeLocation">76,556.5</av:Point>
+                <av:Size x:Key="ShapeSize">88,87</av:Size>
+                <av:PointCollection x:Key="FalseConnector">164,600 400,600 400,623.5</av:PointCollection>
+                <av:PointCollection x:Key="TrueConnector">76,600 46,600 46,653.5 100,653.5 100,683.5</av:PointCollection>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <FlowDecision.True>
-              <FlowStep x:Name="__ReferenceID1">
+              <FlowStep x:Name="__ReferenceID6">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <av:Point x:Key="ShapeLocation">220,574</av:Point>
+                    <av:Point x:Key="ShapeLocation">0,683.5</av:Point>
                     <av:Size x:Key="ShapeSize">200,52</av:Size>
-                    <av:PointCollection x:Key="ConnectorLocation">320,626 320,656 324.5,656 324.5,666.5</av:PointCollection>
+                    <av:PointCollection x:Key="ConnectorLocation">100,736.5 100,796.5</av:PointCollection>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoice Workflow" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Invoice_Validation.xaml">
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Revenue Pivot Module" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Revenue_PivotGeneration.xaml">
                   <ui:InvokeWorkflowFile.Arguments>
-                    <InArgument x:TypeArguments="x:String" x:Key="In_InvoiceFilePath">[InvoiceLocalPath]</InArgument>
-                    <InArgument x:TypeArguments="x:String" x:Key="In_TrackerFilePath">[LatamTracker]</InArgument>
-                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="In_Config">[in_Config]</InArgument>
-                    <OutArgument x:TypeArguments="x:Boolean" x:Key="Out_InvValidationStatus">[InvValidationStatus]</OutArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_RevenuFileName">[RevenueLocalPath]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFileName">[LatamTracker]</InArgument>
+                    <OutArgument x:TypeArguments="x:Boolean" x:Key="out_IsRevPivot">[IsRevPivot]</OutArgument>
                   </ui:InvokeWorkflowFile.Arguments>
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -174,30 +174,36 @@
                   </sap:WorkflowViewStateService.ViewState>
                 </ui:InvokeWorkflowFile>
                 <FlowStep.Next>
-                  <FlowDecision x:Name="__ReferenceID4" Condition="True" DisplayName="Pivot Validation" sap:VirtualizedContainerService.HintSize="88,87" sap2010:WorkflowViewState.IdRef="FlowDecision_3">
+                  <FlowDecision x:Name="__ReferenceID16" Condition="[IsInvPivot andalso IsRevPivot]" DisplayName="Validate Pivot Completion" sap:VirtualizedContainerService.HintSize="143,87" sap2010:WorkflowViewState.IdRef="FlowDecision_6">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                        <av:Point x:Key="ShapeLocation">280.5,666.5</av:Point>
-                        <av:Size x:Key="ShapeSize">88,87</av:Size>
-                        <av:PointCollection x:Key="TrueConnector">280.5,710 130,710 130,774</av:PointCollection>
-                        <av:PointCollection x:Key="FalseConnector">368.5,710 440,710 440,794</av:PointCollection>
+                        <av:Point x:Key="ShapeLocation">28.5,796.5</av:Point>
+                        <av:Size x:Key="ShapeSize">143,87</av:Size>
+                        <av:PointCollection x:Key="TrueConnector">28.5,840 10,840 10,903.5 100,903.5 100,933.5</av:PointCollection>
+                        <av:PointCollection x:Key="FalseConnector">171.5,840 320,840 320,893.5</av:PointCollection>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
                     <FlowDecision.True>
-                      <FlowStep x:Name="__ReferenceID5">
+                      <FlowStep x:Name="__ReferenceID17">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <av:Point x:Key="ShapeLocation">30,774</av:Point>
+                            <av:Point x:Key="ShapeLocation">0,933.5</av:Point>
                             <av:Size x:Key="ShapeSize">200,52</av:Size>
-                            <av:PointCollection x:Key="ConnectorLocation">130,826 130,874</av:PointCollection>
+                            <av:PointCollection x:Key="ConnectorLocation">100,986.5 100,1013.5</av:PointCollection>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Revenue Pivot Module" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Revenue_PivotGeneration.xaml">
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Upload file to Sharepoint" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="UploadOutput_File.xaml">
                           <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="x:String" x:Key="In_RevenuFileName">[RevenueLocalPath]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="In_TrackerFileName">[LatamTracker]</InArgument>
-                            <OutArgument x:TypeArguments="x:Boolean" x:Key="Out_IsRevPivot">[IsRevPivot]</OutArgument>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">
+                              <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="RevenueLocalPath" />
+                            </InArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">
+                              <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SPRevenueLink" />
+                            </OutArgument>
                           </ui:InvokeWorkflowFile.Arguments>
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -206,42 +212,59 @@
                           </sap:WorkflowViewStateService.ViewState>
                         </ui:InvokeWorkflowFile>
                         <FlowStep.Next>
-                          <FlowStep x:Name="__ReferenceID6">
+                          <FlowStep x:Name="__ReferenceID18">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <av:Point x:Key="ShapeLocation">30,874</av:Point>
+                                <av:Point x:Key="ShapeLocation">0,1013.5</av:Point>
                                 <av:Size x:Key="ShapeSize">200,52</av:Size>
-                                <av:PointCollection x:Key="ConnectorLocation">130,926 130,974</av:PointCollection>
+                                <av:PointCollection x:Key="ConnectorLocation">100,1066.5 100,1103.5</av:PointCollection>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
-                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoice Pivot Module" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Invoice_PivotGeneration.xaml">
-                              <ui:InvokeWorkflowFile.Arguments>
-                                <InArgument x:TypeArguments="x:String" x:Key="In_TrackerFileName">[LatamTracker]</InArgument>
-                                <InArgument x:TypeArguments="x:String" x:Key="In_InvoiceFileName">[InvoiceLocalPath]</InArgument>
-                                <OutArgument x:TypeArguments="x:Boolean" x:Key="Out_IsInvPivot">[IsInvPivot]</OutArgument>
-                              </ui:InvokeWorkflowFile.Arguments>
+                            <Assign DisplayName="Email Body - Success" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_24">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Successful_Email").ToString _
+    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
+    .Replace("{Input}", "Revenue") _
+    .Replace("{{OutPut_LINK}}", SPRevenueLink) _
+    .Replace("{{OutPut Report}}", "Revenue Output Report")]</InArgument>
+                              </Assign.Value>
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                 </scg:Dictionary>
                               </sap:WorkflowViewStateService.ViewState>
-                            </ui:InvokeWorkflowFile>
+                            </Assign>
                             <FlowStep.Next>
-                              <FlowStep x:Name="__ReferenceID10">
+                              <FlowStep x:Name="__ReferenceID0">
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <av:Point x:Key="ShapeLocation">30,974</av:Point>
+                                    <av:Point x:Key="ShapeLocation">0,1103.5</av:Point>
                                     <av:Size x:Key="ShapeSize">200,52</av:Size>
-                                    <av:PointCollection x:Key="ConnectorLocation">130,1026 130,1056 380,1056 380,1076.5</av:PointCollection>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Upload file to Sharepoint" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="UploadOutput_File.xaml">
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email - Notification" sap:VirtualizedContainerService.HintSize="334,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_14" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
                                   <ui:InvokeWorkflowFile.Arguments>
-                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
-                                    <InArgument x:TypeArguments="x:String" x:Key="In_RevenueFilePath">[RevenueLocalPath]</InArgument>
-                                    <InArgument x:TypeArguments="x:String" x:Key="In_InvoiceFilePath">[InvoiceLocalPath]</InArgument>
-                                    <OutArgument x:TypeArguments="x:String" x:Key="Out_RevenueLink">[SPRevenueLink]</OutArgument>
-                                    <OutArgument x:TypeArguments="x:String" x:Key="Out_InvoiceLink">[SPInvoiceLink]</OutArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_AppID">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_ApplicationID&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_TenentID&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_RevenueSubject&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EmailBody" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_Receipients&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
+                                    </InArgument>
                                   </ui:InvokeWorkflowFile.Arguments>
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -249,115 +272,6 @@
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                 </ui:InvokeWorkflowFile>
-                                <FlowStep.Next>
-                                  <FlowDecision x:Name="__ReferenceID11" Condition="True" DisplayName="Flow Decision" sap:VirtualizedContainerService.HintSize="79,87" sap2010:WorkflowViewState.IdRef="FlowDecision_4">
-                                    <sap:WorkflowViewStateService.ViewState>
-                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                        <av:Point x:Key="ShapeLocation">340.5,1076.5</av:Point>
-                                        <av:Size x:Key="ShapeSize">79,87</av:Size>
-                                        <av:PointCollection x:Key="TrueConnector">340.5,1120 110,1120 110,1134</av:PointCollection>
-                                        <av:PointCollection x:Key="FalseConnector">419.5,1120 530,1120 530,1164</av:PointCollection>
-                                      </scg:Dictionary>
-                                    </sap:WorkflowViewStateService.ViewState>
-                                    <FlowDecision.True>
-                                      <FlowStep x:Name="__ReferenceID12">
-                                        <sap:WorkflowViewStateService.ViewState>
-                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                            <av:Point x:Key="ShapeLocation">10,1134</av:Point>
-                                            <av:Size x:Key="ShapeSize">200,52</av:Size>
-                                            <av:PointCollection x:Key="ConnectorLocation">110,1186 110,1216 340,1216 340,1284</av:PointCollection>
-                                          </scg:Dictionary>
-                                        </sap:WorkflowViewStateService.ViewState>
-                                        <Assign sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_9">
-                                          <Assign.To>
-                                            <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
-                                          </Assign.To>
-                                          <Assign.Value>
-                                            <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Successful_Email").ToString _
-    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
-    .Replace("{{REVENUE_LINK}}", SPRevenueLink ) _
-    .Replace("{{INVOICE_LINK}}",  SPInvoiceLink)]</InArgument>
-                                          </Assign.Value>
-                                          <sap:WorkflowViewStateService.ViewState>
-                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                            </scg:Dictionary>
-                                          </sap:WorkflowViewStateService.ViewState>
-                                        </Assign>
-                                        <FlowStep.Next>
-                                          <FlowStep x:Name="__ReferenceID0">
-                                            <sap:WorkflowViewStateService.ViewState>
-                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                                <av:Point x:Key="ShapeLocation">240,1284</av:Point>
-                                                <av:Size x:Key="ShapeSize">200,52</av:Size>
-                                              </scg:Dictionary>
-                                            </sap:WorkflowViewStateService.ViewState>
-                                            <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email - Notification" sap:VirtualizedContainerService.HintSize="334,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
-                                              <ui:InvokeWorkflowFile.Arguments>
-                                                <InArgument x:TypeArguments="x:String" x:Key="In_AppID">
-                                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_ApplicationID&quot;).ToString" />
-                                                </InArgument>
-                                                <InArgument x:TypeArguments="x:String" x:Key="In_TenantID">
-                                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_TenentID&quot;).ToString" />
-                                                </InArgument>
-                                                <InArgument x:TypeArguments="x:String" x:Key="In_EmailSubject">
-                                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_Subject&quot;).ToString" />
-                                                </InArgument>
-                                                <InArgument x:TypeArguments="x:String" x:Key="In_EmailBody">
-                                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EmailBody" />
-                                                </InArgument>
-                                                <InArgument x:TypeArguments="x:String" x:Key="In_EmailRecipients">
-                                                  <Literal x:TypeArguments="x:String">Diana.Austria@thermofisher.com;norberto.camposdiaz@thermofisher.com;nivedha.palani@thermofisher.com;suraj.jain@thermofisher.com</Literal>
-                                                </InArgument>
-                                                <InArgument x:TypeArguments="x:String" x:Key="In_TrackerFile">
-                                                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
-                                                </InArgument>
-                                              </ui:InvokeWorkflowFile.Arguments>
-                                              <sap:WorkflowViewStateService.ViewState>
-                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                                </scg:Dictionary>
-                                              </sap:WorkflowViewStateService.ViewState>
-                                            </ui:InvokeWorkflowFile>
-                                          </FlowStep>
-                                        </FlowStep.Next>
-                                      </FlowStep>
-                                    </FlowDecision.True>
-                                    <FlowDecision.False>
-                                      <FlowStep x:Name="__ReferenceID13">
-                                        <sap:WorkflowViewStateService.ViewState>
-                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                            <av:Point x:Key="ShapeLocation">430,1164</av:Point>
-                                            <av:Size x:Key="ShapeSize">200,52</av:Size>
-                                            <av:PointCollection x:Key="ConnectorLocation">530,1216 530,1310 440,1310</av:PointCollection>
-                                          </scg:Dictionary>
-                                        </sap:WorkflowViewStateService.ViewState>
-                                        <Assign sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_12">
-                                          <Assign.To>
-                                            <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
-                                          </Assign.To>
-                                          <Assign.Value>
-                                            <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Successful_Email").ToString _
-    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
-    .Replace("{{REVENUE_LINK}}", SPRevenueLink) _
-    .Replace("{{INVOICE_LINK}}", SPInvoiceLink) _
-    .Replace("{Revenue Exceptions}", If(IsRevPivot, "Completed", "Identified Exception")) _
-    .Replace("{Invoice Exceptions}", If( IsInvPivot, "Completed", "Identified Exception"))]</InArgument>
-                                          </Assign.Value>
-                                          <sap:WorkflowViewStateService.ViewState>
-                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                            </scg:Dictionary>
-                                          </sap:WorkflowViewStateService.ViewState>
-                                        </Assign>
-                                        <FlowStep.Next>
-                                          <x:Reference>__ReferenceID0</x:Reference>
-                                        </FlowStep.Next>
-                                      </FlowStep>
-                                    </FlowDecision.False>
-                                  </FlowDecision>
-                                </FlowStep.Next>
                               </FlowStep>
                             </FlowStep.Next>
                           </FlowStep>
@@ -365,16 +279,215 @@
                       </FlowStep>
                     </FlowDecision.True>
                     <FlowDecision.False>
-                      <FlowStep x:Name="__ReferenceID7">
+                      <FlowStep x:Name="__ReferenceID24">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <av:Point x:Key="ShapeLocation">340,794</av:Point>
+                            <av:Point x:Key="ShapeLocation">220,893.5</av:Point>
+                            <av:Size x:Key="ShapeSize">200,52</av:Size>
+                            <av:PointCollection x:Key="ConnectorLocation">320,946.5 320,983.5</av:PointCollection>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Upload file to Sharepoint" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_18" UnSafe="False" WorkflowFileName="UploadOutput_File.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">
+                              <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="RevenueLocalPath" />
+                            </InArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">
+                              <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SPRevenueLink" />
+                            </OutArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeWorkflowFile>
+                        <FlowStep.Next>
+                          <FlowStep x:Name="__ReferenceID20">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <av:Point x:Key="ShapeLocation">220,983.5</av:Point>
+                                <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                <av:PointCollection x:Key="ConnectorLocation">320,1036.5 320,1130 200,1130</av:PointCollection>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <Assign DisplayName="Email Body Exception" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_26">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
+    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
+    .Replace("{Input}", "Revenue") _
+    .Replace("{{OutPut_LINK}}", SPRevenueLink) _
+    .Replace("{{OutPut Report}}", "Revenue Output Report")]</InArgument>
+                              </Assign.Value>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </Assign>
+                            <FlowStep.Next>
+                              <x:Reference>__ReferenceID0</x:Reference>
+                            </FlowStep.Next>
+                          </FlowStep>
+                        </FlowStep.Next>
+                      </FlowStep>
+                    </FlowDecision.False>
+                  </FlowDecision>
+                </FlowStep.Next>
+              </FlowStep>
+            </FlowDecision.True>
+            <FlowDecision.False>
+              <FlowStep x:Name="__ReferenceID15">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <av:Point x:Key="ShapeLocation">300,623.5</av:Point>
+                    <av:Size x:Key="ShapeSize">200,52</av:Size>
+                    <av:PointCollection x:Key="ConnectorLocation">400,676.5 400,706.5 440,706.5 440,713.5</av:PointCollection>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Upload file to Sharepoint" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_11" UnSafe="False" WorkflowFileName="UploadOutput_File.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">
+                      <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="RevenueLocalPath" />
+                    </InArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">
+                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SPRevenueLink" />
+                    </OutArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:InvokeWorkflowFile>
+                <FlowStep.Next>
+                  <FlowStep x:Name="__ReferenceID19">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <av:Point x:Key="ShapeLocation">340,713.5</av:Point>
+                        <av:Size x:Key="ShapeSize">200,52</av:Size>
+                        <av:PointCollection x:Key="ConnectorLocation">440,766.5 440,1186.5 100,1186.5 100,1156.5</av:PointCollection>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign DisplayName="Email Body Exception" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_25">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
+    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
+    .Replace("{Input}", "Revenue") _
+    .Replace("{{OutPut_LINK}}", SPRevenueLink) _
+    .Replace("{{OutPut Report}}", "Revenue Output Report")]</InArgument>
+                      </Assign.Value>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Assign>
+                    <FlowStep.Next>
+                      <x:Reference>__ReferenceID0</x:Reference>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowStep.Next>
+              </FlowStep>
+            </FlowDecision.False>
+          </FlowDecision>
+        </FlowStep.Next>
+      </FlowStep>
+      <FlowStep x:Name="__ReferenceID3">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">720,553.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,52</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">820,606.5 820,646.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoice Workflow" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Invoice_Validation.xaml">
+          <ui:InvokeWorkflowFile.Arguments>
+            <InArgument x:TypeArguments="x:String" x:Key="in_InvoiceFilePath">[InvoiceLocalPath]</InArgument>
+            <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFilePath">[LatamTracker]</InArgument>
+            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+            <OutArgument x:TypeArguments="x:Boolean" x:Key="out_InvValidationStatus">[InvValidationStatus]</OutArgument>
+          </ui:InvokeWorkflowFile.Arguments>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </ui:InvokeWorkflowFile>
+        <FlowStep.Next>
+          <FlowDecision x:Name="__ReferenceID5" Condition="[IsInvPivot Andalso IsRevPivot]" DisplayName="Pivot Validation" sap:VirtualizedContainerService.HintSize="88,87" sap2010:WorkflowViewState.IdRef="FlowDecision_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <av:Point x:Key="ShapeLocation">776,646.5</av:Point>
+                <av:Size x:Key="ShapeSize">88,87</av:Size>
+                <av:PointCollection x:Key="TrueConnector">776,690 740,690 740,763.5</av:PointCollection>
+                <av:PointCollection x:Key="FalseConnector">864,690 1090,690 1090,713.5</av:PointCollection>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <FlowDecision.True>
+              <FlowStep x:Name="__ReferenceID7">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <av:Point x:Key="ShapeLocation">640,763.5</av:Point>
+                    <av:Size x:Key="ShapeSize">200,52</av:Size>
+                    <av:PointCollection x:Key="ConnectorLocation">740,816.5 740,856.5</av:PointCollection>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoice Pivot Module" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="Invoice_PivotGeneration.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFileName">[LatamTracker]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_InvoiceFileName">[InvoiceLocalPath]</InArgument>
+                    <OutArgument x:TypeArguments="x:Boolean" x:Key="out_IsInvPivot">[IsInvPivot]</OutArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:InvokeWorkflowFile>
+                <FlowStep.Next>
+                  <FlowDecision x:Name="__ReferenceID10" Condition="[IsInvPivot andalso IsRevPivot]" DisplayName="Validate Pivot Completion" sap:VirtualizedContainerService.HintSize="143,87" sap2010:WorkflowViewState.IdRef="FlowDecision_4">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <av:Point x:Key="ShapeLocation">668.5,856.5</av:Point>
+                        <av:Size x:Key="ShapeSize">143,87</av:Size>
+                        <av:PointCollection x:Key="FalseConnector">811.5,900 930,900 930,983.5</av:PointCollection>
+                        <av:PointCollection x:Key="TrueConnector">668.5,900 650,900 650,983.5 680,983.5 680,1013.5</av:PointCollection>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <FlowDecision.True>
+                      <FlowStep x:Name="__ReferenceID9">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <av:Point x:Key="ShapeLocation">580,1013.5</av:Point>
                             <av:Size x:Key="ShapeSize">200,52</av:Size>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email Module" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_6" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Upload file to Sharepoint" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="UploadOutput_File.xaml">
                           <ui:InvokeWorkflowFile.Arguments>
-                            <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">
+                              <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="InvoiceLocalPath" />
+                            </InArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">
+                              <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SPInvoiceLink" />
+                            </OutArgument>
                           </ui:InvokeWorkflowFile.Arguments>
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -383,22 +496,125 @@
                           </sap:WorkflowViewStateService.ViewState>
                         </ui:InvokeWorkflowFile>
                       </FlowStep>
+                    </FlowDecision.True>
+                    <FlowDecision.False>
+                      <FlowStep x:Name="__ReferenceID23">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <av:Point x:Key="ShapeLocation">830,983.5</av:Point>
+                            <av:Size x:Key="ShapeSize">200,52</av:Size>
+                            <av:PointCollection x:Key="ConnectorLocation">930,1036.5 930,1073.5</av:PointCollection>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Upload file to Sharepoint" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_17" UnSafe="False" WorkflowFileName="UploadOutput_File.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">
+                              <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="InvoiceLocalPath" />
+                            </InArgument>
+                            <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">
+                              <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SPInvoiceLink" />
+                            </OutArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </ui:InvokeWorkflowFile>
+                        <FlowStep.Next>
+                          <FlowStep x:Name="__ReferenceID22">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <av:Point x:Key="ShapeLocation">830,1073.5</av:Point>
+                                <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                <av:PointCollection x:Key="ConnectorLocation">930,1126.5 930,1230 770,1230</av:PointCollection>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <Assign DisplayName="Email Body Exception - Rev &amp; Inv" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_28">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
+    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
+    .Replace("{Input}", "Invoice") _
+    .Replace("{{OutPut_LINK}}", SPInvoiceLink) _
+    .Replace("{{OutPut Report}}", "Invoice Output Report")]</InArgument>
+                              </Assign.Value>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </Assign>
+                            <FlowStep.Next>
+                              <FlowStep x:Name="__ReferenceID1">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <av:Point x:Key="ShapeLocation">570,1203.5</av:Point>
+                                    <av:Size x:Key="ShapeSize">200,52</av:Size>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email - Notification" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
+                                  <ui:InvokeWorkflowFile.Arguments>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_AppID">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_ApplicationID&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_TenentID&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_InvoiceSubject&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EmailBody" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_Receipients&quot;).ToString" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
+                                    </InArgument>
+                                  </ui:InvokeWorkflowFile.Arguments>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:InvokeWorkflowFile>
+                              </FlowStep>
+                            </FlowStep.Next>
+                          </FlowStep>
+                        </FlowStep.Next>
+                      </FlowStep>
                     </FlowDecision.False>
                   </FlowDecision>
                 </FlowStep.Next>
               </FlowStep>
             </FlowDecision.True>
             <FlowDecision.False>
-              <FlowStep x:Name="__ReferenceID8">
+              <FlowStep x:Name="__ReferenceID21">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <av:Point x:Key="ShapeLocation">510,564</av:Point>
+                    <av:Point x:Key="ShapeLocation">990,713.5</av:Point>
                     <av:Size x:Key="ShapeSize">200,52</av:Size>
+                    <av:PointCollection x:Key="ConnectorLocation">1090,766.5 1090,824</av:PointCollection>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email - Exception" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_7" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
+                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Upload file to Sharepoint" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_16" UnSafe="False" WorkflowFileName="UploadOutput_File.xaml">
                   <ui:InvokeWorkflowFile.Arguments>
-                    <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">
+                      <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="InvoiceLocalPath" />
+                    </InArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">
+                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="SPInvoiceLink" />
+                    </OutArgument>
                   </ui:InvokeWorkflowFile.Arguments>
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -406,124 +622,346 @@
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
                 </ui:InvokeWorkflowFile>
+                <FlowStep.Next>
+                  <FlowStep x:Name="__ReferenceID11">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <av:Point x:Key="ShapeLocation">990,824</av:Point>
+                        <av:Size x:Key="ShapeSize">200,52</av:Size>
+                        <av:PointCollection x:Key="ConnectorLocation">1090,877 1090,1286.5 670,1286.5 670,1256.5</av:PointCollection>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign DisplayName="Email Body Exception - Rev &amp; Inv" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_13">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
+    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
+    .Replace("{Input}", "Invoice") _
+    .Replace("{{OutPut_LINK}}", SPInvoiceLink) _
+    .Replace("{{OutPut Report}}", "Invoice Output Report")]</InArgument>
+                      </Assign.Value>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Assign>
+                    <FlowStep.Next>
+                      <x:Reference>__ReferenceID1</x:Reference>
+                    </FlowStep.Next>
+                  </FlowStep>
+                </FlowStep.Next>
               </FlowStep>
             </FlowDecision.False>
           </FlowDecision>
         </FlowStep.Next>
       </FlowStep>
-      <x:Reference>__ReferenceID1</x:Reference>
-      <FlowDecision x:Name="__ReferenceID9" Condition="[RevenueFileStatus]" DisplayName="Revenue File Validation" sap:VirtualizedContainerService.HintSize="127,87" sap2010:WorkflowViewState.IdRef="FlowDecision_1" True="{x:Reference __ReferenceID2}" False="{x:Reference __ReferenceID3}">
+      <FlowDecision x:Name="__ReferenceID8" Condition="[RevenueFileStatus]" DisplayName="Revenue File Validation" sap:VirtualizedContainerService.HintSize="127,87" sap2010:WorkflowViewState.IdRef="FlowDecision_1" True="{x:Reference __ReferenceID2}">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-            <av:Point x:Key="ShapeLocation">226.5,246.5</av:Point>
+            <av:Point x:Key="ShapeLocation">526,286.5</av:Point>
             <av:Size x:Key="ShapeSize">127,87</av:Size>
-            <av:PointCollection x:Key="TrueConnector">226.5,290 140,290 140,464</av:PointCollection>
-            <av:PointCollection x:Key="FalseConnector">353.5,290 480.5,290 480.5,436.5</av:PointCollection>
+            <av:PointCollection x:Key="TrueConnector">526,330 140,330 140,464</av:PointCollection>
+            <av:PointCollection x:Key="FalseConnector">654,330 960,330 960,386.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
+        <FlowDecision.False>
+          <FlowDecision x:Name="__ReferenceID4" Condition="[InvoiceFileStatus]" DisplayName="Invoice File Validation" sap:VirtualizedContainerService.HintSize="120,87" sap2010:WorkflowViewState.IdRef="FlowDecision_2" True="{x:Reference __ReferenceID3}">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <av:Point x:Key="ShapeLocation">900,386.5</av:Point>
+                <av:Size x:Key="ShapeSize">120,87</av:Size>
+                <av:PointCollection x:Key="TrueConnector">900,430 820,430 820,553.5</av:PointCollection>
+                <av:PointCollection x:Key="FalseConnector">1020,430 1260,430 1260,544</av:PointCollection>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <FlowDecision.False>
+              <FlowStep x:Name="__ReferenceID12">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <av:Point x:Key="ShapeLocation">1160,544</av:Point>
+                    <av:Size x:Key="ShapeSize">200,52</av:Size>
+                    <av:PointCollection x:Key="ConnectorLocation">1260,597 1260,623.5</av:PointCollection>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign DisplayName="Email Body Exception - Invoice" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_14">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("NoInput_Email").ToString _
+    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
+    .Replace("{Input}", "Revenue &amp; Invoice")]</InArgument>
+                  </Assign.Value>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Assign>
+                <FlowStep.Next>
+                  <FlowStep x:Name="__ReferenceID13">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <av:Point x:Key="ShapeLocation">1160,623.5</av:Point>
+                        <av:Size x:Key="ShapeSize">200,52</av:Size>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email - Notification No File" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_10" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_AppID">
+                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_ApplicationID&quot;).ToString" />
+                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">
+                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_TenentID&quot;).ToString" />
+                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">
+                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BRE_MailSubject&quot;).ToString" />
+                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">
+                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EmailBody" />
+                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">
+                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_Receipients&quot;).ToString" />
+                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">
+                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
+                        </InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:InvokeWorkflowFile>
+                  </FlowStep>
+                </FlowStep.Next>
+              </FlowStep>
+            </FlowDecision.False>
+          </FlowDecision>
+        </FlowDecision.False>
       </FlowDecision>
-      <x:Reference>__ReferenceID3</x:Reference>
       <x:Reference>__ReferenceID4</x:Reference>
       <x:Reference>__ReferenceID5</x:Reference>
       <x:Reference>__ReferenceID6</x:Reference>
-      <x:Reference>__ReferenceID0</x:Reference>
       <x:Reference>__ReferenceID7</x:Reference>
-      <x:Reference>__ReferenceID8</x:Reference>
-      <FlowStep x:Name="__ReferenceID14">
+      <x:Reference>__ReferenceID1</x:Reference>
+      <FlowStep x:Name="__ReferenceID25">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">200,129.5</av:Point>
+            <av:Point x:Key="ShapeLocation">510,138.5</av:Point>
             <av:Size x:Key="ShapeSize">200,81</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">300,210.5 300,240.5 290,240.5 290,246.5</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">610,219.5 610,249.5 590,249.5 590,286.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
-        <Sequence DisplayName="Fetch Queue Details" sap:VirtualizedContainerService.HintSize="200,81" sap2010:WorkflowViewState.IdRef="Sequence_2">
+        <Sequence DisplayName="Fetch Queue Details" sap:VirtualizedContainerService.HintSize="1099,1833" sap2010:WorkflowViewState.IdRef="Sequence_2">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <Assign DisplayName="RevenueFileStatus" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_1">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:Boolean">[RevenueFileStatus]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:Boolean">[CBool(in_TransactionItem.SpecificContent("RevenueFileStatus"))]</InArgument>
-            </Assign.Value>
-          </Assign>
-          <Assign DisplayName="InvoiceFileStatus" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_2">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:Boolean">[InvoiceFileStatus]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:Boolean">[CBool(in_TransactionItem.SpecificContent("InvoiceFileStatus"))]</InArgument>
-            </Assign.Value>
-          </Assign>
-          <Assign DisplayName="RevenueLocalPath" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_3">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:String">[RevenueLocalPath]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("RevenueLocalPath").ToString]</InArgument>
-            </Assign.Value>
-          </Assign>
-          <Assign DisplayName="InvoiceLocalPath" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_4">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:String">[InvoiceLocalPath]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("InvoiceLocalPath").ToString]</InArgument>
-            </Assign.Value>
-          </Assign>
-          <Assign DisplayName="ProcessDate" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_5">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:String">[ProcessDate]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("ProcessDate").ToString]</InArgument>
-            </Assign.Value>
-          </Assign>
-          <Assign DisplayName="3043 Latam Tracker" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_6">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:String">[LatamTracker]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("3043_LatamTracker").ToString]</InArgument>
-            </Assign.Value>
-          </Assign>
-          <Assign DisplayName="FiscalCalPath" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_7">
-            <Assign.To>
-              <OutArgument x:TypeArguments="x:String">[FiscalCalPath]</OutArgument>
-            </Assign.To>
-            <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("FiscalCalPath").ToString]</InArgument>
-            </Assign.Value>
-          </Assign>
+          <If Condition="[in_TransactionItem.SpecificContent.ContainsKey(&quot;RevenueFileStatus&quot;)]" DisplayName="Validate If Revenue Queue Details are available?" sap:VirtualizedContainerService.HintSize="1037,841" sap2010:WorkflowViewState.IdRef="If_1">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <Sequence DisplayName="Revenue Details are available - True" sap:VirtualizedContainerService.HintSize="496,681" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign DisplayName="RevenueFileStatus - True" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_1">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[RevenueFileStatus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">[CBool(in_TransactionItem.SpecificContent("RevenueFileStatus"))]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="RevenueLocalPath" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_17">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[RevenueLocalPath]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("RevenueLocalPath").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="ProcessDate" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_18">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[ProcessDate]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("ProcessDate").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="3043 Latam Tracker" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_19">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[LatamTracker]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("3043_LatamTracker").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="FiscalCalPath" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_20">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[FiscalCalPath]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("FiscalCalPath").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="No Revenue Details Available" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign DisplayName="RevenueFileStatus -  False" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_15">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[RevenueFileStatus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Else>
+          </If>
+          <If Condition="[in_TransactionItem.SpecificContent.ContainsKey(&quot;InvoiceFileStatus&quot;)]" DisplayName="Validate If Invoice Queue Details are available" sap:VirtualizedContainerService.HintSize="1037,841" sap2010:WorkflowViewState.IdRef="If_2">
+            <If.Then>
+              <Sequence DisplayName="Invoce File Available" sap:VirtualizedContainerService.HintSize="496,681" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign DisplayName="InvoiceFileStatus" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_2">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[InvoiceFileStatus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">[CBool(in_TransactionItem.SpecificContent("InvoiceFileStatus"))]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="InvoiceLocalPath" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_4">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[InvoiceLocalPath]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("InvoiceLocalPath").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="ProcessDate" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_21">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[ProcessDate]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("ProcessDate").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="3043 Latam Tracker" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_22">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[LatamTracker]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("3043_LatamTracker").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="FiscalCalPath" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_23">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[FiscalCalPath]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[in_TransactionItem.SpecificContent("FiscalCalPath").ToString]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="No Invoice details available" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <Assign DisplayName="InvoiceFileStatus" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_16">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[InvoiceFileStatus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Else>
+          </If>
         </Sequence>
         <FlowStep.Next>
-          <x:Reference>__ReferenceID9</x:Reference>
+          <x:Reference>__ReferenceID8</x:Reference>
         </FlowStep.Next>
       </FlowStep>
+      <x:Reference>__ReferenceID9</x:Reference>
       <x:Reference>__ReferenceID10</x:Reference>
-      <x:Reference>__ReferenceID11</x:Reference>
-      <x:Reference>__ReferenceID12</x:Reference>
       <FlowStep>
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">472,661</av:Point>
+            <av:Point x:Key="ShapeLocation">590,1103.5</av:Point>
             <av:Size x:Key="ShapeSize">200,52</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">690,1156.5 690,1186.5 670,1186.5 670,1203.5</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
-        <Assign sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_11">
+        <Assign DisplayName="Email Body - Success" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_9">
           <Assign.To>
             <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
           </Assign.To>
           <Assign.Value>
             <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Successful_Email").ToString _
     .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
-    .Replace("{{REVENUE_LINK}}", SPRevenueLink ) _
-    .Replace("{{INVOICE_LINK}}",  SPInvoiceLink)]</InArgument>
+    .Replace("{Input}", "Invoice") _
+    .Replace("{{OutPut_LINK}}", SPInvoiceLink) _
+    .Replace("{{OutPut Report}}", "Invoice Output Report")]</InArgument>
+          </Assign.Value>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Assign>
+        <FlowStep.Next>
+          <x:Reference>__ReferenceID1</x:Reference>
+        </FlowStep.Next>
+      </FlowStep>
+      <FlowStep>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">1310,1164</av:Point>
+            <av:Size x:Key="ShapeSize">200,52</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <Assign DisplayName="Email Body Exception" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_12">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Successful_Email").ToString _
+    .Replace("{{MONTH}}", DateTime.Now.ToString("MMMM")) _
+    .Replace("{{REVENUE_LINK}}", SPRevenueLink) _
+    .Replace("{{INVOICE_LINK}}", SPInvoiceLink) _
+    .Replace("{Revenue Exceptions}", If(IsRevPivot, "Completed", "Identified Exception")) _
+    .Replace("{Invoice Exceptions}", If( IsInvPivot, "Completed", "Identified Exception"))]</InArgument>
           </Assign.Value>
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -532,7 +970,21 @@
           </sap:WorkflowViewStateService.ViewState>
         </Assign>
       </FlowStep>
+      <x:Reference>__ReferenceID11</x:Reference>
+      <x:Reference>__ReferenceID12</x:Reference>
       <x:Reference>__ReferenceID13</x:Reference>
+      <x:Reference>__ReferenceID14</x:Reference>
+      <x:Reference>__ReferenceID15</x:Reference>
+      <x:Reference>__ReferenceID16</x:Reference>
+      <x:Reference>__ReferenceID17</x:Reference>
+      <x:Reference>__ReferenceID18</x:Reference>
+      <x:Reference>__ReferenceID0</x:Reference>
+      <x:Reference>__ReferenceID19</x:Reference>
+      <x:Reference>__ReferenceID20</x:Reference>
+      <x:Reference>__ReferenceID21</x:Reference>
+      <x:Reference>__ReferenceID22</x:Reference>
+      <x:Reference>__ReferenceID23</x:Reference>
+      <x:Reference>__ReferenceID24</x:Reference>
     </Flowchart>
   </Sequence>
 </Activity>

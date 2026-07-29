@@ -1,8 +1,8 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="Revenue_PivotGeneration" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ue="clr-namespace:UiPath.Excel;assembly=UiPath.Excel.Activities" xmlns:ueab="clr-namespace:UiPath.Excel.Activities.Business;assembly=UiPath.Excel.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="In_RevenuFileName" Type="InArgument(x:String)" />
-    <x:Property Name="In_TrackerFileName" Type="InArgument(x:String)" />
-    <x:Property Name="Out_IsRevPivot" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="in_RevenuFileName" Type="InArgument(x:String)" />
+    <x:Property Name="in_TrackerFileName" Type="InArgument(x:String)" />
+    <x:Property Name="out_IsRevPivot" Type="OutArgument(x:Boolean)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -103,7 +103,7 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="736,52" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+    <ui:CommentOut DisplayName="Pass Input Arg " sap:VirtualizedContainerService.HintSize="736,52" sap2010:WorkflowViewState.IdRef="CommentOut_1">
       <ui:CommentOut.Body>
         <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_14">
           <sap:WorkflowViewStateService.ViewState>
@@ -111,9 +111,9 @@
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <Assign sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_7">
+          <Assign DisplayName="In Argument File path" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_7">
             <Assign.To>
-              <OutArgument x:TypeArguments="x:String">[In_RevenuFileName]</OutArgument>
+              <OutArgument x:TypeArguments="x:String">[in_RevenuFileName]</OutArgument>
             </Assign.To>
             <Assign.Value>
               <InArgument x:TypeArguments="x:String">C:\Users\aws-svc-rpa52d\Documents\UiPath\3043_LATAM_DataLoad\Data\Input\Revenue_2026_05\2605 LATAM Revenue Data.xlsx</InArgument>
@@ -141,7 +141,7 @@
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Revenue Input Excel  Pivot Module" sap:VirtualizedContainerService.HintSize="640,5515" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="[In_RevenuFileName]">
+            <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Revenue Input Excel  Pivot Module" sap:VirtualizedContainerService.HintSize="640,5515" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="[in_RevenuFileName]">
               <ueab:ExcelApplicationCard.Body>
                 <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
                   <ActivityAction.Argument>
@@ -153,14 +153,14 @@
                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
-                    <ui:ExcelReadRange AddHeaders="True" DataTable="[dt_PivotTable]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="544,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" SheetName="DataAll(Bot)">
+                    <ui:ExcelReadRange AddHeaders="True" DataTable="[dt_PivotTable]" DisplayName="Input Read Range" sap:VirtualizedContainerService.HintSize="544,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" SheetName="DataAll(Bot)">
                       <ui:ExcelReadRange.Range>
                         <InArgument x:TypeArguments="x:String">
                           <Literal x:TypeArguments="x:String" Value="" />
                         </InArgument>
                       </ui:ExcelReadRange.Range>
                     </ui:ExcelReadRange>
-                    <Assign sap:VirtualizedContainerService.HintSize="544,83" sap2010:WorkflowViewState.IdRef="Assign_5">
+                    <Assign DisplayName="Last Working row" sap:VirtualizedContainerService.HintSize="544,83" sap2010:WorkflowViewState.IdRef="Assign_5">
                       <Assign.To>
                         <OutArgument x:TypeArguments="x:Int32">[LastWorkingRow]</OutArgument>
                       </Assign.To>
@@ -601,9 +601,9 @@ Count]</InArgument>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </ueab:ExcelProcessScopeX>
-    <Assign sap:VirtualizedContainerService.HintSize="736,82" sap2010:WorkflowViewState.IdRef="Assign_6">
+    <Assign DisplayName="Out RevenueStatus" sap:VirtualizedContainerService.HintSize="736,82" sap2010:WorkflowViewState.IdRef="Assign_6">
       <Assign.To>
-        <OutArgument x:TypeArguments="x:Boolean">[Out_IsRevPivot]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean">[out_IsRevPivot]</OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="x:Boolean">True</InArgument>

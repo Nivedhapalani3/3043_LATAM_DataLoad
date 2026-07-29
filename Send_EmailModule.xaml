@@ -1,11 +1,11 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="Send_EmailModule" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mg="clr-namespace:Microsoft.Graph;assembly=Microsoft.Graph" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uma="clr-namespace:UiPath.MicrosoftOffice365.Activities;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:umam="clr-namespace:UiPath.MicrosoftOffice365.Activities.Mail;assembly=UiPath.MicrosoftOffice365.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="In_AppID" Type="InArgument(x:String)" />
-    <x:Property Name="In_TenantID" Type="InArgument(x:String)" />
-    <x:Property Name="In_EmailSubject" Type="InArgument(x:String)" />
-    <x:Property Name="In_EmailBody" Type="InArgument(x:String)" />
-    <x:Property Name="In_EmailRecipients" Type="InArgument(x:String)" />
-    <x:Property Name="In_TrackerFile" Type="InArgument(x:String)" />
+    <x:Property Name="in_AppID" Type="InArgument(x:String)" />
+    <x:Property Name="in_TenantID" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmailSubject" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmailBody" Type="InArgument(x:String)" />
+    <x:Property Name="in_EmailRecipients" Type="InArgument(x:String)" />
+    <x:Property Name="in_TrackerFile" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -93,7 +93,7 @@
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="Send_Email Notification" sap:VirtualizedContainerService.HintSize="592,1178" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="s:String[]" Name="Email_Receipents" />
+      <Variable x:TypeArguments="s:String[]" Name="EmailReceipents" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -103,7 +103,7 @@
     <ui:LogMessage DisplayName="Send Email Module - Start" sap:VirtualizedContainerService.HintSize="530,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Send Email Module Started&quot;]" />
     <Assign DisplayName="Email Receipents list" sap:VirtualizedContainerService.HintSize="530,82" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
-        <OutArgument x:TypeArguments="s:String[]">[Email_Receipents]</OutArgument>
+        <OutArgument x:TypeArguments="s:String[]">[EmailReceipents]</OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="s:String[]">[In_EmailRecipients.Split(";"c).Select(Function(x) x.Trim).ToArray()]</InArgument>
@@ -122,12 +122,10 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <ui:LogMessage DisplayName="Email Notification - Subject" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Sending Email Notification on the Subject - &quot; + In_EmailSubject]" />
-            <umam:SendMail Account="{x:Null}" AttachmentsCollection="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" Body="[In_EmailBody]" DisplayName="Notification Details" sap:VirtualizedContainerService.HintSize="434,351" sap2010:WorkflowViewState.IdRef="SendMail_1" IsBodyHTML="True" IsDraft="False" Subject="[In_EmailSubject]" To="[Email_Receipents]">
+            <umam:SendMail Account="{x:Null}" AttachmentsCollection="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" From="{x:Null}" Body="[In_EmailBody]" DisplayName="Notification Details" sap:VirtualizedContainerService.HintSize="434,351" sap2010:WorkflowViewState.IdRef="SendMail_1" IsBodyHTML="True" IsDraft="False" Subject="[In_EmailSubject]" To="[EmailReceipents]">
               <umam:SendMail.Attachments>
                 <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
-                  <InArgument x:TypeArguments="x:String">
-                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="In_TrackerFile" />
-                  </InArgument>
+                  <InArgument x:TypeArguments="x:String">[In_TrackerFile]</InArgument>
                 </scg:List>
               </umam:SendMail.Attachments>
               <sap:WorkflowViewStateService.ViewState>
