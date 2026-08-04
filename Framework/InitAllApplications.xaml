@@ -2,11 +2,13 @@
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="out_ShouldRun" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="out_RevenueDetails" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_InvoiceDetails" Type="OutArgument(scg:Dictionary(x:String, x:Object))" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>997,3770</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>997,1164</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -64,6 +66,7 @@
       <x:String>UiPath.Excel.Activities.Business</x:String>
       <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
       <x:String>UiPath.DataTableUtilities</x:String>
+      <x:String>Microsoft.Office.Interop.Excel</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -117,6 +120,7 @@
       <AssemblyReference>System.Data.Entity</AssemblyReference>
       <AssemblyReference>System.Linq.Async</AssemblyReference>
       <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>Microsoft.Office.Interop.Excel</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
@@ -125,7 +129,7 @@
       <x:Boolean x:Key="ShouldCollapseAll">True</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="1007,3705" sap2010:WorkflowViewState.IdRef="Sequence_9">
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="1007,1099" sap2010:WorkflowViewState.IdRef="Sequence_9">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="TempFiscalPath" />
       <Variable x:TypeArguments="x:String" Name="StrSPURL" />
@@ -200,14 +204,14 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log message (Initialize applications)" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Trace" Message="[&quot;Opening applications...&quot;]" />
-    <Sequence sap2010:Annotation.AnnotationText="Sequence to fetch the values fom Config sheet to validate the run date and perform pre-checks to start the bot.&#xA;" DisplayName="Sequence to fetch the values from Confg" sap:VirtualizedContainerService.HintSize="945,2786" sap2010:WorkflowViewState.IdRef="Sequence_13">
+    <Sequence sap2010:Annotation.AnnotationText="Sequence to fetch the values fom Config sheet to validate the run date and perform pre-checks to start the bot.&#xA;" DisplayName="Sequence to fetch the values from Confg" sap:VirtualizedContainerService.HintSize="945,138" sap2010:WorkflowViewState.IdRef="Sequence_13">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:String" Name="LatamTracker" />
       </Sequence.Variables>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
           <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
@@ -224,7 +228,7 @@
           <OutArgument x:TypeArguments="x:String">[YrMm]</OutArgument>
         </Assign.To>
         <Assign.Value>
-          <InArgument x:TypeArguments="x:String">[Now.AddMonths(-2).ToString("yyyy_MM")]</InArgument>
+          <InArgument x:TypeArguments="x:String">[Now.AddMonths(-3).ToString("yyyy_MM")]</InArgument>
         </Assign.Value>
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -264,7 +268,7 @@
           <InArgument x:TypeArguments="x:String">[in_Config("Revenue_FName").ToString.Replace("{YrMm}",Now.ToString("yyMM"))]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="LATAM - Invoice File Name" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign DisplayName="LATAM - Invoice File Name" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_4">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[InvoiceFName]</OutArgument>
         </Assign.To>
@@ -272,7 +276,7 @@
           <InArgument x:TypeArguments="x:String">[in_Config("Invoice_FName").ToString.Replace("{YrMm}",Now.ToString("yyMM"))]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Storage Bucket Name" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_9">
+      <Assign DisplayName="Storage Bucket Name" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_9">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[StorageBucketName]</OutArgument>
         </Assign.To>
@@ -280,7 +284,7 @@
           <InArgument x:TypeArguments="x:String">[in_Config("Storage_BucketName").ToString]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Storage Bucket File Name" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_10">
+      <Assign DisplayName="Storage Bucket File Name" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_10">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[SBucketFName]</OutArgument>
         </Assign.To>
@@ -288,7 +292,7 @@
           <InArgument x:TypeArguments="x:String">[in_Config("SBucket_FName").ToString]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Temp fiscal path" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign DisplayName="Temp fiscal path" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_1">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[TempFiscalPath]</OutArgument>
         </Assign.To>
@@ -296,7 +300,7 @@
           <InArgument x:TypeArguments="x:String">[Path.Combine(Environment.CurrentDirectory, "Data", "Input", "FiscalCalendar_"+ YrMm)]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Sharepoint  - Appliation ID" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_5">
+      <Assign DisplayName="Sharepoint  - Appliation ID" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_5">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[SPAppId]</OutArgument>
         </Assign.To>
@@ -304,7 +308,7 @@
           <InArgument x:TypeArguments="x:String">[in_Config("3043_ApplicationID").ToString]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Sharepoint - Tenant ID" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_6">
+      <Assign DisplayName="Sharepoint - Tenant ID" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_6">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[SpTenantId]</OutArgument>
         </Assign.To>
@@ -312,7 +316,7 @@
           <InArgument x:TypeArguments="x:String">[in_Config("3043_TenentID").ToString]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="LATAM File Names" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_12">
+      <Assign DisplayName="LATAM File Names" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_12">
         <Assign.To>
           <OutArgument x:TypeArguments="s:String[]">[RequriedFiles]</OutArgument>
         </Assign.To>
@@ -320,7 +324,7 @@
           <InArgument x:TypeArguments="s:String[]">[{ RevenueFName, InvoiceFName}]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="RevenueFolder Path" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_72">
+      <Assign DisplayName="RevenueFolder Path" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_72">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[RevFolderPath]</OutArgument>
         </Assign.To>
@@ -328,7 +332,7 @@
           <InArgument x:TypeArguments="x:String">[Path.Combine(Environment.CurrentDirectory, "Data", "Input", "Revenue_"+ YrMm)]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="InvoiceFolder Path" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_73">
+      <Assign DisplayName="InvoiceFolder Path" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_73">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[InvFolderpath]</OutArgument>
         </Assign.To>
@@ -336,7 +340,7 @@
           <InArgument x:TypeArguments="x:String">[Path.Combine(Environment.CurrentDirectory, "Data", "Input", "Invoice_"+ YrMm)]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="3043 Tracker" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_74">
+      <Assign DisplayName="3043 Tracker" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_74">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[LatamTracker]</OutArgument>
         </Assign.To>
@@ -344,7 +348,7 @@
           <InArgument x:TypeArguments="x:String">[Path.Combine(Environment.CurrentDirectory, "Data", "Input", "3043_Tracker_" + YrMm)]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Revenue Expected Sheets" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_22">
+      <Assign DisplayName="Revenue Expected Sheets" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_22">
         <Assign.To>
           <OutArgument x:TypeArguments="scg:List(x:String)">[RevenueExpSheets]</OutArgument>
         </Assign.To>
@@ -356,7 +360,7 @@
     ToList()]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Invoice Expected Sheets" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_23">
+      <Assign DisplayName="Invoice Expected Sheets" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_23">
         <Assign.To>
           <OutArgument x:TypeArguments="scg:List(x:String)">[InvoiceExpSheets]</OutArgument>
         </Assign.To>
@@ -367,7 +371,7 @@
     ToList()]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Revenue Expected Columns" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_20">
+      <Assign DisplayName="Revenue Expected Columns" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_20">
         <Assign.To>
           <OutArgument x:TypeArguments="scg:List(x:String)">[RevenueExpectedCols]</OutArgument>
         </Assign.To>
@@ -375,7 +379,7 @@
           <InArgument x:TypeArguments="scg:List(x:String)">[in_Config("Revenue_ColName").ToString.Split(","c).Select(Function(x) x.Trim).ToList]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Invoice Expected Columns" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_21">
+      <Assign DisplayName="Invoice Expected Columns" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_21">
         <Assign.To>
           <OutArgument x:TypeArguments="scg:List(x:String)">[InvoiceExpectedCols]</OutArgument>
         </Assign.To>
@@ -383,7 +387,7 @@
           <InArgument x:TypeArguments="scg:List(x:String)">[in_Config("Invoice_ColName").ToString.Split(","c).Select(Function(x) x.Trim).ToList]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Pre-Validation Email Body" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_46">
+      <Assign DisplayName="Pre-Validation Email Body" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_46">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[EmailPrevalidationBody]</OutArgument>
         </Assign.To>
@@ -391,7 +395,7 @@
           <InArgument x:TypeArguments="x:String">[in_Config("Email_Prevalidation_Body").ToString]</InArgument>
         </Assign.Value>
       </Assign>
-      <Assign DisplayName="Initialize Exception Variable" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_43">
+      <Assign DisplayName="Initialize Exception Variable" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_43">
         <Assign.To>
           <OutArgument x:TypeArguments="scg:List(x:String)">[ExceptionList]</OutArgument>
         </Assign.To>
@@ -406,6 +410,11 @@
         <Assign.Value>
           <InArgument x:TypeArguments="x:String">[in_Config("OrchestratorQueueName").ToString]</InArgument>
         </Assign.Value>
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
       </Assign>
     </Sequence>
     <TryCatch sap2010:Annotation.AnnotationText="Sequence to Delete andy Previous Month Input folder an Create Input folder for current Month." DisplayName="Try Catch - Create Input Folder" sap:VirtualizedContainerService.HintSize="945,124" sap2010:WorkflowViewState.IdRef="TryCatch_2">
@@ -477,7 +486,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <TryCatch.Try>
-        <Sequence DisplayName="Sequence - To download fiscal Calendar" sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Sequence_50">
+        <Sequence DisplayName="Sequence - To download fiscal Calendar" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_50">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -517,7 +526,7 @@
         </Sequence>
       </TryCatch.Try>
       <TryCatch.Catches>
-        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="454,22" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="454,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -528,67 +537,79 @@
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
             </ActivityAction.Argument>
-            <ui:LogMessage DisplayName="Failure  Log" sap:VirtualizedContainerService.HintSize="334,94" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Error" Message="[New System.Exception(&quot;Failed while downloading the Fiscal Calendar - &quot; +  exception.Message.ToString)]" />
+            <ui:LogMessage DisplayName="Failure  Log" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Error" Message="[New System.Exception(&quot;Failed while downloading the Fiscal Calendar - &quot; +  exception.Message.ToString)]" />
           </ActivityAction>
         </Catch>
       </TryCatch.Catches>
     </TryCatch>
-    <ui:LogMessage DisplayName="Validating Run Date" sap:VirtualizedContainerService.HintSize="450,52" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Validating current date against the configured run date.&quot;]" />
-    <If Condition="[MatchingRows Is Nothing OrElse  MatchingRows.Count = 0]" DisplayName="If Condition to Validate Extracted rows" sap:VirtualizedContainerService.HintSize="945,240" sap2010:WorkflowViewState.IdRef="If_17">
+    <ui:LogMessage DisplayName="Validating Run Date" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Validating current date against the configured run date.&quot;]">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:LogMessage>
+    <If Condition="[MatchingRows Is Nothing OrElse  MatchingRows.Count = 0 AndAlso MatchingRows(0)(&quot;RevenueStatus&quot;).ToString.Trim.Equals(&quot;Completed&quot;, StringComparison.OrdinalIgnoreCase) OrElse&#xD;&#xA;MatchingRows(0)(&quot;InvoiceStatus&quot;).ToString.Trim.Equals(&quot;Completed&quot;, StringComparison.OrdinalIgnoreCase)]" DisplayName="If Condition to Validate Extracted rows" sap:VirtualizedContainerService.HintSize="945,242" sap2010:WorkflowViewState.IdRef="If_17">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
-        <Sequence DisplayName="Current date is does not match Configured Run date" sap:VirtualizedContainerService.HintSize="3318,14214" sap2010:WorkflowViewState.IdRef="Sequence_15">
+        <Sequence DisplayName="Current date is does not match Configured Run date" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_15">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">False</x:Boolean>
               <x:Boolean x:Key="IsPinned">False</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:LogMessage DisplayName="Current Date does not match" sap:VirtualizedContainerService.HintSize="3256,52" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Current date does not match the configured run date. Skipping process execution.&quot;]" />
-          <TryCatch DisplayName="Try Catch - Download Input from Sharepoint" sap:VirtualizedContainerService.HintSize="3256,13919" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+          <ui:LogMessage DisplayName="Current Date does not match" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;Current date does not match the configured run date. Skipping process execution.&quot;]">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 <x:Boolean x:Key="IsPinned">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
+          </ui:LogMessage>
+          <TryCatch DisplayName="Try Catch - Download Input from Sharepoint" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
             <TryCatch.Try>
-              <Sequence sap:VirtualizedContainerService.HintSize="3218,13691" sap2010:WorkflowViewState.IdRef="Sequence_71">
+              <Sequence sap:VirtualizedContainerService.HintSize="654,1827" sap2010:WorkflowViewState.IdRef="Sequence_71">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     <x:Boolean x:Key="IsPinned">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <uma:Office365ApplicationScope ApplicationSecret="{x:Null}" ContinueOnError="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="[SPAppId]" AuthenticationType="InteractiveToken" DisplayName="Download Input File from Sharepoint using Microsoft Office 365 Scope" sap:VirtualizedContainerService.HintSize="3156,13448" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuthApplication="UiPath" Services="Files, Mail, Shared" Tenant="[SpTenantId]">
+                <uma:Office365ApplicationScope ApplicationSecret="{x:Null}" ContinueOnError="{x:Null}" Password="{x:Null}" SecureApplicationSecret="{x:Null}" SecurePassword="{x:Null}" Timeout="{x:Null}" Username="{x:Null}" ApplicationId="[SPAppId]" AuthenticationType="InteractiveToken" DisplayName="Download Input File from Sharepoint using Microsoft Office 365 Scope" sap:VirtualizedContainerService.HintSize="592,1584" sap2010:WorkflowViewState.IdRef="Office365ApplicationScope_1" OAuthApplication="UiPath" Services="Files, Mail, Shared" Tenant="[SpTenantId]">
                   <uma:Office365ApplicationScope.Body>
                     <ActivityAction x:TypeArguments="mg:GraphServiceClient">
                       <ActivityAction.Argument>
                         <DelegateInArgument x:TypeArguments="mg:GraphServiceClient" Name="ParentScope" />
                       </ActivityAction.Argument>
-                      <Sequence DisplayName="Proceeding to Locate and Download the Input file." sap:VirtualizedContainerService.HintSize="3122,13321" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                      <Sequence DisplayName="Proceeding to Locate and Download the Input file." sap:VirtualizedContainerService.HintSize="558,1457" sap2010:WorkflowViewState.IdRef="Sequence_17">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                             <x:Boolean x:Key="IsPinned">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <ui:LogMessage DisplayName="Locate the Input File from Sharepoint." sap:VirtualizedContainerService.HintSize="3060,52" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;Locating the LATAM input folder in SharePoint.&quot; + SPSubFolder.Replace(&quot;{Yr}_{Mm}&quot;, YrMm).Replace(&quot;{Yr}&quot;, CurrYr)]" />
-                        <Sequence DisplayName="Module to Validate Latest Or Bot processed Files." sap:VirtualizedContainerService.HintSize="3060,1360" sap2010:WorkflowViewState.IdRef="Sequence_83">
+                        <ui:LogMessage DisplayName="Locate the Input File from Sharepoint." sap:VirtualizedContainerService.HintSize="496,52" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Info" Message="[&quot;Locating the LATAM input folder in SharePoint.&quot; + SPSubFolder.Replace(&quot;{Yr}_{Mm}&quot;, YrMm).Replace(&quot;{Yr}&quot;, CurrYr)]" />
+                        <Sequence DisplayName="Module to Validate Latest Or Bot processed Files." sap:VirtualizedContainerService.HintSize="496,715" sap2010:WorkflowViewState.IdRef="Sequence_83">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                               <x:Boolean x:Key="IsPinned">True</x:Boolean>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <umaf:FindFilesAndFolders DisplayName="Find Files that contains LATAM" DriveName="[SPDriveName]" First="[RFile]" sap:VirtualizedContainerService.HintSize="1548,52" sap2010:WorkflowViewState.IdRef="FindFilesAndFolders_2" Query=" LATAM " Results="[RevenueFiles]" SiteUrl="[StrSPURL]" Subfolder="[SPSubFolder.Replace(&quot;{Yr}_{Mm}&quot;, YrMm).Replace(&quot;{Yr}&quot;, CurrYr)]" />
-                          <umaf:GetItem DisplayName="Get Latam report Folder Reference Id" DriveName="[SPDriveName]" sap:VirtualizedContainerService.HintSize="1548,52" sap2010:WorkflowViewState.IdRef="GetItem_1" Item="[OutputFile]" ItemId="[RFile.ParentReference.Id]" SiteUrl="[StrSPURL]" />
-                          <Assign DisplayName="Variable to Fetch Input File Status" sap:VirtualizedContainerService.HintSize="1548,81" sap2010:WorkflowViewState.IdRef="Assign_13">
+                          <umaf:FindFilesAndFolders DisplayName="Find Files that contains LATAM" DriveName="[SPDriveName]" First="[RFile]" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="FindFilesAndFolders_2" Query=" LATAM " Results="[RevenueFiles]" SiteUrl="[StrSPURL]" Subfolder="[SPSubFolder.Replace(&quot;{Yr}_{Mm}&quot;, YrMm).Replace(&quot;{Yr}&quot;, CurrYr)]" />
+                          <umaf:GetItem DisplayName="Get Latam report Folder Reference Id" DriveName="[SPDriveName]" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="GetItem_1" Item="[OutputFile]" ItemId="[RFile.ParentReference.Id]" SiteUrl="[StrSPURL]" />
+                          <Assign DisplayName="Variable to Fetch Input File Status" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_13">
                             <Assign.To>
                               <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Boolean)">[InputFilestatus]</OutArgument>
                             </Assign.To>
@@ -601,7 +622,7 @@
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                           </Assign>
-                          <Assign DisplayName="Value RevenueFile" sap:VirtualizedContainerService.HintSize="1548,85" sap2010:WorkflowViewState.IdRef="Assign_16">
+                          <Assign DisplayName="Value RevenueFile" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_16">
                             <Assign.To>
                               <OutArgument x:TypeArguments="x:Boolean">[RevenueFileExists]</OutArgument>
                             </Assign.To>
@@ -617,7 +638,7 @@
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                           </Assign>
-                          <Assign DisplayName="Validate If invoiceFile" sap:VirtualizedContainerService.HintSize="1548,85" sap2010:WorkflowViewState.IdRef="Assign_17">
+                          <Assign DisplayName="Validate If invoiceFile" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_17">
                             <Assign.To>
                               <OutArgument x:TypeArguments="x:Boolean">[InvoiceFileExists]</OutArgument>
                             </Assign.To>
@@ -633,22 +654,22 @@
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                           </Assign>
-                          <If Condition="[RevenueFileExists OrElse InvoiceFileExists]" DisplayName="Validate if Bot Has processed the file?" sap:VirtualizedContainerService.HintSize="1548,694" sap2010:WorkflowViewState.IdRef="If_23">
+                          <If Condition="[RevenueFileExists AndAlso InvoiceFileExists]" DisplayName="Validate if Bot Has processed the file?" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="If_23">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                             <If.Then>
-                              <Sequence DisplayName="Bot processed file Found" sap:VirtualizedContainerService.HintSize="496,313" sap2010:WorkflowViewState.IdRef="Sequence_86">
+                              <Sequence DisplayName="Bot processed file Found" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_86">
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <Assign DisplayName="Bot Processed - Revenue File Link" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_81">
+                                <Assign DisplayName="Bot Processed - Revenue File Link" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_81">
                                   <Assign.To>
                                     <OutArgument x:TypeArguments="mg:DriveItem">[RevenueFile]</OutArgument>
                                   </Assign.To>
@@ -661,7 +682,7 @@
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                 </Assign>
-                                <Assign DisplayName=" Botprocessed - Invoice File Name" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_82">
+                                <Assign DisplayName=" Botprocessed - Invoice File Name" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_82">
                                   <Assign.To>
                                     <OutArgument x:TypeArguments="mg:DriveItem">[InvoiceFile]</OutArgument>
                                   </Assign.To>
@@ -671,80 +692,183 @@
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                 </Assign>
                               </Sequence>
                             </If.Then>
                             <If.Else>
-                              <Sequence DisplayName="Processing Latam Files." sap:VirtualizedContainerService.HintSize="1007,536" sap2010:WorkflowViewState.IdRef="Sequence_87">
+                              <Sequence DisplayName="Processing Latam Files." sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_87">
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <Assign DisplayName="Value Revenue File" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="Assign_83">
-                                  <Assign.To>
-                                    <OutArgument x:TypeArguments="x:Boolean">[RevenueFileExists]</OutArgument>
-                                  </Assign.To>
-                                  <Assign.Value>
-                                    <InArgument x:TypeArguments="x:Boolean" xml:space="preserve">[RevenueFiles.Any(Function(f) f.Name IsNot Nothing AndAlso 
-    f.Name.ToLower.Contains("latam") AndAlso 
-    f.Name.ToLower.Contains("revenue"))]</InArgument>
-                                  </Assign.Value>
-                                </Assign>
-                                <Assign DisplayName="Validate invoice File" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="Assign_84">
-                                  <Assign.To>
-                                    <OutArgument x:TypeArguments="x:Boolean">[InvoiceFileExists]</OutArgument>
-                                  </Assign.To>
-                                  <Assign.Value>
-                                    <InArgument x:TypeArguments="x:Boolean" xml:space="preserve">[RevenueFiles.Any(Function(f) f.Name IsNot Nothing AndAlso 
-    f.Name.ToLower.Contains("latam") AndAlso 
-    f.Name.ToLower.Contains("invoice"))]</InArgument>
-                                  </Assign.Value>
-                                </Assign>
-                                <If Condition="[RevenueFileExists OrElse InvoiceFileExists]" DisplayName="Processing Latam Input" sap:VirtualizedContainerService.HintSize="945,241" sap2010:WorkflowViewState.IdRef="If_24">
+                                <If Condition="[RevenueFileExists]" DisplayName="Revenue file validation" sap:VirtualizedContainerService.HintSize="1640,836" sap2010:WorkflowViewState.IdRef="If_36">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                       <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                   <If.Then>
-                                    <Sequence DisplayName="Latam Files" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_88">
+                                    <Sequence DisplayName="Bot processed revenue" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_114">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                         </scg:Dictionary>
                                       </sap:WorkflowViewStateService.ViewState>
-                                      <Assign DisplayName="Revenue File Link" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_18">
+                                      <Assign DisplayName="Bot Processed - Revenue File Link" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_95">
                                         <Assign.To>
                                           <OutArgument x:TypeArguments="mg:DriveItem">[RevenueFile]</OutArgument>
                                         </Assign.To>
                                         <Assign.Value>
-                                          <InArgument x:TypeArguments="mg:DriveItem">[RevenueFiles.FirstOrDefault(Function(f)f.Name.ToLower.Contains("latam") AndAlso f.Name.ToLower.Contains("revenue"))]</InArgument>
+                                          <InArgument x:TypeArguments="mg:DriveItem">[RevenueFiles.FirstOrDefault(Function(f)f.Name.ToLower.Contains("latam") AndAlso f.Name.ToLower.Contains("botprocessed") AndAlso f.Name.ToLower.Contains("revenue"))]</InArgument>
                                         </Assign.Value>
-                                      </Assign>
-                                      <Assign DisplayName="Invoice File Name" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_19">
-                                        <Assign.To>
-                                          <OutArgument x:TypeArguments="mg:DriveItem">[InvoiceFile]</OutArgument>
-                                        </Assign.To>
-                                        <Assign.Value>
-                                          <InArgument x:TypeArguments="mg:DriveItem">[RevenueFiles.FirstOrDefault(Function(f) f.Name.ToLower.Contains("latam") AndAlso f.Name.ToLower.Contains("invoice"))]</InArgument>
-                                        </Assign.Value>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
                                       </Assign>
                                     </Sequence>
                                   </If.Then>
                                   <If.Else>
-                                    <Sequence DisplayName="No Input Files" sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Sequence_89">
+                                    <Sequence DisplayName="validation Module" sap:VirtualizedContainerService.HintSize="1099,678" sap2010:WorkflowViewState.IdRef="Sequence_115">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                         </scg:Dictionary>
                                       </sap:WorkflowViewStateService.ViewState>
-                                      <ui:LogMessage DisplayName="Files Not able" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_53" Level="Error" Message="[&quot;Input File is not available in the sharepoint&quot;]" />
-                                      <Throw DisplayName="BE Throw Files Not Found." Exception="[New BusinessRuleException (&quot;Latam Input Files are not available in the sharepoint for the month - &quot; + Now.ToString(&quot;MMMM&quot;))]" sap:VirtualizedContainerService.HintSize="388,25" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                                      <If Condition="[InvoiceFileExists]" DisplayName="valiidate bot Processed invoice" sap:VirtualizedContainerService.HintSize="1037,567" sap2010:WorkflowViewState.IdRef="If_37">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <If.Then>
+                                          <Sequence DisplayName="Bot processed Invoice" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_117">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <Assign DisplayName=" Botprocessed - Invoice File Name" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_96">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="mg:DriveItem">[InvoiceFile]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="mg:DriveItem">[RevenueFiles.FirstOrDefault(Function(f) f.Name.ToLower.Contains("latam") AndAlso f.Name.ToLower.Contains("botprocessed") AndAlso f.Name.ToLower.Contains("invoice"))]</InArgument>
+                                              </Assign.Value>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </Assign>
+                                          </Sequence>
+                                        </If.Then>
+                                        <If.Else>
+                                          <Sequence DisplayName="Latam File Validation Module" sap:VirtualizedContainerService.HintSize="496,409" sap2010:WorkflowViewState.IdRef="Sequence_116">
+                                            <sap:WorkflowViewStateService.ViewState>
+                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                              </scg:Dictionary>
+                                            </sap:WorkflowViewStateService.ViewState>
+                                            <Assign DisplayName="Value Revenue File" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_93">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:Boolean">[RevenueFileExists]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:Boolean" xml:space="preserve">[RevenueFiles.Any(Function(f) f.Name IsNot Nothing AndAlso 
+    f.Name.ToLower.Contains("latam") AndAlso 
+    f.Name.ToLower.Contains("revenue"))]</InArgument>
+                                              </Assign.Value>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </Assign>
+                                            <Assign DisplayName="Validate invoice File" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_94">
+                                              <Assign.To>
+                                                <OutArgument x:TypeArguments="x:Boolean">[InvoiceFileExists]</OutArgument>
+                                              </Assign.To>
+                                              <Assign.Value>
+                                                <InArgument x:TypeArguments="x:Boolean" xml:space="preserve">[RevenueFiles.Any(Function(f) f.Name IsNot Nothing AndAlso 
+    f.Name.ToLower.Contains("latam") AndAlso 
+    f.Name.ToLower.Contains("invoice"))]</InArgument>
+                                              </Assign.Value>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </Assign>
+                                            <If Condition="[RevenueFileExists OrElse InvoiceFileExists]" DisplayName="Processing Latam Input" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="If_24">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                              <If.Then>
+                                                <Sequence DisplayName="Latam Files" sap:VirtualizedContainerService.HintSize="496,315" sap2010:WorkflowViewState.IdRef="Sequence_88">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                      <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <Assign DisplayName="Revenue File Link" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_18">
+                                                    <Assign.To>
+                                                      <OutArgument x:TypeArguments="mg:DriveItem">[RevenueFile]</OutArgument>
+                                                    </Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="mg:DriveItem">[RevenueFiles.FirstOrDefault(Function(f)f.Name.ToLower.Contains("latam") AndAlso f.Name.ToLower.Contains("revenue"))]</InArgument>
+                                                    </Assign.Value>
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                  </Assign>
+                                                  <Assign DisplayName="Invoice File Name" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_19">
+                                                    <Assign.To>
+                                                      <OutArgument x:TypeArguments="mg:DriveItem">[InvoiceFile]</OutArgument>
+                                                    </Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="mg:DriveItem">[RevenueFiles.FirstOrDefault(Function(f) f.Name.ToLower.Contains("latam") AndAlso f.Name.ToLower.Contains("invoice"))]</InArgument>
+                                                    </Assign.Value>
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                  </Assign>
+                                                </Sequence>
+                                              </If.Then>
+                                              <If.Else>
+                                                <Sequence DisplayName="No Input Files" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_89">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <ui:LogMessage DisplayName="Files Not able" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_53" Level="Error" Message="[&quot;Input File is not available in the sharepoint&quot;]" />
+                                                  <Throw DisplayName="BE Throw Files Not Found." Exception="[New BusinessRuleException (&quot;Latam Input Files are not available in the sharepoint for the month - &quot; + Now.ToString(&quot;MMMM&quot;))]" sap:VirtualizedContainerService.HintSize="388,25" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                                                </Sequence>
+                                              </If.Else>
+                                            </If>
+                                          </Sequence>
+                                        </If.Else>
+                                      </If>
                                     </Sequence>
                                   </If.Else>
                                 </If>
@@ -752,16 +876,16 @@
                             </If.Else>
                           </If>
                         </Sequence>
-                        <ui:LogMessage DisplayName="Validate Revenue File" sap:VirtualizedContainerService.HintSize="3060,52" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Info" Message="[&quot;Validating the availability of Revenue and Invoice input files.&quot;]" />
-                        <Sequence sap2010:Annotation.AnnotationText="Pre Validation Of Invoice &#xA;Input file, Expected Sheets and Columns." DisplayName="PreValidation Revenue Module" sap:VirtualizedContainerService.HintSize="3060,5243" sap2010:WorkflowViewState.IdRef="Sequence_68">
+                        <ui:LogMessage DisplayName="Validate Revenue File" sap:VirtualizedContainerService.HintSize="496,52" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Info" Message="[&quot;Validating the availability of Revenue and Invoice input files.&quot;]" />
+                        <Sequence sap2010:Annotation.AnnotationText="Pre Validation Of Invoice &#xA;Input file, Expected Sheets and Columns." DisplayName="PreValidation Revenue Module" sap:VirtualizedContainerService.HintSize="496,123" sap2010:WorkflowViewState.IdRef="Sequence_68">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                               <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                              <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <If sap2010:Annotation.AnnotationText="If Condition to check if file exists and proceed with sheet and column validation." Condition="[RevenueFileExists = true AndAlso RevenueFile IsNot Nothing]" DisplayName="If Condition to validate if Revenue File exists ?" sap:VirtualizedContainerService.HintSize="2998,5090" sap2010:WorkflowViewState.IdRef="If_5">
+                          <If sap2010:Annotation.AnnotationText="If Condition to check if file exists and proceed with sheet and column validation." Condition="[RevenueFileExists = true AndAlso RevenueFile IsNot Nothing]" DisplayName="If Condition to validate if Revenue File exists ?" sap:VirtualizedContainerService.HintSize="1644,1685" sap2010:WorkflowViewState.IdRef="If_5">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -770,16 +894,16 @@
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                             <If.Then>
-                              <Sequence DisplayName="Revenue File Available " sap:VirtualizedContainerService.HintSize="2503,4901" sap2010:WorkflowViewState.IdRef="Sequence_27">
+                              <Sequence DisplayName="Revenue File Available " sap:VirtualizedContainerService.HintSize="1149,1496" sap2010:WorkflowViewState.IdRef="Sequence_27">
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                     <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:LogMessage DisplayName="Revenue File" sap:VirtualizedContainerService.HintSize="2441,52" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Info" Message="[&quot;Revenue File available, proceeding to download the file.&quot;]" />
-                                <umaf:DownloadFile DisplayName="Download Revenue File" File="[RevenueFile]" sap:VirtualizedContainerService.HintSize="2441,52" sap2010:WorkflowViewState.IdRef="DownloadFile_1" LocalFilePath="[Path.Combine( RevenueFolderPath, revenueFile.Name)]" />
-                                <If sap2010:Annotation.AnnotationText="Pre Validation Of Revenue Input file, Expected Sheets and Columns." Condition="[System.IO.File.Exists(Path.Combine( RevenueFolderPath, revenueFile.Name))]" DisplayName="If Condition to evaluate revenue file download" sap:VirtualizedContainerService.HintSize="2441,4606" sap2010:WorkflowViewState.IdRef="If_12">
+                                <ui:LogMessage DisplayName="Revenue File" sap:VirtualizedContainerService.HintSize="1087,52" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Info" Message="[&quot;Revenue File available, proceeding to download the file.&quot;]" />
+                                <umaf:DownloadFile DisplayName="Download Revenue File" File="[RevenueFile]" sap:VirtualizedContainerService.HintSize="1087,52" sap2010:WorkflowViewState.IdRef="DownloadFile_1" LocalFilePath="[Path.Combine( RevenueFolderPath, revenueFile.Name)]" />
+                                <If sap2010:Annotation.AnnotationText="Pre Validation Of Revenue Input file, Expected Sheets and Columns." Condition="[System.IO.File.Exists(Path.Combine( RevenueFolderPath, revenueFile.Name))]" DisplayName="If Condition to evaluate revenue file download" sap:VirtualizedContainerService.HintSize="1087,1201" sap2010:WorkflowViewState.IdRef="If_12">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -788,19 +912,19 @@
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                   <If.Then>
-                                    <Sequence DisplayName="File Download Module" sap:VirtualizedContainerService.HintSize="1946,4417" sap2010:WorkflowViewState.IdRef="Sequence_51">
+                                    <Sequence DisplayName="File Download Module" sap:VirtualizedContainerService.HintSize="592,1012" sap2010:WorkflowViewState.IdRef="Sequence_51">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                           <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                         </scg:Dictionary>
                                       </sap:WorkflowViewStateService.ViewState>
-                                      <ui:LogMessage DisplayName="Input Revenue File Downloaded" sap:VirtualizedContainerService.HintSize="1884,52" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Info" Message="[&quot;Downloaded the revenue file to the location &quot; + Path.Combine(&quot;C:\Temp&quot;, revenueFile.Name)  + &quot;Successfully!&quot;]" />
-                                      <If Condition="[Not System.IO.Path.GetFileName(Path.Combine( RevenueFolderPath, revenueFile.Name)).StartsWith(&quot;BotProcessed_&quot;)]" DisplayName="Validate the downloaded Input" sap:VirtualizedContainerService.HintSize="1884,413" sap2010:WorkflowViewState.IdRef="If_32">
+                                      <ui:LogMessage DisplayName="Input Revenue File Downloaded" sap:VirtualizedContainerService.HintSize="530,52" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Info" Message="[&quot;Downloaded the revenue file to the location &quot; + Path.Combine(&quot;C:\Temp&quot;, revenueFile.Name)  + &quot;Successfully!&quot;]" />
+                                      <If Condition="[Not System.IO.Path.GetFileName(Path.Combine( RevenueFolderPath, revenueFile.Name)).StartsWith(&quot;BotProcessed_&quot;)]" DisplayName="Validate the downloaded Input" sap:VirtualizedContainerService.HintSize="530,52" sap2010:WorkflowViewState.IdRef="If_32">
                                         <sap:WorkflowViewStateService.ViewState>
                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                           </scg:Dictionary>
                                         </sap:WorkflowViewStateService.ViewState>
                                         <If.Then>
@@ -827,15 +951,21 @@
                                           </Sequence>
                                         </If.Else>
                                       </If>
-                                      <Assign DisplayName="Final Processed Revenu File" sap:VirtualizedContainerService.HintSize="1884,52" sap2010:WorkflowViewState.IdRef="Assign_89">
+                                      <Assign DisplayName="Final Processed Revenu File" sap:VirtualizedContainerService.HintSize="530,52" sap2010:WorkflowViewState.IdRef="Assign_89">
                                         <Assign.To>
                                           <OutArgument x:TypeArguments="x:String">[ProcessRevFName]</OutArgument>
                                         </Assign.To>
                                         <Assign.Value>
                                           <InArgument x:TypeArguments="x:String">[System.IO.Directory.GetFiles(RevenueFolderPath, "*.xlsx").First()]</InArgument>
                                         </Assign.Value>
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
                                       </Assign>
-                                      <Assign DisplayName="Revenue File Status" sap:VirtualizedContainerService.HintSize="1884,52" sap2010:WorkflowViewState.IdRef="Assign_66">
+                                      <Assign DisplayName="Revenue File Status" sap:VirtualizedContainerService.HintSize="530,52" sap2010:WorkflowViewState.IdRef="Assign_66">
                                         <Assign.To>
                                           <OutArgument x:TypeArguments="x:String">[RevFileStatus]</OutArgument>
                                         </Assign.To>
@@ -843,35 +973,35 @@
                                           <InArgument x:TypeArguments="x:String">Passed</InArgument>
                                         </Assign.Value>
                                       </Assign>
-                                      <ueab:ExcelProcessScopeX ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayAlerts="False" DisplayName="Excel Process Scope - To Read the Input revenue File." sap:VirtualizedContainerService.HintSize="1884,3364" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_1">
+                                      <ueab:ExcelProcessScopeX ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayAlerts="False" DisplayName="Excel Process Scope - To Read the Input revenue File." sap:VirtualizedContainerService.HintSize="530,319" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_1">
                                         <ueab:ExcelProcessScopeX.Body>
                                           <ActivityAction x:TypeArguments="ui:IExcelProcess">
                                             <ActivityAction.Argument>
                                               <DelegateInArgument x:TypeArguments="ui:IExcelProcess" Name="ExcelProcessScopeTag" />
                                             </ActivityAction.Argument>
-                                            <Sequence DisplayName="Proceed with the following.." sap:VirtualizedContainerService.HintSize="1850,3237" sap2010:WorkflowViewState.IdRef="Sequence_32">
+                                            <Sequence DisplayName="Proceed with the following.." sap:VirtualizedContainerService.HintSize="496,192" sap2010:WorkflowViewState.IdRef="Sequence_32">
                                               <sap:WorkflowViewStateService.ViewState>
                                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                   <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                 </scg:Dictionary>
                                               </sap:WorkflowViewStateService.ViewState>
-                                              <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Revenue Excel file" sap:VirtualizedContainerService.HintSize="1788,3126" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" UseTemplate="True" WorkbookPath="[ProcessRevFName]">
+                                              <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Revenue Excel file" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" UseTemplate="True" WorkbookPath="[ProcessRevFName]">
                                                 <ueab:ExcelApplicationCard.Body>
                                                   <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
                                                     <ActivityAction.Argument>
                                                       <DelegateInArgument x:TypeArguments="ue:IWorkbookQuickHandle" Name="Excel" />
                                                     </ActivityAction.Argument>
-                                                    <Sequence DisplayName="Revenue Module " sap:VirtualizedContainerService.HintSize="1754,2836" sap2010:WorkflowViewState.IdRef="Sequence_31">
+                                                    <Sequence DisplayName="Revenue Module " sap:VirtualizedContainerService.HintSize="506,813" sap2010:WorkflowViewState.IdRef="Sequence_31">
                                                       <sap:WorkflowViewStateService.ViewState>
                                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                           <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                         </scg:Dictionary>
                                                       </sap:WorkflowViewStateService.ViewState>
-                                                      <ui:LogMessage DisplayName="Fetch the sheets from revenue file" sap:VirtualizedContainerService.HintSize="1692,52" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Info" Message="[&quot;Fetch Sheets from the Revenue File.&quot;]" />
-                                                      <ui:ExcelGetWorkbookSheets DisplayName="Get Workbook Revenue" sap:VirtualizedContainerService.HintSize="1692,25" sap2010:WorkflowViewState.IdRef="ExcelGetWorkbookSheets_1" Sheets="[RevenueActualSheets]" />
-                                                      <Assign DisplayName="Input Revenue Sheets" sap:VirtualizedContainerService.HintSize="1692,52" sap2010:WorkflowViewState.IdRef="Assign_24">
+                                                      <ui:LogMessage DisplayName="Fetch the sheets from revenue file" sap:VirtualizedContainerService.HintSize="444,52" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Info" Message="[&quot;Fetch Sheets from the Revenue File.&quot;]" />
+                                                      <ui:ExcelGetWorkbookSheets DisplayName="Get Workbook Revenue" sap:VirtualizedContainerService.HintSize="444,25" sap2010:WorkflowViewState.IdRef="ExcelGetWorkbookSheets_1" Sheets="[RevenueActualSheets]" />
+                                                      <Assign DisplayName="Input Revenue Sheets" sap:VirtualizedContainerService.HintSize="444,52" sap2010:WorkflowViewState.IdRef="Assign_24">
                                                         <Assign.To>
                                                           <OutArgument x:TypeArguments="scg:List(x:String)">[RevenueActualSheets]</OutArgument>
                                                         </Assign.To>
@@ -881,8 +1011,8 @@
     ToList()]</InArgument>
                                                         </Assign.Value>
                                                       </Assign>
-                                                      <ui:LogMessage DisplayName="Actual Revenue Sheets" sap:VirtualizedContainerService.HintSize="1692,52" sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Info" Message="[&quot;Pre Validation : Expected Revenue Sheets - &quot; + String.Join(&quot;,&quot;,RevenueActualSheets)]" />
-                                                      <Assign DisplayName="Revenue Missing Sheets" sap:VirtualizedContainerService.HintSize="1692,52" sap2010:WorkflowViewState.IdRef="Assign_25">
+                                                      <ui:LogMessage DisplayName="Actual Revenue Sheets" sap:VirtualizedContainerService.HintSize="444,52" sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Info" Message="[&quot;Pre Validation : Expected Revenue Sheets - &quot; + String.Join(&quot;,&quot;,RevenueActualSheets)]" />
+                                                      <Assign DisplayName="Revenue Missing Sheets" sap:VirtualizedContainerService.HintSize="444,52" sap2010:WorkflowViewState.IdRef="Assign_25">
                                                         <Assign.To>
                                                           <OutArgument x:TypeArguments="scg:List(x:String)">[RevMissingSheets]</OutArgument>
                                                         </Assign.To>
@@ -890,12 +1020,12 @@
                                                           <InArgument x:TypeArguments="scg:List(x:String)">[RevenueExpSheets.Where(Function(exp) Not in_Config("Revenue_SheetName").ToString.Split(";"c).Any(Function(map) map.Split("="c)(0).Trim().Equals(exp.Trim(), StringComparison.OrdinalIgnoreCase) AndAlso map.Split("="c)(1).Split(","c).Any(Function(aliasName) RevenueActualSheets.Any(Function(act) act.Trim.Equals(aliasName.Trim,StringComparison.OrdinalIgnoreCase) OrElse act.Trim.StartsWith(aliasName.Trim.Substring(0,3),StringComparison.OrdinalIgnoreCase))))).ToList()]</InArgument>
                                                         </Assign.Value>
                                                       </Assign>
-                                                      <ui:LogMessage DisplayName="Revenue Missing sheets" sap:VirtualizedContainerService.HintSize="1692,52" sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Info" Message="[&quot;Pre Validation : Missing Revenue Sheets - &quot; + String.Join(&quot;,&quot;, RevMissingSheets)]" />
-                                                      <If Condition="[RevMissingSheets.Count &lt;0]" DisplayName="Validate Missing Revenue Sheets" sap:VirtualizedContainerService.HintSize="1692,2108" sap2010:WorkflowViewState.IdRef="If_7">
+                                                      <ui:LogMessage DisplayName="Revenue Missing sheets" sap:VirtualizedContainerService.HintSize="444,52" sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Info" Message="[&quot;Pre Validation : Missing Revenue Sheets - &quot; + String.Join(&quot;,&quot;, RevMissingSheets)]" />
+                                                      <If Condition="[RevMissingSheets.Count &lt;0]" DisplayName="Validate Missing Revenue Sheets" sap:VirtualizedContainerService.HintSize="444,52" sap2010:WorkflowViewState.IdRef="If_7">
                                                         <sap:WorkflowViewStateService.ViewState>
                                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                                           </scg:Dictionary>
                                                         </sap:WorkflowViewStateService.ViewState>
                                                         <If.Then>
@@ -942,14 +1072,14 @@
                                                           </Sequence>
                                                         </If.Then>
                                                         <If.Else>
-                                                          <Sequence DisplayName="Revenue Column Validation Module" sap:VirtualizedContainerService.HintSize="1151,1950" sap2010:WorkflowViewState.IdRef="Sequence_35">
+                                                          <Sequence DisplayName="Revenue Column Validation Module" sap:VirtualizedContainerService.HintSize="450,531" sap2010:WorkflowViewState.IdRef="Sequence_35">
                                                             <sap:WorkflowViewStateService.ViewState>
                                                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                                 <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                               </scg:Dictionary>
                                                             </sap:WorkflowViewStateService.ViewState>
-                                                            <Assign DisplayName="Revenue Sheet Staus - Pass" sap:VirtualizedContainerService.HintSize="1089,53" sap2010:WorkflowViewState.IdRef="Assign_50">
+                                                            <Assign DisplayName="Revenue Sheet Staus - Pass" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_50">
                                                               <Assign.To>
                                                                 <OutArgument x:TypeArguments="x:String">[RevSheetStatus]</OutArgument>
                                                               </Assign.To>
@@ -957,7 +1087,7 @@
                                                                 <InArgument x:TypeArguments="x:String">Passed</InArgument>
                                                               </Assign.Value>
                                                             </Assign>
-                                                            <Assign DisplayName="Revenue Sheets to Process" sap:VirtualizedContainerService.HintSize="1089,53" sap2010:WorkflowViewState.IdRef="Assign_44">
+                                                            <Assign DisplayName="Revenue Sheets to Process" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_44">
                                                               <Assign.To>
                                                                 <OutArgument x:TypeArguments="scg:List(x:String)">[ProcessSheets]</OutArgument>
                                                               </Assign.To>
@@ -965,8 +1095,8 @@
                                                                 <InArgument x:TypeArguments="scg:List(x:String)">[RevenueActualSheets.Where(Function(act) Not act.Trim.StartsWith("HFM", StringComparison.OrdinalIgnoreCase) AndAlso in_Config("Revenue_SheetName").ToString.Split(";"c).Any(Function(map) map.Split("="c)(1).Split(","c).Any(Function(aliasName) If(aliasName.Trim.Equals("Bra TP", StringComparison.OrdinalIgnoreCase), act.Trim.Equals("Bra TP", StringComparison.OrdinalIgnoreCase), act.Trim.Equals(aliasName.Trim,StringComparison.OrdinalIgnoreCase) OrElse act.Trim.StartsWith(aliasName.Trim.Substring(0,3),StringComparison.OrdinalIgnoreCase))))).GroupBy(Function(x) If(x.Trim.Equals("Bra TP",StringComparison.OrdinalIgnoreCase),"bratp",x.Trim.Substring(0,3).ToLower())).Select(Function(g) g.First()).ToList()]</InArgument>
                                                               </Assign.Value>
                                                             </Assign>
-                                                            <ui:LogMessage DisplayName="Revenue Column Validation" sap:VirtualizedContainerService.HintSize="1089,53" sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Info" Message="[&quot;Expected Revenue sheets are available. Proceeding with column validation.&quot;]" />
-                                                            <Assign DisplayName="Revenue Country Column Status" sap:VirtualizedContainerService.HintSize="1089,53" sap2010:WorkflowViewState.IdRef="Assign_53">
+                                                            <ui:LogMessage DisplayName="Revenue Column Validation" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Info" Message="[&quot;Expected Revenue sheets are available. Proceeding with column validation.&quot;]" />
+                                                            <Assign DisplayName="Revenue Country Column Status" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_53">
                                                               <Assign.To>
                                                                 <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[RevCountryColStatus]</OutArgument>
                                                               </Assign.To>
@@ -974,21 +1104,37 @@
                                                                 <InArgument x:TypeArguments="scg:Dictionary(x:String, x:String)">[New Dictionary(Of String, String)]</InArgument>
                                                               </Assign.Value>
                                                             </Assign>
-                                                            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="Loop Through All Sheets For Validation" sap:VirtualizedContainerService.HintSize="1089,1467" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[ProcessSheets]">
+                                                            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="Loop Through All Sheets For Validation" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[ProcessSheets]">
                                                               <ui:ForEach.Body>
                                                                 <ActivityAction x:TypeArguments="x:String">
                                                                   <ActivityAction.Argument>
                                                                     <DelegateInArgument x:TypeArguments="x:String" Name="currentItem" />
                                                                   </ActivityAction.Argument>
-                                                                  <Sequence DisplayName="Action" sap:VirtualizedContainerService.HintSize="1053,1343" sap2010:WorkflowViewState.IdRef="Sequence_33">
+                                                                  <Sequence DisplayName="Action" sap:VirtualizedContainerService.HintSize="450,928" sap2010:WorkflowViewState.IdRef="Sequence_33">
                                                                     <sap:WorkflowViewStateService.ViewState>
                                                                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                                         <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                                       </scg:Dictionary>
                                                                     </sap:WorkflowViewStateService.ViewState>
-                                                                    <ui:ExcelReadRange AddHeaders="False" DataTable="[dt_RevInput]" DisplayName="Read Data for Each Country." sap:VirtualizedContainerService.HintSize="991,53" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" Range="A2:S2" SheetName="[currentItem]" />
-                                                                    <Assign DisplayName="Reveue Actual Columns" sap:VirtualizedContainerService.HintSize="991,53" sap2010:WorkflowViewState.IdRef="Assign_33">
+                                                                    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim excelApp As Microsoft.Office.Interop.Excel.Application = Nothing&#xA;Dim ws As Microsoft.Office.Interop.Excel.Worksheet = Nothing&#xA;&#xA;Try&#xA;&#xA;    excelApp = CType(System.Runtime.InteropServices.Marshal.GetActiveObject(&quot;Excel.Application&quot;), Microsoft.Office.Interop.Excel.Application)&#xA;&#xA;    ws = CType(excelApp.Worksheets(sheetName), Microsoft.Office.Interop.Excel.Worksheet)&#xA;&#xA;    'Remove filters&#xA;    If ws.FilterMode Then&#xA;        ws.ShowAllData()&#xA;    End If&#xA;&#xA;    If ws.AutoFilterMode Then&#xA;        ws.AutoFilterMode = False&#xA;    End If&#xA;&#xA;    'Unhide rows and columns&#xA;    ws.Rows.Hidden = False&#xA;    ws.Columns.Hidden = False&#xA;&#xA;Catch ex As Exception&#xA;    Throw New Exception(&quot;Failed while cleaning sheet: &quot; &amp; sheetName &amp; &quot;. Error: &quot; &amp; ex.Message)&#xA;&#xA;Finally&#xA;&#xA;    If ws IsNot Nothing Then&#xA;        System.Runtime.InteropServices.Marshal.ReleaseComObject(ws)&#xA;    End If&#xA;&#xA;End Try" DisplayName="Invoke Code - Revenue" sap:VirtualizedContainerService.HintSize="388,165" sap2010:WorkflowViewState.IdRef="InvokeCode_5">
+                                                                      <ui:InvokeCode.Arguments>
+                                                                        <InArgument x:TypeArguments="x:String" x:Key="sheetName">[currentItem]</InArgument>
+                                                                      </ui:InvokeCode.Arguments>
+                                                                      <sap:WorkflowViewStateService.ViewState>
+                                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                        </scg:Dictionary>
+                                                                      </sap:WorkflowViewStateService.ViewState>
+                                                                    </ui:InvokeCode>
+                                                                    <ui:ExcelReadRange AddHeaders="False" DataTable="[dt_RevInput]" DisplayName="Read Data for Each Country." sap:VirtualizedContainerService.HintSize="388,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" Range="A2:S2" SheetName="[currentItem]">
+                                                                      <sap:WorkflowViewStateService.ViewState>
+                                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                        </scg:Dictionary>
+                                                                      </sap:WorkflowViewStateService.ViewState>
+                                                                    </ui:ExcelReadRange>
+                                                                    <Assign DisplayName="Reveue Actual Columns" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_33">
                                                                       <Assign.To>
                                                                         <OutArgument x:TypeArguments="scg:List(x:String)">[RevActualCols]</OutArgument>
                                                                       </Assign.To>
@@ -999,8 +1145,8 @@ Where(Function(x) Not String.IsNullOrWhiteSpace(x)).
 ToList]</InArgument>
                                                                       </Assign.Value>
                                                                     </Assign>
-                                                                    <ui:LogMessage DisplayName="Revenue Actual Columns" sap:VirtualizedContainerService.HintSize="991,53" sap2010:WorkflowViewState.IdRef="LogMessage_24" Level="Info" Message="[&quot;Pre-Validation Revenue - Expected Columns for the Country- &quot; + currentItem + String.Join(&quot;, &quot;,RevActualCols)]" />
-                                                                    <Assign DisplayName="Revenue  Columns" sap:VirtualizedContainerService.HintSize="991,53" sap2010:WorkflowViewState.IdRef="Assign_34">
+                                                                    <ui:LogMessage DisplayName="Revenue Actual Columns" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="LogMessage_24" Level="Info" Message="[&quot;Pre-Validation Revenue - Expected Columns for the Country- &quot; + currentItem + String.Join(&quot;, &quot;,RevActualCols)]" />
+                                                                    <Assign DisplayName="Revenue  Columns" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_34">
                                                                       <Assign.To>
                                                                         <OutArgument x:TypeArguments="scg:List(x:String)">[RevMissingCols]</OutArgument>
                                                                       </Assign.To>
@@ -1016,8 +1162,8 @@ ToList]</InArgument>
                                                                         </scg:Dictionary>
                                                                       </sap:WorkflowViewStateService.ViewState>
                                                                     </Assign>
-                                                                    <ui:LogMessage DisplayName="Revenue Missing Columns" sap:VirtualizedContainerService.HintSize="991,53" sap2010:WorkflowViewState.IdRef="LogMessage_25" Level="Info" Message="[&quot;Pre-Validation Revenue - Missing Columns for the Country- &quot; + currentItem + String.Join(&quot;, &quot;,RevMissingCols )]" />
-                                                                    <Assign DisplayName="Country Columns Validation" sap:VirtualizedContainerService.HintSize="991,53" sap2010:WorkflowViewState.IdRef="Assign_54">
+                                                                    <ui:LogMessage DisplayName="Revenue Missing Columns" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="LogMessage_25" Level="Info" Message="[&quot;Pre-Validation Revenue - Missing Columns for the Country- &quot; + currentItem + String.Join(&quot;, &quot;,RevMissingCols )]" />
+                                                                    <Assign DisplayName="Country Columns Validation" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_54">
                                                                       <Assign.To>
                                                                         <OutArgument x:TypeArguments="x:String">[RevCountryColStatus(currentItem)]</OutArgument>
                                                                       </Assign.To>
@@ -1027,11 +1173,11 @@ ToList]</InArgument>
                                      "Missing Columns: " &amp; String.Join(", ", RevMissingCols))]</InArgument>
                                                                       </Assign.Value>
                                                                     </Assign>
-                                                                    <If Condition="[RevCountryColStatus.Values.All(Function(x) x.Trim.Equals(&quot;Passed&quot;, StringComparison.OrdinalIgnoreCase))]" DisplayName="If Condition to validate Missing Columns" sap:VirtualizedContainerService.HintSize="991,674" sap2010:WorkflowViewState.IdRef="If_10">
+                                                                    <If Condition="[RevCountryColStatus.Values.All(Function(x) x.Trim.Equals(&quot;Passed&quot;, StringComparison.OrdinalIgnoreCase))]" DisplayName="If Condition to validate Missing Columns" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="If_10">
                                                                       <sap:WorkflowViewStateService.ViewState>
                                                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                                                         </scg:Dictionary>
                                                                       </sap:WorkflowViewStateService.ViewState>
                                                                       <If.Then>
@@ -1054,15 +1200,15 @@ ToList]</InArgument>
                                                                         </Sequence>
                                                                       </If.Then>
                                                                       <If.Else>
-                                                                        <Sequence DisplayName="Revenue Columns Not Available" sap:VirtualizedContainerService.HintSize="496,514" sap2010:WorkflowViewState.IdRef="Sequence_47">
+                                                                        <Sequence DisplayName="Revenue Columns Not Available" sap:VirtualizedContainerService.HintSize="496,509" sap2010:WorkflowViewState.IdRef="Sequence_47">
                                                                           <sap:WorkflowViewStateService.ViewState>
                                                                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                                               <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                                             </scg:Dictionary>
                                                                           </sap:WorkflowViewStateService.ViewState>
-                                                                          <ui:LogMessage DisplayName="Revenue Validation - Columns Not found" sap:VirtualizedContainerService.HintSize="434,53" sap2010:WorkflowViewState.IdRef="LogMessage_26" Level="Warn" Message="[&quot;Pre Validation Revenue - Expected Column not found.&quot;]" />
-                                                                          <Assign DisplayName="Revenue Column - Failed" sap:VirtualizedContainerService.HintSize="434,53" sap2010:WorkflowViewState.IdRef="Assign_51">
+                                                                          <ui:LogMessage DisplayName="Revenue Validation - Columns Not found" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="LogMessage_26" Level="Warn" Message="[&quot;Pre Validation Revenue - Expected Column not found.&quot;]" />
+                                                                          <Assign DisplayName="Revenue Column - Failed" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="Assign_51">
                                                                             <Assign.To>
                                                                               <OutArgument x:TypeArguments="x:String">[RevColStatus]</OutArgument>
                                                                             </Assign.To>
@@ -1070,7 +1216,7 @@ ToList]</InArgument>
                                                                               <InArgument x:TypeArguments="x:String">Failed</InArgument>
                                                                             </Assign.Value>
                                                                           </Assign>
-                                                                          <Assign DisplayName="Append ExceptionList" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_42">
+                                                                          <Assign DisplayName="Append ExceptionList" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_42">
                                                                             <Assign.To>
                                                                               <OutArgument x:TypeArguments="scg:List(x:String)">[ExceptionList]</OutArgument>
                                                                             </Assign.To>
@@ -1083,7 +1229,7 @@ ToList]</InArgument>
                                                                               </scg:Dictionary>
                                                                             </sap:WorkflowViewStateService.ViewState>
                                                                           </Assign>
-                                                                          <ui:LogMessage DisplayName="Validation For - Revenue Completed" sap:VirtualizedContainerService.HintSize="434,94" sap2010:WorkflowViewState.IdRef="LogMessage_31" Level="Info" Message="[&quot;Revenue Pre Validation Module Completed with Failure.&quot;]">
+                                                                          <ui:LogMessage DisplayName="Validation For - Revenue Completed" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_31" Level="Info" Message="[&quot;Revenue Pre Validation Module Completed with Failure.&quot;]">
                                                                             <sap:WorkflowViewStateService.ViewState>
                                                                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                                                 <x:Boolean x:Key="IsPinned">True</x:Boolean>
@@ -1098,22 +1244,28 @@ ToList]</InArgument>
                                                               </ui:ForEach.Body>
                                                               <sap:WorkflowViewStateService.ViewState>
                                                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                                                 </scg:Dictionary>
                                                               </sap:WorkflowViewStateService.ViewState>
                                                             </ui:ForEach>
                                                           </Sequence>
                                                         </If.Else>
                                                       </If>
-                                                      <ueab:SaveExcelFileX DisplayName="Revenue- Save Excel File" sap:VirtualizedContainerService.HintSize="1692,52" sap2010:WorkflowViewState.IdRef="SaveExcelFileX_1" Workbook="[Excel]" />
+                                                      <ueab:SaveExcelFileX DisplayName="Revenue- Save Excel File" sap:VirtualizedContainerService.HintSize="444,85" sap2010:WorkflowViewState.IdRef="SaveExcelFileX_1" Workbook="[Excel]">
+                                                        <sap:WorkflowViewStateService.ViewState>
+                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                          </scg:Dictionary>
+                                                        </sap:WorkflowViewStateService.ViewState>
+                                                      </ueab:SaveExcelFileX>
                                                     </Sequence>
                                                   </ActivityAction>
                                                 </ueab:ExcelApplicationCard.Body>
                                                 <sap:WorkflowViewStateService.ViewState>
                                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                                   </scg:Dictionary>
                                                 </sap:WorkflowViewStateService.ViewState>
                                               </ueab:ExcelApplicationCard>
@@ -1127,7 +1279,7 @@ ToList]</InArgument>
                                           </scg:Dictionary>
                                         </sap:WorkflowViewStateService.ViewState>
                                       </ueab:ExcelProcessScopeX>
-                                      <Assign DisplayName="Is Revenue Status" sap:VirtualizedContainerService.HintSize="1884,81" sap2010:WorkflowViewState.IdRef="Assign_88">
+                                      <Assign DisplayName="Is Revenue Status" sap:VirtualizedContainerService.HintSize="530,82" sap2010:WorkflowViewState.IdRef="Assign_88">
                                         <Assign.To>
                                           <OutArgument x:TypeArguments="x:Boolean">[IsRevenueStatus]</OutArgument>
                                         </Assign.To>
@@ -1140,7 +1292,7 @@ ToList]</InArgument>
                                           </scg:Dictionary>
                                         </sap:WorkflowViewStateService.ViewState>
                                       </Assign>
-                                      <If Condition="[IsRevenueStatus]" DisplayName="Validate Status" sap:VirtualizedContainerService.HintSize="1884,52" sap2010:WorkflowViewState.IdRef="If_25">
+                                      <If Condition="[IsRevenueStatus]" DisplayName="Validate Status" sap:VirtualizedContainerService.HintSize="530,52" sap2010:WorkflowViewState.IdRef="If_25">
                                         <sap:WorkflowViewStateService.ViewState>
                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -1148,14 +1300,14 @@ ToList]</InArgument>
                                           </scg:Dictionary>
                                         </sap:WorkflowViewStateService.ViewState>
                                         <If.Then>
-                                          <Sequence DisplayName="Add Queue - Revenue Details" sap:VirtualizedContainerService.HintSize="450,471" sap2010:WorkflowViewState.IdRef="Sequence_90">
+                                          <Sequence DisplayName="Add Queue - Revenue Details" sap:VirtualizedContainerService.HintSize="1069,888" sap2010:WorkflowViewState.IdRef="Sequence_90">
                                             <sap:WorkflowViewStateService.ViewState>
                                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                 <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                               </scg:Dictionary>
                                             </sap:WorkflowViewStateService.ViewState>
-                                            <If Condition="[IsRevenueStatus]" DisplayName="Validate Revenue Status" sap:VirtualizedContainerService.HintSize="388,53" sap2010:WorkflowViewState.IdRef="If_27">
+                                            <If Condition="[IsRevenueStatus]" DisplayName="Validate Revenue Status" sap:VirtualizedContainerService.HintSize="1007,52" sap2010:WorkflowViewState.IdRef="If_27">
                                               <sap:WorkflowViewStateService.ViewState>
                                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                   <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -1186,19 +1338,19 @@ ToList]</InArgument>
                                                 </Sequence>
                                               </If.Else>
                                             </If>
-                                            <ui:LogMessage DisplayName="Revenue Validation Successful" sap:VirtualizedContainerService.HintSize="388,53" sap2010:WorkflowViewState.IdRef="LogMessage_54" Level="Info" Message="[&quot;Overall revenue status is successful, proceeding to add the queue.&quot;]" />
-                                            <ui:GetQueueItems Duration="{x:Null}" From="{x:Null}" Priority="{x:Null}" Skip="{x:Null}" TimeoutMS="{x:Null}" To="{x:Null}" Top="{x:Null}" DisplayName="Get Queue - New State" FilterStrategy="Equals" sap:VirtualizedContainerService.HintSize="388,81" sap2010:WorkflowViewState.IdRef="GetQueueItems_2" QueueItemStates="New" QueueName="[QueueName]" Reference="[&quot;LATAM_Revenue_&quot; + YrMm]" Result="[QueueItems]">
+                                            <ui:LogMessage DisplayName="Revenue Validation Successful" sap:VirtualizedContainerService.HintSize="1007,52" sap2010:WorkflowViewState.IdRef="LogMessage_54" Level="Info" Message="[&quot;Overall revenue status is successful, proceeding to add the queue.&quot;]" />
+                                            <ui:GetQueueItems Duration="{x:Null}" From="{x:Null}" Priority="{x:Null}" Skip="{x:Null}" TimeoutMS="{x:Null}" To="{x:Null}" Top="{x:Null}" DisplayName="Get Queue - New State" FilterStrategy="Equals" sap:VirtualizedContainerService.HintSize="1007,80" sap2010:WorkflowViewState.IdRef="GetQueueItems_2" QueueItemStates="New" QueueName="[QueueName]" Reference="[&quot;LATAM_Revenue_&quot; + YrMm]" Result="[QueueItems]">
                                               <sap:WorkflowViewStateService.ViewState>
                                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                   <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                 </scg:Dictionary>
                                               </sap:WorkflowViewStateService.ViewState>
                                             </ui:GetQueueItems>
-                                            <If Condition="[QueueItems.Count&gt;0]" DisplayName="Validate Any New Queue - Revenue" sap:VirtualizedContainerService.HintSize="388,53" sap2010:WorkflowViewState.IdRef="If_28">
+                                            <If Condition="[QueueItems.Count&gt;0]" DisplayName="Validate Any New Queue - Revenue" sap:VirtualizedContainerService.HintSize="1007,473" sap2010:WorkflowViewState.IdRef="If_28">
                                               <sap:WorkflowViewStateService.ViewState>
                                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                 </scg:Dictionary>
                                               </sap:WorkflowViewStateService.ViewState>
                                               <If.Then>
@@ -1213,22 +1365,133 @@ ToList]</InArgument>
                                                 </Sequence>
                                               </If.Then>
                                               <If.Else>
-                                                <Sequence DisplayName="Add New Queue -Revenue" sap:VirtualizedContainerService.HintSize="450,136" sap2010:WorkflowViewState.IdRef="Sequence_97">
+                                                <Sequence DisplayName="Add New Queue -Revenue" sap:VirtualizedContainerService.HintSize="512,315" sap2010:WorkflowViewState.IdRef="Sequence_97">
                                                   <sap:WorkflowViewStateService.ViewState>
                                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                       <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                     </scg:Dictionary>
                                                   </sap:WorkflowViewStateService.ViewState>
-                                                  <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="3043 Add Queue  - Revenuev" sap:VirtualizedContainerService.HintSize="388,25" sap2010:WorkflowViewState.IdRef="AddQueueItem_4" Priority="Normal" QueueType="[QueueName]" Reference="[&quot;LATAM_Revenue_ &quot; +  YrMm]">
-                                                    <ui:AddQueueItem.ItemInformation>
-                                                      <InArgument x:TypeArguments="x:Boolean" x:Key="RevenueFileStatus">[IsRevenueStatus]</InArgument>
-                                                      <InArgument x:TypeArguments="x:String" x:Key="RevenueLocalPath">[ProcessRevFName]</InArgument>
-                                                      <InArgument x:TypeArguments="x:String" x:Key="ProcessDate">[DateTime.Now.ToString("yyyy-MM-dd")]</InArgument>
-                                                      <InArgument x:TypeArguments="x:String" x:Key="3043_LatamTracker">[LatamFilePath]</InArgument>
-                                                      <InArgument x:TypeArguments="x:String" x:Key="FiscalCalPath">[TempFiscalPath + SBucketFName]</InArgument>
-                                                    </ui:AddQueueItem.ItemInformation>
-                                                  </ui:AddQueueItem>
+                                                  <Assign DisplayName="Revenue Queues" sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Assign_91">
+                                                    <Assign.To>
+                                                      <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_RevenueDetails]</OutArgument>
+                                                    </Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" xml:space="preserve">[New Dictionary(Of String, Object) From {{"RevenueFileStatus", IsRevenueStatus},
+    {"RevenueLocalPath", ProcessRevFName},
+    {"ProcessDate", DateTime.Now.ToString("yyyy-MM-dd")},
+    {"3043_LatamTracker", LatamFilePath},
+    {"FiscalCalPath", System.IO.Path.Combine(TempFiscalPath, SBucketFName)}}]</InArgument>
+                                                    </Assign.Value>
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                  </Assign>
+                                                  <Sequence DisplayName="Update Revenue Status In Tracker" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_123">
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                    <ui:ForEach x:TypeArguments="sd:DataRow" CurrentIndex="{x:Null}" DisplayName="For Each - Update Status " sap:VirtualizedContainerService.HintSize="532,449" sap2010:WorkflowViewState.IdRef="ForEach`1_8" Values="[MatchingRows]">
+                                                      <ui:ForEach.Body>
+                                                        <ActivityAction x:TypeArguments="sd:DataRow">
+                                                          <ActivityAction.Argument>
+                                                            <DelegateInArgument x:TypeArguments="sd:DataRow" Name="currentItem" />
+                                                          </ActivityAction.Argument>
+                                                          <Sequence DisplayName="Update Row Status" sap:VirtualizedContainerService.HintSize="496,325" sap2010:WorkflowViewState.IdRef="Sequence_121">
+                                                            <sap:WorkflowViewStateService.ViewState>
+                                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                              </scg:Dictionary>
+                                                            </sap:WorkflowViewStateService.ViewState>
+                                                            <ui:LogMessage DisplayName="Update Tracker Status" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_67" Level="Info" Message="[&quot;Update Tracker with Status as Inprogress for current month&quot;]">
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                            </ui:LogMessage>
+                                                            <Assign DisplayName="Update Status" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_98">
+                                                              <Assign.To>
+                                                                <OutArgument x:TypeArguments="x:Object">[currentItem("RevenueStatus")]</OutArgument>
+                                                              </Assign.To>
+                                                              <Assign.Value>
+                                                                <InArgument x:TypeArguments="x:Object">["InProgress"]</InArgument>
+                                                              </Assign.Value>
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                            </Assign>
+                                                          </Sequence>
+                                                        </ActivityAction>
+                                                      </ui:ForEach.Body>
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </ui:ForEach>
+                                                    <ui:ExcelApplicationScope Password="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Excel Application - To Write Status " sap:VirtualizedContainerService.HintSize="532,481" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_3" InstanceCachePeriod="3000" SensitivityOperation="None" WorkbookPath="[TempFiscalPath + SBucketFName]">
+                                                      <ui:ExcelApplicationScope.Body>
+                                                        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                                                          <ActivityAction.Argument>
+                                                            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                                                          </ActivityAction.Argument>
+                                                          <Sequence DisplayName="Write Tracker " sap:VirtualizedContainerService.HintSize="450,331" sap2010:WorkflowViewState.IdRef="Sequence_122">
+                                                            <sap:WorkflowViewStateService.ViewState>
+                                                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                              </scg:Dictionary>
+                                                            </sap:WorkflowViewStateService.ViewState>
+                                                            <ui:LogMessage DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_68" Level="Info" Message="[&quot;Update the tracker status in the path - &quot; + &quot;LATAM_&quot;+CurrYr]">
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                            </ui:LogMessage>
+                                                            <ui:ExcelWriteRange AddHeaders="True" DataTable="[dt_FiscalCal]" DisplayName="Update the Excel" sap:VirtualizedContainerService.HintSize="388,88" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_3" SheetName="[&quot;LATAM_&quot;+CurrYr]" StartingCell="A1">
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                            </ui:ExcelWriteRange>
+                                                          </Sequence>
+                                                        </ActivityAction>
+                                                      </ui:ExcelApplicationScope.Body>
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </ui:ExcelApplicationScope>
+                                                    <ui:LogMessage DisplayName="Upload Storag bucket with New Status" sap:VirtualizedContainerService.HintSize="532,92" sap2010:WorkflowViewState.IdRef="LogMessage_69" Level="Info" Message="[&quot;Update Storage Bucket Tracker Status In Progress.&quot;]">
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </ui:LogMessage>
+                                                    <ucas:UploadStorageFile FileResource="{x:Null}" TimeoutMS="{x:Null}" Destination="[SBucketFName]" DisplayName="Upload Storage File - Tracker To Storage Bucket" sap:VirtualizedContainerService.HintSize="532,239" sap2010:WorkflowViewState.IdRef="UploadStorageFile_3" Path="[TempFiscalPath + SBucketFName]" StorageBucketName="[StorageBucketName]">
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </ucas:UploadStorageFile>
+                                                  </Sequence>
                                                 </Sequence>
                                               </If.Else>
                                             </If>
@@ -1247,7 +1510,7 @@ ToList]</InArgument>
                                     </Sequence>
                                   </If.Then>
                                   <If.Else>
-                                    <Sequence DisplayName="Failed to download the file." sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Sequence_52">
+                                    <Sequence DisplayName="Failed to download the file." sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_52">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -1269,20 +1532,20 @@ ToList]</InArgument>
                               </Sequence>
                             </If.Then>
                             <If.Else>
-                              <Sequence DisplayName="Exception module" sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                              <Sequence DisplayName="Exception module" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_28">
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                     <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <InvokeMethod DisplayName="Invoke Method - Exception type" sap:VirtualizedContainerService.HintSize="434,136" sap2010:WorkflowViewState.IdRef="InvokeMethod_2" MethodName="Add">
+                                <InvokeMethod DisplayName="Invoke Method - Exception type" sap:VirtualizedContainerService.HintSize="388,135" sap2010:WorkflowViewState.IdRef="InvokeMethod_2" MethodName="Add">
                                   <InvokeMethod.TargetObject>
                                     <InArgument x:TypeArguments="scg:List(x:String)">[ExceptionList]</InArgument>
                                   </InvokeMethod.TargetObject>
                                   <InArgument x:TypeArguments="x:String">Revenue file is missing</InArgument>
                                 </InvokeMethod>
-                                <Assign DisplayName="Update Revnue File Status" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_48">
+                                <Assign DisplayName="Update Revnue File Status" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_48">
                                   <Assign.To>
                                     <OutArgument x:TypeArguments="x:String">[RevFileStatus]</OutArgument>
                                   </Assign.To>
@@ -1294,15 +1557,15 @@ ToList]</InArgument>
                             </If.Else>
                           </If>
                         </Sequence>
-                        <Sequence sap2010:Annotation.AnnotationText="Pre Validation Of Invoice &#xA;Input file, Expected Sheets and Columns." DisplayName="Pre-Validation Invoice Module" sap:VirtualizedContainerService.HintSize="3060,5605" sap2010:WorkflowViewState.IdRef="Sequence_67">
+                        <Sequence sap2010:Annotation.AnnotationText="Pre Validation Of Invoice &#xA;Input file, Expected Sheets and Columns." DisplayName="Pre-Validation Invoice Module" sap:VirtualizedContainerService.HintSize="496,123" sap2010:WorkflowViewState.IdRef="Sequence_67">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                               <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                              <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
-                          <If sap2010:Annotation.AnnotationText="If Condition To evaluate the File exists and proceed with validation" Condition="[InvoiceFileExists = true AndAlso InvoiceFile IsNot Nothing]" DisplayName="If Condition to Validate Invoice Files" sap:VirtualizedContainerService.HintSize="2395,5452" sap2010:WorkflowViewState.IdRef="If_6">
+                          <If sap2010:Annotation.AnnotationText="If Condition To evaluate the File exists and proceed with validation" Condition="[InvoiceFileExists = true AndAlso InvoiceFile IsNot Nothing]" DisplayName="If Condition to Validate Invoice Files" sap:VirtualizedContainerService.HintSize="2395,5837" sap2010:WorkflowViewState.IdRef="If_6">
                             <sap:WorkflowViewStateService.ViewState>
                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1311,7 +1574,7 @@ ToList]</InArgument>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                             <If.Then>
-                              <Sequence DisplayName="Invoice Validation Module" sap:VirtualizedContainerService.HintSize="1900,5263" sap2010:WorkflowViewState.IdRef="Sequence_29">
+                              <Sequence DisplayName="Invoice Validation Module" sap:VirtualizedContainerService.HintSize="1900,5648" sap2010:WorkflowViewState.IdRef="Sequence_29">
                                 <sap:WorkflowViewStateService.ViewState>
                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1320,7 +1583,7 @@ ToList]</InArgument>
                                 </sap:WorkflowViewStateService.ViewState>
                                 <umaf:DownloadFile DisplayName="Download Invoice Input File" File="[InvoiceFile]" sap:VirtualizedContainerService.HintSize="1838,52" sap2010:WorkflowViewState.IdRef="DownloadFile_3" LocalFilePath="[Path.Combine( InvoiceFolderpath, InvoiceFile.Name)]" />
                                 <ui:LogMessage DisplayName="Download Invoice Input" sap:VirtualizedContainerService.HintSize="1838,52" sap2010:WorkflowViewState.IdRef="LogMessage_32" Level="Info" Message="[&quot;Downloaded the input Invoice file and Proceeding to Read the workbook.&quot;]" />
-                                <If Condition="[System.IO.File.Exists(Path.Combine(InvoiceFolderpath, InvoiceFile.Name))]" DisplayName="Validate If Downloaded Invoice file exists in the folder" sap:VirtualizedContainerService.HintSize="1838,4968" sap2010:WorkflowViewState.IdRef="If_15">
+                                <If Condition="[System.IO.File.Exists(Path.Combine(InvoiceFolderpath, InvoiceFile.Name))]" DisplayName="Validate If Downloaded Invoice file exists in the folder" sap:VirtualizedContainerService.HintSize="1838,5353" sap2010:WorkflowViewState.IdRef="If_15">
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1328,7 +1591,7 @@ ToList]</InArgument>
                                     </scg:Dictionary>
                                   </sap:WorkflowViewStateService.ViewState>
                                   <If.Then>
-                                    <Sequence DisplayName="Invoice Module" sap:VirtualizedContainerService.HintSize="1343,4810" sap2010:WorkflowViewState.IdRef="Sequence_64">
+                                    <Sequence DisplayName="Invoice Module" sap:VirtualizedContainerService.HintSize="1343,5195" sap2010:WorkflowViewState.IdRef="Sequence_64">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1382,26 +1645,26 @@ ToList]</InArgument>
                                           <InArgument x:TypeArguments="x:String">Passed</InArgument>
                                         </Assign.Value>
                                       </Assign>
-                                      <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Excel Process Scope - Invoice Validation" sap:VirtualizedContainerService.HintSize="1281,4423" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_2">
+                                      <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Excel Process Scope - Invoice Validation" sap:VirtualizedContainerService.HintSize="1281,4808" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_2">
                                         <ueab:ExcelProcessScopeX.Body>
                                           <ActivityAction x:TypeArguments="ui:IExcelProcess">
                                             <ActivityAction.Argument>
                                               <DelegateInArgument x:TypeArguments="ui:IExcelProcess" Name="ExcelProcessScopeTag" />
                                             </ActivityAction.Argument>
-                                            <Sequence DisplayName="Proceed to validate invoice file" sap:VirtualizedContainerService.HintSize="1247,4296" sap2010:WorkflowViewState.IdRef="Sequence_41">
+                                            <Sequence DisplayName="Proceed to validate invoice file" sap:VirtualizedContainerService.HintSize="1247,4681" sap2010:WorkflowViewState.IdRef="Sequence_41">
                                               <sap:WorkflowViewStateService.ViewState>
                                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                   <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                 </scg:Dictionary>
                                               </sap:WorkflowViewStateService.ViewState>
-                                              <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Invoice Excel File" sap:VirtualizedContainerService.HintSize="1185,2793" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_2" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="[ProcessInvFName]">
+                                              <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Invoice Excel File" sap:VirtualizedContainerService.HintSize="1185,2998" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_2" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="[ProcessInvFName]">
                                                 <ueab:ExcelApplicationCard.Body>
                                                   <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
                                                     <ActivityAction.Argument>
                                                       <DelegateInArgument x:TypeArguments="ue:IWorkbookQuickHandle" Name="Excel" />
                                                     </ActivityAction.Argument>
-                                                    <Sequence DisplayName=" Proceed with Invoice Validation " sap:VirtualizedContainerService.HintSize="1151,2526" sap2010:WorkflowViewState.IdRef="Sequence_38">
+                                                    <Sequence DisplayName=" Proceed with Invoice Validation " sap:VirtualizedContainerService.HintSize="1151,2731" sap2010:WorkflowViewState.IdRef="Sequence_38">
                                                       <sap:WorkflowViewStateService.ViewState>
                                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1428,7 +1691,7 @@ ToList]</InArgument>
                                                           <InArgument x:TypeArguments="scg:List(x:String)">[InvoiceExpSheets.Where(Function(exp) Not in_Config("Invoice_SheetName").ToString.Split(";"c).Any(Function(map) map.Split("="c)(0).Trim().Equals(exp.Trim(), StringComparison.OrdinalIgnoreCase) AndAlso map.Split("="c)(1).Split(","c).Any(Function(aliasName) InvoiceActualSheets.Any(Function(act) act.Trim.Equals(aliasName.Trim,StringComparison.OrdinalIgnoreCase) OrElse act.Trim.StartsWith(aliasName.Trim.Substring(0,3),StringComparison.OrdinalIgnoreCase))))).ToList()]</InArgument>
                                                         </Assign.Value>
                                                       </Assign>
-                                                      <If Condition="[InvMissingSheets.Count &lt;0]" DisplayName="Condition to evaluate missing invoice sheets" sap:VirtualizedContainerService.HintSize="1089,1982" sap2010:WorkflowViewState.IdRef="If_8">
+                                                      <If Condition="[InvMissingSheets.Count &lt;0]" DisplayName="Condition to evaluate missing invoice sheets" sap:VirtualizedContainerService.HintSize="1089,2187" sap2010:WorkflowViewState.IdRef="If_8">
                                                         <sap:WorkflowViewStateService.ViewState>
                                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1455,7 +1718,7 @@ ToList]</InArgument>
                                                           </Sequence>
                                                         </If.Then>
                                                         <If.Else>
-                                                          <Sequence DisplayName="Invoice Column validation modules" sap:VirtualizedContainerService.HintSize="594,1824" sap2010:WorkflowViewState.IdRef="Sequence_40">
+                                                          <Sequence DisplayName="Invoice Column validation modules" sap:VirtualizedContainerService.HintSize="594,2029" sap2010:WorkflowViewState.IdRef="Sequence_40">
                                                             <sap:WorkflowViewStateService.ViewState>
                                                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1498,19 +1761,29 @@ ToList]</InArgument>
                                                                 </scg:Dictionary>
                                                               </sap:WorkflowViewStateService.ViewState>
                                                             </ui:LogMessage>
-                                                            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Sheet in the workbook" sap:VirtualizedContainerService.HintSize="532,1275" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[InvProcessSheets]">
+                                                            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Sheet in the workbook" sap:VirtualizedContainerService.HintSize="532,1480" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[InvProcessSheets]">
                                                               <ui:ForEach.Body>
                                                                 <ActivityAction x:TypeArguments="x:String">
                                                                   <ActivityAction.Argument>
                                                                     <DelegateInArgument x:TypeArguments="x:String" Name="currentItem" />
                                                                   </ActivityAction.Argument>
-                                                                  <Sequence DisplayName="proceed with column validation" sap:VirtualizedContainerService.HintSize="496,1151" sap2010:WorkflowViewState.IdRef="Sequence_37">
+                                                                  <Sequence DisplayName="proceed with column validation" sap:VirtualizedContainerService.HintSize="496,1356" sap2010:WorkflowViewState.IdRef="Sequence_37">
                                                                     <sap:WorkflowViewStateService.ViewState>
                                                                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                                         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                                         <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                                       </scg:Dictionary>
                                                                     </sap:WorkflowViewStateService.ViewState>
+                                                                    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim excelApp As Microsoft.Office.Interop.Excel.Application = Nothing&#xA;Dim ws As Microsoft.Office.Interop.Excel.Worksheet = Nothing&#xA;&#xA;Try&#xA;&#xA;    excelApp = CType(System.Runtime.InteropServices.Marshal.GetActiveObject(&quot;Excel.Application&quot;), Microsoft.Office.Interop.Excel.Application)&#xA;&#xA;    ws = CType(excelApp.Worksheets(sheetName), Microsoft.Office.Interop.Excel.Worksheet)&#xA;&#xA;    'Remove filters&#xA;    If ws.FilterMode Then&#xA;        ws.ShowAllData()&#xA;    End If&#xA;&#xA;    If ws.AutoFilterMode Then&#xA;        ws.AutoFilterMode = False&#xA;    End If&#xA;&#xA;    'Unhide rows and columns&#xA;    ws.Rows.Hidden = False&#xA;    ws.Columns.Hidden = False&#xA;&#xA;Catch ex As Exception&#xA;    Throw New Exception(&quot;Failed while cleaning sheet: &quot; &amp; sheetName &amp; &quot;. Error: &quot; &amp; ex.Message)&#xA;&#xA;Finally&#xA;&#xA;    If ws IsNot Nothing Then&#xA;        System.Runtime.InteropServices.Marshal.ReleaseComObject(ws)&#xA;    End If&#xA;&#xA;End Try" DisplayName="Invoke Code - Invoice " sap:VirtualizedContainerService.HintSize="434,165" sap2010:WorkflowViewState.IdRef="InvokeCode_4">
+                                                                      <ui:InvokeCode.Arguments>
+                                                                        <InArgument x:TypeArguments="x:String" x:Key="sheetName">[currentItem]</InArgument>
+                                                                      </ui:InvokeCode.Arguments>
+                                                                      <sap:WorkflowViewStateService.ViewState>
+                                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                        </scg:Dictionary>
+                                                                      </sap:WorkflowViewStateService.ViewState>
+                                                                    </ui:InvokeCode>
                                                                     <ui:ExcelReadRange AddHeaders="False" DataTable="[dt_InvInput]" DisplayName="Read Range - invoice file" sap:VirtualizedContainerService.HintSize="434,60" sap2010:WorkflowViewState.IdRef="ExcelReadRange_2" Range="A1:V2" SheetName="[currentItem]">
                                                                       <sap:WorkflowViewStateService.ViewState>
                                                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -1717,14 +1990,14 @@ ToList]</InArgument>
                                                   </scg:Dictionary>
                                                 </sap:WorkflowViewStateService.ViewState>
                                               </ueab:ExcelApplicationCard>
-                                              <Sequence DisplayName="Invoice - Add Queue Module" sap:VirtualizedContainerService.HintSize="1185,1352" sap2010:WorkflowViewState.IdRef="Sequence_104">
+                                              <Sequence DisplayName="Invoice - Add Queue Module" sap:VirtualizedContainerService.HintSize="1185,1532" sap2010:WorkflowViewState.IdRef="Sequence_104">
                                                 <sap:WorkflowViewStateService.ViewState>
                                                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                     <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                   </scg:Dictionary>
                                                 </sap:WorkflowViewStateService.ViewState>
-                                                <Assign DisplayName="Is Invoice Status" sap:VirtualizedContainerService.HintSize="1043,81" sap2010:WorkflowViewState.IdRef="Assign_86">
+                                                <Assign DisplayName="Is Invoice Status" sap:VirtualizedContainerService.HintSize="1105,82" sap2010:WorkflowViewState.IdRef="Assign_86">
                                                   <Assign.To>
                                                     <OutArgument x:TypeArguments="x:Boolean">[IsInvoiceStatus]</OutArgument>
                                                   </Assign.To>
@@ -1737,7 +2010,7 @@ ToList]</InArgument>
                                                     </scg:Dictionary>
                                                   </sap:WorkflowViewStateService.ViewState>
                                                 </Assign>
-                                                <If Condition="[IsInvoiceStatus]" DisplayName="Validate Invoice Status" sap:VirtualizedContainerService.HintSize="1043,1120" sap2010:WorkflowViewState.IdRef="If_30">
+                                                <If Condition="[IsInvoiceStatus]" DisplayName="Validate Invoice Status" sap:VirtualizedContainerService.HintSize="1105,1299" sap2010:WorkflowViewState.IdRef="If_30">
                                                   <sap:WorkflowViewStateService.ViewState>
                                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1745,31 +2018,31 @@ ToList]</InArgument>
                                                     </scg:Dictionary>
                                                   </sap:WorkflowViewStateService.ViewState>
                                                   <If.Then>
-                                                    <Sequence DisplayName="Fetch Invoice details  - Sharepoint" sap:VirtualizedContainerService.HintSize="1007,933" sap2010:WorkflowViewState.IdRef="Sequence_100">
+                                                    <Sequence DisplayName="Fetch Invoice details  - Sharepoint" sap:VirtualizedContainerService.HintSize="1069,1112" sap2010:WorkflowViewState.IdRef="Sequence_100">
                                                       <sap:WorkflowViewStateService.ViewState>
                                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                           <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                         </scg:Dictionary>
                                                       </sap:WorkflowViewStateService.ViewState>
-                                                      <umaf:GetItem DisplayName="Get Item Info - Invoice" DriveName="[SPDriveName]" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="GetItem_6" Item="[OutputFile]" ItemId="[RFile.ParentReference.Id]" SiteUrl="[StrSPURL]" />
-                                                      <ui:LogMessage DisplayName="Fetching Invoice details" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="LogMessage_57" Level="Info" Message="[&quot;Fetching Invoice details for Sharepoint Update.&quot;]" />
-                                                      <umaf:UploadFile CloudFileName="{x:Null}" Destination="[OutputFile]" DisplayName="Upload File - Invoice Processed" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="UploadFile_10" LocalFilePath="[ProcessInvFName]" Result="[RevenueFileLink]" />
-                                                      <ui:LogMessage DisplayName="Add Queue" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_58" Level="Info" Message="[&quot;Pre - Validation Completed, Proceeding to Add Queue&quot;]">
+                                                      <umaf:GetItem DisplayName="Get Item Info - Invoice" DriveName="[SPDriveName]" sap:VirtualizedContainerService.HintSize="1007,52" sap2010:WorkflowViewState.IdRef="GetItem_6" Item="[OutputFile]" ItemId="[RFile.ParentReference.Id]" SiteUrl="[StrSPURL]" />
+                                                      <ui:LogMessage DisplayName="Fetching Invoice details" sap:VirtualizedContainerService.HintSize="1007,52" sap2010:WorkflowViewState.IdRef="LogMessage_57" Level="Info" Message="[&quot;Fetching Invoice details for Sharepoint Update.&quot;]" />
+                                                      <umaf:UploadFile CloudFileName="{x:Null}" Destination="[OutputFile]" DisplayName="Upload File - Invoice Processed" sap:VirtualizedContainerService.HintSize="1007,52" sap2010:WorkflowViewState.IdRef="UploadFile_10" LocalFilePath="[ProcessInvFName]" Result="[RevenueFileLink]" />
+                                                      <ui:LogMessage DisplayName="Add Queue" sap:VirtualizedContainerService.HintSize="1007,92" sap2010:WorkflowViewState.IdRef="LogMessage_58" Level="Info" Message="[&quot;Pre - Validation Completed, Proceeding to Add Queue&quot;]">
                                                         <sap:WorkflowViewStateService.ViewState>
                                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                             <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                           </scg:Dictionary>
                                                         </sap:WorkflowViewStateService.ViewState>
                                                       </ui:LogMessage>
-                                                      <ui:GetQueueItems Duration="{x:Null}" From="{x:Null}" Priority="{x:Null}" Skip="{x:Null}" TimeoutMS="{x:Null}" To="{x:Null}" Top="{x:Null}" DisplayName="Get Queue - New State - Invoice" FilterStrategy="Equals" sap:VirtualizedContainerService.HintSize="945,80" sap2010:WorkflowViewState.IdRef="GetQueueItems_3" QueueItemStates="New" QueueName="[QueueName]" Reference="[&quot;LATAM_Invoice_&quot; +  YrMm]" Result="[QueueItems]">
+                                                      <ui:GetQueueItems Duration="{x:Null}" From="{x:Null}" Priority="{x:Null}" Skip="{x:Null}" TimeoutMS="{x:Null}" To="{x:Null}" Top="{x:Null}" DisplayName="Get Queue - New State - Invoice" FilterStrategy="Equals" sap:VirtualizedContainerService.HintSize="1007,80" sap2010:WorkflowViewState.IdRef="GetQueueItems_3" QueueItemStates="New" QueueName="[QueueName]" Reference="[&quot;LATAM_Invoice_&quot; +  YrMm]" Result="[QueueItems]">
                                                         <sap:WorkflowViewStateService.ViewState>
                                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                             <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                           </scg:Dictionary>
                                                         </sap:WorkflowViewStateService.ViewState>
                                                       </ui:GetQueueItems>
-                                                      <If Condition="[QueueItems.Count&gt;0]" DisplayName="Validate Any New Queue - Invoice" sap:VirtualizedContainerService.HintSize="945,294" sap2010:WorkflowViewState.IdRef="If_31">
+                                                      <If Condition="[QueueItems.Count&gt;0]" DisplayName="Validate Any New Queue - Invoice" sap:VirtualizedContainerService.HintSize="1007,473" sap2010:WorkflowViewState.IdRef="If_31">
                                                         <sap:WorkflowViewStateService.ViewState>
                                                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1787,22 +2060,133 @@ ToList]</InArgument>
                                                           </Sequence>
                                                         </If.Then>
                                                         <If.Else>
-                                                          <Sequence DisplayName="Add New Queue - Invoice " sap:VirtualizedContainerService.HintSize="450,136" sap2010:WorkflowViewState.IdRef="Sequence_103">
+                                                          <Sequence DisplayName="Add New Queue - Invoice " sap:VirtualizedContainerService.HintSize="512,315" sap2010:WorkflowViewState.IdRef="Sequence_103">
                                                             <sap:WorkflowViewStateService.ViewState>
                                                               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                                                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                                                                 <x:Boolean x:Key="IsPinned">True</x:Boolean>
                                                               </scg:Dictionary>
                                                             </sap:WorkflowViewStateService.ViewState>
-                                                            <ui:AddQueueItem ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="3043 Add Queue  - Invoice " sap:VirtualizedContainerService.HintSize="388,25" sap2010:WorkflowViewState.IdRef="AddQueueItem_5" Priority="Normal" QueueType="[QueueName]" Reference="[&quot;LATAM_Invoice_&quot; + YrMm]">
-                                                              <ui:AddQueueItem.ItemInformation>
-                                                                <InArgument x:TypeArguments="x:Boolean" x:Key="InvoiceFileStatus">[IsInvoiceStatus]</InArgument>
-                                                                <InArgument x:TypeArguments="x:String" x:Key="InvoiceLocalPath">[ProcessInvFName]</InArgument>
-                                                                <InArgument x:TypeArguments="x:String" x:Key="ProcessDate">[DateTime.Now.ToString("yyyy-MM-dd")]</InArgument>
-                                                                <InArgument x:TypeArguments="x:String" x:Key="3043_LatamTracker">[LatamFilePath]</InArgument>
-                                                                <InArgument x:TypeArguments="x:String" x:Key="FiscalCalPath">[TempFiscalPath + SBucketFName]</InArgument>
-                                                              </ui:AddQueueItem.ItemInformation>
-                                                            </ui:AddQueueItem>
+                                                            <Assign DisplayName="Revenue Queues" sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Assign_92">
+                                                              <Assign.To>
+                                                                <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)">[out_RevenueDetails]</OutArgument>
+                                                              </Assign.To>
+                                                              <Assign.Value>
+                                                                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" xml:space="preserve">[New Dictionary(Of String, Object) From {{"RevenueFileStatus", IsInvoiceStatus},
+    {"RevenueLocalPath", ProcessInvFName},
+    {"ProcessDate", DateTime.Now.ToString("yyyy-MM-dd")},
+    {"3043_LatamTracker", LatamFilePath},
+    {"FiscalCalPath", System.IO.Path.Combine(TempFiscalPath, SBucketFName)}}]</InArgument>
+                                                              </Assign.Value>
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                            </Assign>
+                                                            <Sequence DisplayName="Update Invoice Status In Tracker" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_120">
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                              <ui:ForEach x:TypeArguments="sd:DataRow" CurrentIndex="{x:Null}" DisplayName="For Each - Update Status " sap:VirtualizedContainerService.HintSize="532,449" sap2010:WorkflowViewState.IdRef="ForEach`1_7" Values="[MatchingRows]">
+                                                                <ui:ForEach.Body>
+                                                                  <ActivityAction x:TypeArguments="sd:DataRow">
+                                                                    <ActivityAction.Argument>
+                                                                      <DelegateInArgument x:TypeArguments="sd:DataRow" Name="currentItem" />
+                                                                    </ActivityAction.Argument>
+                                                                    <Sequence DisplayName="Update Row Status" sap:VirtualizedContainerService.HintSize="496,325" sap2010:WorkflowViewState.IdRef="Sequence_118">
+                                                                      <sap:WorkflowViewStateService.ViewState>
+                                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                        </scg:Dictionary>
+                                                                      </sap:WorkflowViewStateService.ViewState>
+                                                                      <ui:LogMessage DisplayName="Update Tracker Status" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_64" Level="Info" Message="[&quot;Update Tracker with Status as Inprogress for current month&quot;]">
+                                                                        <sap:WorkflowViewStateService.ViewState>
+                                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                          </scg:Dictionary>
+                                                                        </sap:WorkflowViewStateService.ViewState>
+                                                                      </ui:LogMessage>
+                                                                      <Assign DisplayName="Update Status" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_97">
+                                                                        <Assign.To>
+                                                                          <OutArgument x:TypeArguments="x:Object">[currentItem("InvoiceStatus")]</OutArgument>
+                                                                        </Assign.To>
+                                                                        <Assign.Value>
+                                                                          <InArgument x:TypeArguments="x:Object">["InProgress"]</InArgument>
+                                                                        </Assign.Value>
+                                                                        <sap:WorkflowViewStateService.ViewState>
+                                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                          </scg:Dictionary>
+                                                                        </sap:WorkflowViewStateService.ViewState>
+                                                                      </Assign>
+                                                                    </Sequence>
+                                                                  </ActivityAction>
+                                                                </ui:ForEach.Body>
+                                                                <sap:WorkflowViewStateService.ViewState>
+                                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                  </scg:Dictionary>
+                                                                </sap:WorkflowViewStateService.ViewState>
+                                                              </ui:ForEach>
+                                                              <ui:ExcelApplicationScope Password="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Excel Application - To Write Status " sap:VirtualizedContainerService.HintSize="532,481" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" InstanceCachePeriod="3000" SensitivityOperation="None" WorkbookPath="[TempFiscalPath + SBucketFName]">
+                                                                <ui:ExcelApplicationScope.Body>
+                                                                  <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                                                                    <ActivityAction.Argument>
+                                                                      <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                                                                    </ActivityAction.Argument>
+                                                                    <Sequence DisplayName="Write Tracker " sap:VirtualizedContainerService.HintSize="450,331" sap2010:WorkflowViewState.IdRef="Sequence_119">
+                                                                      <sap:WorkflowViewStateService.ViewState>
+                                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                          <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                        </scg:Dictionary>
+                                                                      </sap:WorkflowViewStateService.ViewState>
+                                                                      <ui:LogMessage DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_65" Level="Info" Message="[&quot;Update the tracker status in the path - &quot; + &quot;LATAM_&quot;+CurrYr]">
+                                                                        <sap:WorkflowViewStateService.ViewState>
+                                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                          </scg:Dictionary>
+                                                                        </sap:WorkflowViewStateService.ViewState>
+                                                                      </ui:LogMessage>
+                                                                      <ui:ExcelWriteRange AddHeaders="True" DataTable="[dt_FiscalCal]" DisplayName="Update the Excel" sap:VirtualizedContainerService.HintSize="388,88" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_2" SheetName="[&quot;LATAM_&quot;+CurrYr]" StartingCell="A1">
+                                                                        <sap:WorkflowViewStateService.ViewState>
+                                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                          </scg:Dictionary>
+                                                                        </sap:WorkflowViewStateService.ViewState>
+                                                                      </ui:ExcelWriteRange>
+                                                                    </Sequence>
+                                                                  </ActivityAction>
+                                                                </ui:ExcelApplicationScope.Body>
+                                                                <sap:WorkflowViewStateService.ViewState>
+                                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                  </scg:Dictionary>
+                                                                </sap:WorkflowViewStateService.ViewState>
+                                                              </ui:ExcelApplicationScope>
+                                                              <ui:LogMessage DisplayName="Upload Storag bucket with New Status" sap:VirtualizedContainerService.HintSize="532,92" sap2010:WorkflowViewState.IdRef="LogMessage_66" Level="Info" Message="[&quot;Update Storage Bucket Tracker Status In Progress.&quot;]">
+                                                                <sap:WorkflowViewStateService.ViewState>
+                                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                  </scg:Dictionary>
+                                                                </sap:WorkflowViewStateService.ViewState>
+                                                              </ui:LogMessage>
+                                                              <ucas:UploadStorageFile FileResource="{x:Null}" TimeoutMS="{x:Null}" Destination="[SBucketFName]" DisplayName="Upload Storage File - Tracker To Storage Bucket" sap:VirtualizedContainerService.HintSize="532,239" sap2010:WorkflowViewState.IdRef="UploadStorageFile_2" Path="[TempFiscalPath + SBucketFName]" StorageBucketName="[StorageBucketName]">
+                                                                <sap:WorkflowViewStateService.ViewState>
+                                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                                                                  </scg:Dictionary>
+                                                                </sap:WorkflowViewStateService.ViewState>
+                                                              </ucas:UploadStorageFile>
+                                                            </Sequence>
                                                           </Sequence>
                                                         </If.Else>
                                                       </If>
@@ -1832,7 +2216,7 @@ ToList]</InArgument>
                                     </Sequence>
                                   </If.Then>
                                   <If.Else>
-                                    <Sequence DisplayName="Failed to download invoice" sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Sequence_65">
+                                    <Sequence DisplayName="Failed to download invoice" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_65">
                                       <sap:WorkflowViewStateService.ViewState>
                                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
                                           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -1865,11 +2249,11 @@ ToList]</InArgument>
                             </If.Else>
                           </If>
                         </Sequence>
-                        <Sequence DisplayName="Send Email &amp; Add Queue" sap:VirtualizedContainerService.HintSize="3060,698" sap2010:WorkflowViewState.IdRef="Sequence_69">
+                        <Sequence DisplayName="Send Email &amp; Add Queue" sap:VirtualizedContainerService.HintSize="496,81" sap2010:WorkflowViewState.IdRef="Sequence_69">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                              <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
                             </scg:Dictionary>
                           </sap:WorkflowViewStateService.ViewState>
                           <ui:LogMessage DisplayName="Update Email body" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_51" Level="Info" Message="[&quot;Update Email Body with the Processed Status.&quot;]">
@@ -1879,7 +2263,7 @@ ToList]</InArgument>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                           </ui:LogMessage>
-                          <Assign DisplayName="Update email body - File and Sheet Status" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="Assign_63">
+                          <Assign DisplayName="Update email body - File and Sheet Status" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_63">
                             <Assign.To>
                               <OutArgument x:TypeArguments="x:String">[EmailPrevalidationBody]</OutArgument>
                             </Assign.To>
@@ -1906,7 +2290,7 @@ ToList]</InArgument>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                           </Assign>
-                          <Assign DisplayName="Update Email body - Column Status" sap:VirtualizedContainerService.HintSize="434,85" sap2010:WorkflowViewState.IdRef="Assign_65">
+                          <Assign DisplayName="Update Email body - Column Status" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_65">
                             <Assign.To>
                               <OutArgument x:TypeArguments="x:String">[EmailPrevalidationBody]</OutArgument>
                             </Assign.To>
@@ -1953,84 +2337,6 @@ ToList]</InArgument>
                               </scg:Dictionary>
                             </sap:WorkflowViewStateService.ViewState>
                           </ui:InvokeWorkflowFile>
-                          <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="434,52" sap2010:WorkflowViewState.IdRef="CommentOut_1">
-                            <ui:CommentOut.Body>
-                              <Sequence DisplayName="Ignored Activities" sap2010:WorkflowViewState.IdRef="Sequence_109">
-                                <Sequence DisplayName="Add Queue Module" sap:VirtualizedContainerService.HintSize="450,83" sap2010:WorkflowViewState.IdRef="Sequence_70">
-                                  <sap:WorkflowViewStateService.ViewState>
-                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                                    </scg:Dictionary>
-                                  </sap:WorkflowViewStateService.ViewState>
-                                  <ui:ForEach x:TypeArguments="sd:DataRow" CurrentIndex="{x:Null}" DisplayName="For Each - Update Status " sap:VirtualizedContainerService.HintSize="388,53" sap2010:WorkflowViewState.IdRef="ForEach`1_6" Values="[MatchingRows]">
-                                    <ui:ForEach.Body>
-                                      <ActivityAction x:TypeArguments="sd:DataRow">
-                                        <ActivityAction.Argument>
-                                          <DelegateInArgument x:TypeArguments="sd:DataRow" Name="currentItem" />
-                                        </ActivityAction.Argument>
-                                        <Sequence DisplayName="Update Row Status" sap:VirtualizedContainerService.HintSize="496,325" sap2010:WorkflowViewState.IdRef="Sequence_57">
-                                          <sap:WorkflowViewStateService.ViewState>
-                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                            </scg:Dictionary>
-                                          </sap:WorkflowViewStateService.ViewState>
-                                          <ui:LogMessage DisplayName="Update Tracker Status" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_41" Level="Info" Message="[&quot;Update Tracker with Status as Inprogress for current month&quot;]" />
-                                          <Assign DisplayName="Update Status" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_68">
-                                            <Assign.To>
-                                              <OutArgument x:TypeArguments="x:Object">[currentItem("Status")]</OutArgument>
-                                            </Assign.To>
-                                            <Assign.Value>
-                                              <InArgument x:TypeArguments="x:Object">["In-Progress"]</InArgument>
-                                            </Assign.Value>
-                                          </Assign>
-                                        </Sequence>
-                                      </ActivityAction>
-                                    </ui:ForEach.Body>
-                                    <sap:WorkflowViewStateService.ViewState>
-                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                                      </scg:Dictionary>
-                                    </sap:WorkflowViewStateService.ViewState>
-                                  </ui:ForEach>
-                                  <ui:ExcelApplicationScope Password="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Excel Application - To Write Status " sap:VirtualizedContainerService.HintSize="388,53" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" SensitivityOperation="None" WorkbookPath="[TempFiscalPath + SBucketFName]">
-                                    <ui:ExcelApplicationScope.Body>
-                                      <ActivityAction x:TypeArguments="ui:WorkbookApplication">
-                                        <ActivityAction.Argument>
-                                          <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
-                                        </ActivityAction.Argument>
-                                        <Sequence DisplayName="Write Tracker " sap:VirtualizedContainerService.HintSize="450,331" sap2010:WorkflowViewState.IdRef="Sequence_58">
-                                          <sap:WorkflowViewStateService.ViewState>
-                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                                            </scg:Dictionary>
-                                          </sap:WorkflowViewStateService.ViewState>
-                                          <ui:LogMessage DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_42" Level="Info" Message="[&quot;Update the tracker status in the path - &quot; + &quot;LATAM_&quot;+CurrYr]" />
-                                          <ui:ExcelWriteRange AddHeaders="True" DataTable="[dt_FiscalCal]" DisplayName="Update the Excel" sap:VirtualizedContainerService.HintSize="388,88" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_1" SheetName="[&quot;LATAM_&quot;+CurrYr]" StartingCell="A1" />
-                                        </Sequence>
-                                      </ActivityAction>
-                                    </ui:ExcelApplicationScope.Body>
-                                    <sap:WorkflowViewStateService.ViewState>
-                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                                      </scg:Dictionary>
-                                    </sap:WorkflowViewStateService.ViewState>
-                                  </ui:ExcelApplicationScope>
-                                  <ui:LogMessage DisplayName="Upload Storag bucket with New Status" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_43" Level="Info" Message="[&quot;Update Storage Bucket Tracker Status In Progress.&quot;]" />
-                                  <ucas:UploadStorageFile FileResource="{x:Null}" TimeoutMS="{x:Null}" Destination="[SBucketFName]" DisplayName="Upload Storage File - Tracker To Storage Bucket" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="UploadStorageFile_1" Path="[TempFiscalPath + SBucketFName]" StorageBucketName="[StorageBucketName]">
-                                    <sap:WorkflowViewStateService.ViewState>
-                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
-                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
-                                      </scg:Dictionary>
-                                    </sap:WorkflowViewStateService.ViewState>
-                                  </ucas:UploadStorageFile>
-                                </Sequence>
-                              </Sequence>
-                            </ui:CommentOut.Body>
-                          </ui:CommentOut>
                         </Sequence>
                       </Sequence>
                     </ActivityAction>
@@ -2042,7 +2348,7 @@ ToList]</InArgument>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
                 </uma:Office365ApplicationScope>
-                <ui:LogMessage DisplayName="Prevalidation Completed" sap:VirtualizedContainerService.HintSize="3156,92" sap2010:WorkflowViewState.IdRef="LogMessage_45" Level="Info" Message="[&quot;Pre Validation For Revenue &amp; Invoice Completed Successfully.&quot;]">
+                <ui:LogMessage DisplayName="Prevalidation Completed" sap:VirtualizedContainerService.HintSize="592,92" sap2010:WorkflowViewState.IdRef="LogMessage_45" Level="Info" Message="[&quot;Pre Validation For Revenue &amp; Invoice Completed Successfully.&quot;]">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsPinned">True</x:Boolean>
@@ -2052,7 +2358,7 @@ ToList]</InArgument>
               </Sequence>
             </TryCatch.Try>
             <TryCatch.Catches>
-              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="3222,21" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="658,21" sap2010:WorkflowViewState.IdRef="Catch`1_3">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -2075,7 +2381,7 @@ ToList]</InArgument>
               </Catch>
             </TryCatch.Catches>
           </TryCatch>
-          <Assign DisplayName="Set the ShouldRun Value o False" sap:VirtualizedContainerService.HintSize="3256,52" sap2010:WorkflowViewState.IdRef="Assign_38">
+          <Assign DisplayName="Set the ShouldRun Value o False" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="Assign_38">
             <Assign.To>
               <OutArgument x:TypeArguments="x:Boolean">[out_ShouldRun]</OutArgument>
             </Assign.To>
