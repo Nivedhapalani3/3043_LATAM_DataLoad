@@ -1,5 +1,5 @@
 {
-  "name": "3043_test",
+  "name": "PSG_3043_LATAM_DataLoad",
   "projectId": "15046673-a03a-45a0-b91a-46194eb59d41",
   "description": "Robotic Enterprise Framework",
   "main": "Main.xaml",
@@ -14,7 +14,7 @@
   "entitiesStores": [],
   "schemaVersion": "4.0",
   "studioVersion": "23.10.7.0",
-  "projectVersion": "1.0.0",
+  "projectVersion": "1.0.2",
   "runtimeOptions": {
     "autoDispose": false,
     "netFrameworkLazyLoading": false,
