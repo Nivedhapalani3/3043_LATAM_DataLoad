@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1097,1086</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1097,1797</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>AddQueue_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -77,15 +77,15 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="1107,1021" sap2010:WorkflowViewState.IdRef="Sequence_12">
+  <Sequence sap:VirtualizedContainerService.HintSize="1107,1732" sap2010:WorkflowViewState.IdRef="Sequence_12">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="1045,910" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="1045,1621" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <Sequence DisplayName="AddQueue" sap:VirtualizedContainerService.HintSize="1007,682" sap2010:WorkflowViewState.IdRef="Sequence_1">
+        <Sequence DisplayName="AddQueue" sap:VirtualizedContainerService.HintSize="1007,1393" sap2010:WorkflowViewState.IdRef="Sequence_1">
           <Sequence.Variables>
             <Variable x:TypeArguments="x:String" Name="YrMm" />
           </Sequence.Variables>
@@ -95,21 +95,22 @@
               <x:Boolean x:Key="IsPinned">False</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <Assign DisplayName="Year &amp; Month" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="Assign_1">
+          <ui:LogMessage DisplayName="Load Queue" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Info" Message="[&quot;Load Queue Module Started.&quot;]" />
+          <Assign DisplayName="Year &amp; Month" sap:VirtualizedContainerService.HintSize="945,82" sap2010:WorkflowViewState.IdRef="Assign_1">
             <Assign.To>
               <OutArgument x:TypeArguments="x:String">[YrMm]</OutArgument>
             </Assign.To>
             <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[Now.AddMonths(-2).ToString("yyyy_MM")]</InArgument>
+              <InArgument x:TypeArguments="x:String">[Now.AddMonths(-1).ToString("yyyy_MM")]</InArgument>
             </Assign.Value>
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 <x:Boolean x:Key="IsPinned">False</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
           </Assign>
-          <If Condition="[TypeOf in_RevenueStatus Is Dictionary(Of String, Object) AndAlso in_RevenueStatus.ContainsKey(&quot;RevenueFileStatus&quot;) AndAlso in_RevenueStatus(&quot;RevenueFileStatus&quot;) IsNot Nothing AndAlso CBool(in_RevenueStatus(&quot;RevenueFileStatus&quot;))]" DisplayName="Validate Revenue Details" sap:VirtualizedContainerService.HintSize="945,387" sap2010:WorkflowViewState.IdRef="If_4">
+          <If Condition="[TypeOf in_RevenueStatus Is Dictionary(Of String, Object) AndAlso in_RevenueStatus.ContainsKey(&quot;RevenueFileStatus&quot;) AndAlso in_RevenueStatus(&quot;RevenueFileStatus&quot;) IsNot Nothing AndAlso CBool(in_RevenueStatus(&quot;RevenueFileStatus&quot;))]" DisplayName="Validate Revenue Details" sap:VirtualizedContainerService.HintSize="945,428" sap2010:WorkflowViewState.IdRef="If_4">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -117,17 +118,17 @@
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <If.Then>
-              <Sequence DisplayName="Revenue Module" sap:VirtualizedContainerService.HintSize="450,228" sap2010:WorkflowViewState.IdRef="Sequence_8">
+              <Sequence DisplayName="Revenue Module" sap:VirtualizedContainerService.HintSize="450,268" sap2010:WorkflowViewState.IdRef="Sequence_8">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Load revenue Details" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Loading Revenue Details to Queue......!!!!!!&quot;]">
+                <ui:LogMessage DisplayName="Load revenue Details" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;Loading Revenue Details to Queue......!!!!!!&quot;]">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       <x:Boolean x:Key="IsPinned">False</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
@@ -150,25 +151,25 @@
               </Sequence>
             </If.Else>
           </If>
-          <If Condition="[TypeOf in_InvoiceStatus Is Dictionary(Of String, Object) AndAlso in_InvoiceStatus.ContainsKey(&quot;InvoiceFileStatus&quot;) AndAlso in_InvoiceStatus(&quot;InvoiceFileStatus&quot;) IsNot Nothing AndAlso CBool(in_InvoiceStatus(&quot;InvoiceFileStatus&quot;))]" DisplayName="Validate Invoice Details?" sap:VirtualizedContainerService.HintSize="945,52" sap2010:WorkflowViewState.IdRef="If_5">
+          <If Condition="[TypeOf in_InvoiceStatus Is Dictionary(Of String, Object) AndAlso in_InvoiceStatus.ContainsKey(&quot;InvoiceFileStatus&quot;) AndAlso in_InvoiceStatus(&quot;InvoiceFileStatus&quot;) IsNot Nothing AndAlso CBool(in_InvoiceStatus(&quot;InvoiceFileStatus&quot;))]" DisplayName="Validate Invoice Details?" sap:VirtualizedContainerService.HintSize="945,428" sap2010:WorkflowViewState.IdRef="If_5">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 <x:Boolean x:Key="IsPinned">False</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <If.Then>
-              <Sequence DisplayName="Invoice Queue" sap:VirtualizedContainerService.HintSize="450,228" sap2010:WorkflowViewState.IdRef="Sequence_10">
+              <Sequence DisplayName="Invoice Queue" sap:VirtualizedContainerService.HintSize="450,268" sap2010:WorkflowViewState.IdRef="Sequence_10">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <ui:LogMessage DisplayName="Load Invoice" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Loading Invoice Details to Queue....!!!!&quot;]">
+                <ui:LogMessage DisplayName="Load Invoice" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Loading Invoice Details to Queue....!!!!&quot;]">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                       <x:Boolean x:Key="IsPinned">False</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
@@ -192,6 +193,7 @@
               </Sequence>
             </If.Else>
           </If>
+          <ui:LogMessage DisplayName="Load Module Completed" sap:VirtualizedContainerService.HintSize="945,92" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Load Queue Module Completed&quot;]" />
         </Sequence>
       </TryCatch.Try>
       <TryCatch.Catches>
