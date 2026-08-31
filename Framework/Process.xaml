@@ -3,6 +3,7 @@
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(ui:QueueItem)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_ConsecutiveSystemExceptions" Type="InOutArgument(x:Int32)" />
+    <x:Property Name="in_YrMm" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -38,6 +39,7 @@
       <x:String>System.Runtime.InteropServices</x:String>
       <x:String>System.Windows.Forms</x:String>
       <x:String>System.Reflection</x:String>
+      <x:String>System.Globalization</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -79,7 +81,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="650,1513" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="1644,2252" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Boolean" Name="RevenueFileStatus" />
       <Variable x:TypeArguments="x:Boolean" Name="InvoiceFileStatus" />
@@ -96,8 +98,8 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="588,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
-    <TryCatch DisplayName="LATAM DATA LOAD MODULE" sap:VirtualizedContainerService.HintSize="588,1198" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="1582,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
+    <TryCatch DisplayName="LATAM DATA LOAD MODULE" sap:VirtualizedContainerService.HintSize="1582,1937" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -207,6 +209,7 @@
                                 <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
                                 <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">[RevenueLocalPath]</InArgument>
                                 <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">[SPRevenueLink]</OutArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                               </ui:InvokeWorkflowFile.Arguments>
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -226,6 +229,7 @@
                                 <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Update Storage Bucket" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="UpdateFinalStatus.xaml">
                                   <ui:InvokeWorkflowFile.Arguments>
                                     <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                                   </ui:InvokeWorkflowFile.Arguments>
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -248,8 +252,8 @@
                                       </Assign.To>
                                       <Assign.Value>
                                         <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Successful_Email").ToString _
-   .Replace("{{MONTH}}", DateTime.Now.AddMonths(-1).ToString("MMMM")) _
-    .Replace("{Input}", "Revenue") _
+    .Replace("{{MONTH}}",DateTime.ParseExact(in_YrMm, "yyyy_MM", System.Globalization.CultureInfo.InvariantCulture).ToString("MMM")) _
+	.Replace("{Input}", "Revenue") _
     .Replace("{{OutPut_LINK}}", SPRevenueLink) _
     .Replace("{{OutPut Report}}", "Revenue Output Report")]</InArgument>
                                       </Assign.Value>
@@ -269,24 +273,12 @@
                                         </sap:WorkflowViewStateService.ViewState>
                                         <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email - Notification" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_14" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
                                           <ui:InvokeWorkflowFile.Arguments>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_AppID">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_ApplicationID&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_TenentID&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_RevenueSubject&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EmailBody" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_To_EmailAddress&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
-                                            </InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_AppID">[in_Config("3043_ApplicationID").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">[in_Config("3043_TenentID").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">[in_Config("Email_RevenueSubject").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">[EmailBody]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">[in_Config("3043_To_EmailAddress").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">[LatamTracker]</InArgument>
                                           </ui:InvokeWorkflowFile.Arguments>
                                           <sap:WorkflowViewStateService.ViewState>
                                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -316,6 +308,7 @@
                                 <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
                                 <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">[RevenueLocalPath]</InArgument>
                                 <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">[SPRevenueLink]</OutArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                               </ui:InvokeWorkflowFile.Arguments>
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -338,7 +331,7 @@
                                   </Assign.To>
                                   <Assign.Value>
                                     <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
-   .Replace("{{MONTH}}", DateTime.Now.AddMonths(-1).ToString("MMMM")) _
+    .Replace("{{MONTH}}",DateTime.ParseExact(in_YrMm, "yyyy_MM", System.Globalization.CultureInfo.InvariantCulture).ToString("MMM")) _
     .Replace("{Input}", "Revenue") _
     .Replace("{{OutPut_LINK}}", SPRevenueLink) _
     .Replace("{{OutPut Report}}", "Revenue Output Report")]</InArgument>
@@ -374,6 +367,7 @@
                         <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
                         <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">[RevenueLocalPath]</InArgument>
                         <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">[SPRevenueLink]</OutArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                       </ui:InvokeWorkflowFile.Arguments>
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -396,8 +390,8 @@
                           </Assign.To>
                           <Assign.Value>
                             <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
-   .Replace("{{MONTH}}", DateTime.Now.AddMonths(-1).ToString("MMMM")) _
-    .Replace("{Input}", "Revenue") _
+    .Replace("{{MONTH}}",DateTime.ParseExact(in_YrMm, "yyyy_MM", System.Globalization.CultureInfo.InvariantCulture).ToString("MMM")) _
+	.Replace("{Input}", "Revenue") _
     .Replace("{{OutPut_LINK}}", SPRevenueLink) _
     .Replace("{{OutPut Report}}", "Revenue Output Report")]</InArgument>
                           </Assign.Value>
@@ -495,6 +489,7 @@
                                 <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
                                 <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">[InvoiceLocalPath]</InArgument>
                                 <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">[SPInvoiceLink]</OutArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                               </ui:InvokeWorkflowFile.Arguments>
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -514,6 +509,7 @@
                                 <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Update SBucket Status" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="UpdateFinalStatus.xaml">
                                   <ui:InvokeWorkflowFile.Arguments>
                                     <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                                   </ui:InvokeWorkflowFile.Arguments>
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -536,8 +532,8 @@
                                       </Assign.To>
                                       <Assign.Value>
                                         <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Successful_Email").ToString _
-    .Replace("{{MONTH}}", DateTime.Now.AddMonths(-1).ToString("MMMM")) _
-    .Replace("{Input}", "Invoice") _
+    .Replace("{{MONTH}}",DateTime.ParseExact(in_YrMm, "yyyy_MM", System.Globalization.CultureInfo.InvariantCulture).ToString("MMM")) _
+	.Replace("{Input}", "Invoice") _
     .Replace("{{OutPut_LINK}}", SPInvoiceLink) _
     .Replace("{{OutPut Report}}", "Invoice Output Report")]</InArgument>
                                       </Assign.Value>
@@ -557,24 +553,12 @@
                                         </sap:WorkflowViewStateService.ViewState>
                                         <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Send Email - Notification" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_5" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
                                           <ui:InvokeWorkflowFile.Arguments>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_AppID">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_ApplicationID&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_TenentID&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_InvoiceSubject&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EmailBody" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_To_EmailAddress&quot;).ToString" />
-                                            </InArgument>
-                                            <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">
-                                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
-                                            </InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_AppID">[in_Config("3043_ApplicationID").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">[in_Config("3043_TenentID").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">[in_Config("Email_InvoiceSubject").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">[EmailBody]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">[in_Config("3043_To_EmailAddress").ToString]</InArgument>
+                                            <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">[LatamTracker]</InArgument>
                                           </ui:InvokeWorkflowFile.Arguments>
                                           <sap:WorkflowViewStateService.ViewState>
                                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -604,6 +588,7 @@
                                 <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
                                 <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">[InvoiceLocalPath]</InArgument>
                                 <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">[SPInvoiceLink]</OutArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                               </ui:InvokeWorkflowFile.Arguments>
                               <sap:WorkflowViewStateService.ViewState>
                                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -626,8 +611,8 @@
                                   </Assign.To>
                                   <Assign.Value>
                                     <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
-     .Replace("{{MONTH}}", DateTime.Now.AddMonths(-1).ToString("MMMM")) _
-    .Replace("{Input}", "Invoice") _
+    .Replace("{{MONTH}}",DateTime.ParseExact(in_YrMm, "yyyy_MM", System.Globalization.CultureInfo.InvariantCulture).ToString("MMM")) _
+	.Replace("{Input}", "Invoice") _
     .Replace("{{OutPut_LINK}}", SPInvoiceLink) _
     .Replace("{{OutPut Report}}", "Invoice Output Report")]</InArgument>
                                   </Assign.Value>
@@ -662,6 +647,7 @@
                         <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_config">[in_Config]</InArgument>
                         <InArgument x:TypeArguments="x:String" x:Key="in_InputFilePath">[InvoiceLocalPath]</InArgument>
                         <OutArgument x:TypeArguments="x:String" x:Key="out_SPLink">[SPInvoiceLink]</OutArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
                       </ui:InvokeWorkflowFile.Arguments>
                       <sap:WorkflowViewStateService.ViewState>
                         <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -678,14 +664,14 @@
                             <av:PointCollection x:Key="ConnectorLocation">1090,876 1090,1396 660,1396 660,1366</av:PointCollection>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <Assign DisplayName="Email Body Exception - Rev &amp; Inv" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_13">
+                        <Assign DisplayName="Email Body Exception - Rev &amp; Inv" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_13">
                           <Assign.To>
                             <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
                           </Assign.To>
                           <Assign.Value>
                             <InArgument x:TypeArguments="x:String" xml:space="preserve">[in_Config("Exception_Email").ToString _
-  .Replace("{{MONTH}}", DateTime.Now.AddMonths(-1).ToString("MMMM")) _
-    .Replace("{Input}", "Invoice") _
+    .Replace("{{MONTH}}",DateTime.ParseExact(in_YrMm, "yyyy_MM", System.Globalization.CultureInfo.InvariantCulture).ToString("MMM")) _
+	.Replace("{Input}", "Invoice") _
     .Replace("{{OutPut_LINK}}", SPInvoiceLink) _
     .Replace("{{OutPut Report}}", "Invoice Output Report")]</InArgument>
                           </Assign.Value>
@@ -790,7 +776,7 @@
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <av:Point x:Key="ShapeLocation">510,138.5</av:Point>
                 <av:Size x:Key="ShapeSize">200,81</av:Size>
-                <av:PointCollection x:Key="ConnectorLocation">610,219.5 610,249.5 590,249.5 590,286.5</av:PointCollection>
+                <av:PointCollection x:Key="ConnectorLocation">610,219.5 610,249.5 589.5,249.5 589.5,286.5</av:PointCollection>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
             <Sequence DisplayName="Fetch Queue Details" sap:VirtualizedContainerService.HintSize="200,81" sap2010:WorkflowViewState.IdRef="Sequence_2">
@@ -799,11 +785,11 @@
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <ui:LogMessage DisplayName="fetch Queue Data" sap:VirtualizedContainerService.HintSize="388,92" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Fetching Details From Queue&quot;]" />
-              <If Condition="[in_TransactionItem.SpecificContent.ContainsKey(&quot;RevenueFileStatus&quot;)]" DisplayName="Validate If Revenue Queue Details are available?" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="If_1">
+              <ui:LogMessage DisplayName="fetch Queue Data" sap:VirtualizedContainerService.HintSize="991,92" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Fetching Details From Queue&quot;]" />
+              <If Condition="[in_TransactionItem.SpecificContent.ContainsKey(&quot;RevenueFileStatus&quot;)]" DisplayName="Validate If Revenue Queue Details are available?" sap:VirtualizedContainerService.HintSize="991,353" sap2010:WorkflowViewState.IdRef="If_1">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     <x:Boolean x:Key="IsPinned">False</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
@@ -858,10 +844,10 @@
                   </Sequence>
                 </If.Then>
                 <If.Else>
-                  <Sequence DisplayName="No Revenue Details Available" sap:VirtualizedContainerService.HintSize="450,81" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                  <Sequence DisplayName="No Revenue Details Available" sap:VirtualizedContainerService.HintSize="496,193" sap2010:WorkflowViewState.IdRef="Sequence_4">
                     <sap:WorkflowViewStateService.ViewState>
                       <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                         <x:Boolean x:Key="IsPinned">False</x:Boolean>
                       </scg:Dictionary>
                     </sap:WorkflowViewStateService.ViewState>
@@ -876,7 +862,7 @@
                   </Sequence>
                 </If.Else>
               </If>
-              <If Condition="[in_TransactionItem.SpecificContent.ContainsKey(&quot;InvoiceFileStatus&quot;)]" DisplayName="Validate If Invoice Queue Details are available" sap:VirtualizedContainerService.HintSize="388,52" sap2010:WorkflowViewState.IdRef="If_2">
+              <If Condition="[in_TransactionItem.SpecificContent.ContainsKey(&quot;InvoiceFileStatus&quot;)]" DisplayName="Validate If Invoice Queue Details are available" sap:VirtualizedContainerService.HintSize="991,52" sap2010:WorkflowViewState.IdRef="If_2">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -978,10 +964,10 @@
         </Flowchart>
       </TryCatch.Try>
       <TryCatch.Catches>
-        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="554,1035" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="1548,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
-              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
               <x:Boolean x:Key="IsPinned">False</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
@@ -1032,24 +1018,12 @@
                     </sap:WorkflowViewStateService.ViewState>
                     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Workflow File" sap:VirtualizedContainerService.HintSize="388,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_19" UnSafe="False" WorkflowFileName="Send_EmailModule.xaml">
                       <ui:InvokeWorkflowFile.Arguments>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_AppID">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_ApplicationID&quot;).ToString" />
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_TenentID&quot;).ToString" />
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Exception_MailSubject&quot;).ToString" />
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EmailBody" />
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;3043_To_EmailAddress&quot;).ToString" />
-                        </InArgument>
-                        <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">
-                          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
-                        </InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_AppID">[in_Config("3043_ApplicationID").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_TenantID">[in_Config("3043_TenentID").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailSubject">[in_Config("Exception_MailSubject").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailBody">[EmailBody]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_EmailRecipients">[in_Config("3043_To_EmailAddress").ToString]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFile">[LatamTracker]</InArgument>
                       </ui:InvokeWorkflowFile.Arguments>
                     </ui:InvokeWorkflowFile>
                   </Sequence>

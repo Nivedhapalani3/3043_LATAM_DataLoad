@@ -3,6 +3,7 @@
     <x:Property Name="in_config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_InputFilePath" Type="InArgument(x:String)" />
     <x:Property Name="out_SPLink" Type="OutArgument(x:String)" />
+    <x:Property Name="in_YrMm" Type="InArgument(x:String)" />
   </x:Members>
   <sap:VirtualizedContainerService.HintSize>634,1470</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
@@ -96,7 +97,6 @@
       <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
       <AssemblyReference>UiPath.MicrosoftOffice365</AssemblyReference>
       <AssemblyReference>UiPath.Platform</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence DisplayName="Sequence - To Upload Results To the Sharepoint" sap:VirtualizedContainerService.HintSize="592,1405" sap2010:WorkflowViewState.IdRef="Sequence_35">
@@ -139,7 +139,7 @@
                 <OutArgument x:TypeArguments="x:String">[YrMm]</OutArgument>
               </Assign.To>
               <Assign.Value>
-                <InArgument x:TypeArguments="x:String">[Now.AddMonths(-1).ToString("yyyy_MM")]</InArgument>
+                <InArgument x:TypeArguments="x:String">[in_YrMm]</InArgument>
               </Assign.Value>
             </Assign>
             <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,92" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Subfolder - &quot; + in_Config(&quot;SP_SubFolder&quot;).ToString.Replace(&quot;{Yr}_{Mm}&quot;, YrMm).Replace(&quot;{Yr}&quot;, CurrYr)]" />

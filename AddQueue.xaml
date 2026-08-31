@@ -3,6 +3,7 @@
     <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_RevenueStatus" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_InvoiceStatus" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_YrMm" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -74,7 +75,6 @@
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
       <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap:VirtualizedContainerService.HintSize="1107,1732" sap2010:WorkflowViewState.IdRef="Sequence_12">
@@ -101,7 +101,7 @@
               <OutArgument x:TypeArguments="x:String">[YrMm]</OutArgument>
             </Assign.To>
             <Assign.Value>
-              <InArgument x:TypeArguments="x:String">[Now.AddMonths(-1).ToString("yyyy_MM")]</InArgument>
+              <InArgument x:TypeArguments="x:String">[in_YrMm]</InArgument>
             </Assign.Value>
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
