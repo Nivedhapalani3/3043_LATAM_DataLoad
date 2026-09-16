@@ -2,6 +2,7 @@
   <x:Members>
     <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_YrMm" Type="InArgument(x:String)" />
+    <x:Property Name="in_UpdateColumn" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -223,7 +224,7 @@
               </ui:LogMessage>
               <Assign DisplayName="Update Status" sap:VirtualizedContainerService.HintSize="434,82" sap2010:WorkflowViewState.IdRef="Assign_5">
                 <Assign.To>
-                  <OutArgument x:TypeArguments="x:Object">[currentItem("InvoiceStatus")]</OutArgument>
+                  <OutArgument x:TypeArguments="x:Object">[currentItem(in_UpdateColumn)]</OutArgument>
                 </Assign.To>
                 <Assign.Value>
                   <InArgument x:TypeArguments="x:Object">["Completed"]</InArgument>

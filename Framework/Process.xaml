@@ -99,7 +99,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log Message Process Start" sap:VirtualizedContainerService.HintSize="1582,92" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Started Process&quot;]" />
-    <TryCatch DisplayName="LATAM DATA LOAD MODULE" sap:VirtualizedContainerService.HintSize="1582,1937" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+    <TryCatch DisplayName="LATAM DATA LOAD MODULE" sap:VirtualizedContainerService.HintSize="1582,2017" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -141,10 +141,18 @@
             </sap:WorkflowViewStateService.ViewState>
             <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Revenue Workflow" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Revenue_Validation.xaml">
               <ui:InvokeWorkflowFile.Arguments>
-                <InArgument x:TypeArguments="x:String" x:Key="in_RevenueFilePath">[RevenueLocalPath]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFilePath">[LatamTracker]</InArgument>
-                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
-                <OutArgument x:TypeArguments="x:Boolean" x:Key="out_RevValidationStatus">[RevValidationStatus]</OutArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_RevenueFilePath">
+                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="RevenueLocalPath" />
+                </InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="in_TrackerFilePath">
+                  <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="LatamTracker" />
+                </InArgument>
+                <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+                  <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                </InArgument>
+                <OutArgument x:TypeArguments="x:Boolean" x:Key="out_RevValidationStatus">
+                  <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="RevValidationStatus" />
+                </OutArgument>
               </ui:InvokeWorkflowFile.Arguments>
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -226,10 +234,17 @@
                                     <av:PointCollection x:Key="ConnectorLocation">100,1087.5 100,1143.5</av:PointCollection>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Update Storage Bucket" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="UpdateFinalStatus.xaml">
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Update Storage Bucket" sap:VirtualizedContainerService.HintSize="334,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="UpdateFinalStatus.xaml">
                                   <ui:InvokeWorkflowFile.Arguments>
-                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
-                                    <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
+                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+                                      <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_YrMm" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_UpdateColumn">
+                                      <Literal x:TypeArguments="x:String">RevenueStatus</Literal>
+                                    </InArgument>
                                   </ui:InvokeWorkflowFile.Arguments>
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -506,10 +521,17 @@
                                     <av:PointCollection x:Key="ConnectorLocation">680,1167.5 680,1197.5 660,1197.5 660,1224</av:PointCollection>
                                   </scg:Dictionary>
                                 </sap:WorkflowViewStateService.ViewState>
-                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Update SBucket Status" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="UpdateFinalStatus.xaml">
+                                <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Update SBucket Status" sap:VirtualizedContainerService.HintSize="334,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="UpdateFinalStatus.xaml">
                                   <ui:InvokeWorkflowFile.Arguments>
-                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
-                                    <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">[in_YrMm]</InArgument>
+                                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
+                                      <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_YrMm">
+                                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_YrMm" />
+                                    </InArgument>
+                                    <InArgument x:TypeArguments="x:String" x:Key="in_UpdateColumn">
+                                      <Literal x:TypeArguments="x:String">InvoiceStatus</Literal>
+                                    </InArgument>
                                   </ui:InvokeWorkflowFile.Arguments>
                                   <sap:WorkflowViewStateService.ViewState>
                                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -664,7 +686,7 @@
                             <av:PointCollection x:Key="ConnectorLocation">1090,876 1090,1396 660,1396 660,1366</av:PointCollection>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <Assign DisplayName="Email Body Exception - Rev &amp; Inv" sap:VirtualizedContainerService.HintSize="434,83" sap2010:WorkflowViewState.IdRef="Assign_13">
+                        <Assign DisplayName="Email Body Exception - Rev &amp; Inv" sap:VirtualizedContainerService.HintSize="200,52" sap2010:WorkflowViewState.IdRef="Assign_13">
                           <Assign.To>
                             <OutArgument x:TypeArguments="x:String">[EmailBody]</OutArgument>
                           </Assign.To>
